@@ -4,9 +4,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
-
 const server  = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // Middlewares
 server.use( morgan('dev') );
@@ -14,7 +13,15 @@ server.use( cors() );
 server.use( bodyParser.json() );
 server.use( helmet() );
 
-// Routes
+// Enable CORS for all routes
+server.use(function(req, res, next) {
+    // Replace example.com with your frontend domain name
+    res.header("Access-Control-Allow-Origin", "https://kinder-link-k02hun2tu-alfredbrandon1.vercel.app");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
+// Routes initialization
 const AuthRouter = require('./routes/auth');
 const TeacherRouter = require('./routes/teacher');
  

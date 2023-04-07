@@ -3,18 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const Auth = require("../models/Admin");
 
-    //try only
-    //get all admin
-    router.get("/", async (request, response) => {
-        try {
-            const result = await Auth.find().select("-password");
-            response.status(200).send(result);
-        } catch (error) {
-            console.error(error);
-            response.status(500).send("Internal Server Error");
-        }
-    });
-
 // Register new admin
 router.post("/register", async (request, response) => {
     let hashedPassword = await bcrypt.hash(request.body.password, 10);

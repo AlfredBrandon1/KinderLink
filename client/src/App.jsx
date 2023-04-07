@@ -6,7 +6,7 @@ import Navigation from './components/admin/Navigation/Navigation';
 
 /////Pages
 import LoginPage from './pages/common/login/LoginPage';
-//admin
+//admin pages
 import AdminDashboard from './pages/admin/AdminDashboard/AdminDashboard';
 import ManageTeachers from './pages/admin/ManageTeachers/ManageTeachers';
 import ManageStudents from './pages/admin/ManageStudents/ManageStudents';
@@ -15,18 +15,27 @@ import ManageAnnouncements from './pages/admin/ManageAnnouncements/ManageAnnounc
 import ManageLearningMaterials from './pages/admin/ManageLearningMaterials/ManageLearningMaterials';
 import MyAccount from './pages/admin/MyAccount/MyAccount';
 
+//teacher pages
+import TeacherDashboard from './pages/teacher/AdminDashboard/AdminDashboard';
+
 function App() {
   return (
     <Routes>
+
+      {/* Admin routes */}
           <Route exact path="/" element={<LoginPage/>} />
-          <Route path ="admin-dashboard" element ={<AdminDashboard/>}/>
-          <Route path ="manage-teachers" element ={<ManageTeachers/>}/>
-          <Route path ="manage-students" element ={<ManageStudents/>}/>
-          <Route path ="manage-admins" element ={<ManageAdmins/>}/>
-          <Route path ="manage-announcements" element ={<ManageAnnouncements/>}/>
-          <Route path ="manage-learning-materials" element ={<ManageLearningMaterials/>}/>
-          <Route path ="my-account" element ={<MyAccount/>}/>
-          
+          <Route exact path ="admin-dashboard" element ={<AdminDashboard/>}/>
+          <Route exact path ="manage-teachers" element ={<ManageTeachers/>}/>
+          <Route exact path ="manage-students" element ={<ManageStudents/>}/>
+          <Route exact path ="manage-admins" element ={<ManageAdmins/>}/>
+          <Route exact path ="manage-announcements" element ={<ManageAnnouncements/>}/>
+          <Route exact path ="manage-learning-materials" element ={<ManageLearningMaterials/>}/>
+          <Route exact path ="my-account" element ={<MyAccount/>}/>
+      
+
+      {/* Teacher routes */}
+        <Route exact path ="teacher-dashboard" element ={<TeacherDashboard/>}/>
+
     </Routes>
   );
 }

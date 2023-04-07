@@ -17,7 +17,7 @@ const LoginPage = () => {
         e.preventDefault();
         const configuration = {
             method: "post",
-            url: "http://localhost:8080/api/v1/auth/login",
+            url: "http://localhost:8080/api/v1/auth/login", //TODO: separate this. Trial only.
             data: {
                 schoolId,
                 password,
@@ -28,7 +28,6 @@ const LoginPage = () => {
         axios(configuration)
             .then((result) => {
                 alert(result.data.status);
-                /* localStorage.setItem("adminType", result.data.responseType); */
                 navigate("/admin-dashboard");
                 window.location.reload(false);
             })
@@ -37,6 +36,29 @@ const LoginPage = () => {
                 setSchoolId("");
                 setPassword("");
             });
+
+            const TeacherConfiguration = {
+                method: "post",
+                url: "http://localhost:8080/api/v1/teacher/login", //TODO: separate this. Trial only.
+                data: {
+                    schoolId,
+                    password,
+                },
+            };
+    
+            // API call
+            axios(TeacherConfiguration)
+                .then((result) => {
+                    alert(result.data.status);
+                    navigate("/teacher-dashboard");
+                    window.location.reload(false);
+                })
+                .catch((error) => {
+                    alert(error.response.data.status);
+                    setSchoolId("");
+                    setPassword("");
+                });
+            
     };
 
     const handleForgotPassword = () => {
