@@ -16,7 +16,7 @@ server.use( helmet() );
 // Enable CORS for all routes
 server.use(function(req, res, next) {
     // Replace example.com with your frontend domain name
-    res.header("Access-Control-Allow-Origin", "https://kinder-link-k02hun2tu-alfredbrandon1.vercel.app");
+    res.header("Access-Control-Allow-Origin", "https://kinder-link.vercel.app");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
