@@ -17,7 +17,7 @@ const LoginPage = () => {
         e.preventDefault();
         const configuration = {
             method: "post",
-            url: "https://kinderlink.onrender.com/api/v1/auth/login", //TODO: separate this. Trial only.
+            url: "http://localhost:8080/api/v1/auth/login", //TODO: separate this. Trial only.
             data: {
                 schoolId,
                 password,
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
             const TeacherConfiguration = {
                 method: "post",
-                url: "https://kinderlink.onrender.com/api/v1/teacher/login", //TODO: separate this. Trial only.
+                url: "http://localhost:8080/api/v1/teacher/login", //TODO: separate this. Trial only.
                 data: {
                     schoolId,
                     password,
