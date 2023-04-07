@@ -32,7 +32,10 @@ server.use('/api/v1/auth', AuthRouter);
 server.use('/api/v1/teacher', TeacherRouter);
 
 //mongodb atlas connection
-mongoose.connect(process.env.DB_CONNECTION_STRING);
+mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err));
+
 
 server.get('/', (request, response) => {
     response.send(`Welcome to the backend server of KinderLink`);
