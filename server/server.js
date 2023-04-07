@@ -16,15 +16,17 @@ server.use( helmet() );
 
 // Routes
 const AuthRouter = require('./routes/auth');
+const TeacherRouter = require('./routes/teacher');
  
 // Routes
 server.use('/api/v1/auth', AuthRouter);
+server.use('/api/v1/teacher', TeacherRouter);
 
 //mongodb atlas connection
 mongoose.connect('mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority')
  
 server.get('/', ( request, response ) => {
-    response.send(`Welcome to ExpressJS`);
+    response.send(`Welcome to the backend server of KinderLink`);
 });
  
 server.listen(port, () => {
