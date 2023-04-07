@@ -17,7 +17,7 @@ const LoginPage = () => {
         e.preventDefault();
         const configuration = {
             method: "post",
-            url: "http://localhost:8080/api/v1/auth/login"|| "https://kinder-link.vercel.app/api/v1/auth/login", //TODO: separate this. Trial only.
+            url: "https://kinder-link.vercel.app/api/v1/auth/login", //TODO: separate this. Trial only.
             data: {
                 schoolId,
                 password,
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
             const TeacherConfiguration = {
                 method: "post",
-                url: "http://localhost:8080/api/v1/teacher/login"|| "https://kinder-link.vercel.app/api/v1/teacher/login", //TODO: separate this. Trial only.
+                url: "https://kinder-link.vercel.app/api/v1/teacher/login", //TODO: separate this. Trial only.
                 data: {
                     schoolId,
                     password,
