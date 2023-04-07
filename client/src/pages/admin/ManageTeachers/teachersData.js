@@ -1,0 +1,58 @@
+const teachersData = [
+    {
+        id: 1,
+        schoolId: "12345",
+        firstName: "Clayjhene",
+        lastName: "Atonen",
+        email: "ClayjheneAtonen@gmail.com",
+        phone: "0909900994",
+        status: "Active",
+    },
+    {
+        id: 2,
+        schoolId: "67890",
+        firstName: "Esperanza",
+        lastName: "Moguil",
+        email: "Esperanzamoguil@gmail.com",
+        phone: "0909090990",
+        status: "Active",
+    },
+    {
+        id: 3,
+        schoolId: "123123",
+        firstName: "Alex",
+        lastName: "Mencion",
+        email: "Akex@gmail.com",
+        phone: "0909209490",
+        status: "Active",
+    },
+    {
+        id: 4,
+        schoolId: "62390",
+        firstName: "Alfred",
+        lastName: "Calawa",
+        email: "AlfredCalawa@gmail.com",
+        phone: "090920990",
+        status: "Inactive",
+    },
+    {
+        id: 5,
+        schoolId: "62310",
+        firstName: "Krystal",
+        lastName: "Bacani",
+        email: "Krystal@gmail.com",
+        phone: "090912990",
+        status: "Inactive",
+    },
+    {
+        id: 6,
+        schoolId: "12321",
+        firstName: "Trinette",
+        lastName: "Cagas",
+        email: "Trinette@gmail.com",
+        phone: "092131390",
+        status: "Inactive",
+    },
+];
+
+export default teachersData;
