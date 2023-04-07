@@ -8,7 +8,7 @@ export default {
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main: 'server.js', // change this to your app's entry point
+        main: 'src/main.js', // change this to your app's entry point
         external: ['@fortawesome/fontawesome-svg-core']
       },
     },
