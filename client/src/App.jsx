@@ -24,17 +24,17 @@ function App() {
 
       {/* Admin routes */}
           <Route exact path="/" element={<LoginPage/>} />
-          <Route exact path ="admin-dashboard" element ={<AdminDashboard/>}/>
-          <Route exact path ="manage-teachers" element ={<ManageTeachers/>}/>
-          <Route exact path ="manage-students" element ={<ManageStudents/>}/>
-          <Route exact path ="manage-admins" element ={<ManageAdmins/>}/>
-          <Route exact path ="manage-announcements" element ={<ManageAnnouncements/>}/>
-          <Route exact path ="manage-learning-materials" element ={<ManageLearningMaterials/>}/>
-          <Route exact path ="my-account" element ={<MyAccount/>}/>
+          <Route exact path ="/admin-dashboard" element ={<AdminDashboard/>}/>
+          <Route exact path ="/manage-teachers" element ={<ManageTeachers/>}/>
+          <Route exact path ="/manage-students" element ={<ManageStudents/>}/>
+          <Route exact path ="/manage-admins" element ={<ManageAdmins/>}/>
+          <Route exact path ="/manage-announcements" element ={<ManageAnnouncements/>}/>
+          <Route exact path ="/manage-learning-materials" element ={<ManageLearningMaterials/>}/>
+          <Route exact path ="/my-account" element ={<MyAccount/>}/>
       
 
       {/* Teacher routes */}
-        <Route exact path ="teacher-dashboard" element ={<TeacherDashboard/>}/>
+        <Route exact path ="/teacher-dashboard" element ={<TeacherDashboard/>}/>
 
     </Routes>
   );
