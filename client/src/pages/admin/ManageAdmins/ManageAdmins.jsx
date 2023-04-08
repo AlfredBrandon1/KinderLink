@@ -30,7 +30,7 @@ const ManageAdmins = () => {
 
         const configuration = {
             method: 'post',
-            url: 'http://localhost:8080/api/v1/auth/register',
+            url: 'https://kinderlink.onrender.com/api/v1/auth/register',
             data: {
                 schoolId,
                 firstName,
