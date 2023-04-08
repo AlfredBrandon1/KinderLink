@@ -28,9 +28,7 @@ const LoginPage = () => {
         axios(configuration)
             .then((result) => {
                 alert(result.data.status);
-                /* navigate("/admin-dashboard");*/
-                
-                window.location.href='/admin-dashboard'
+                navigate("/admin-dashboard");
                 /* window.location.reload(false);  */
             })
             .catch((error) => {
