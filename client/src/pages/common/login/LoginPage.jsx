@@ -37,7 +37,7 @@ const LoginPage = () => {
                 setPassword("");
             });
 
-            const TeacherConfiguration = {
+/*             const TeacherConfiguration = {
                 method: "post",
                 url: "https://kinderlink.onrender.com/api/v1/teacher/login", //TODO: separate this. Trial only.
                 data: {
@@ -57,7 +57,7 @@ const LoginPage = () => {
                     alert(error.response.data.status);
                     setSchoolId("");
                     setPassword("");
-                });
+                }); */
             
     };
 
