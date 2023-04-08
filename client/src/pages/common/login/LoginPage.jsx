@@ -28,8 +28,10 @@ const LoginPage = () => {
         axios(configuration)
             .then((result) => {
                 alert(result.data.status);
-                navigate("/admin-dashboard");
-                window.location.reload(false);
+                /* navigate("/admin-dashboard");*/
+                
+                window.location.href='/admin-dashboard'
+                /* window.location.reload(false);  */
             })
             .catch((error) => {
                 alert(error.response.data.status);
