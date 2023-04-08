@@ -46,7 +46,7 @@ const ManageAdmins = () => {
         // make the API call
         axios(configuration).then((result) =>{
             alert(result.data.status);
-            window.location.reload(false);
+            /* window.location.reload(false); */
         })
         .catch((error)=>{
             alert(error.response.data.status);
