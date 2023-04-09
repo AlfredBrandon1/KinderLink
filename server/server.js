@@ -34,11 +34,11 @@ server.use('/api/v1/teacher', TeacherRouter);
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  server.use(express.static(path.join(__dirname, 'client')));
+  server.use(express.static(path.join(__dirname,)));
 
   // Catch all routes and return index.html
   server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
   });
 } else {
   server.get('/', (request, response) => {
