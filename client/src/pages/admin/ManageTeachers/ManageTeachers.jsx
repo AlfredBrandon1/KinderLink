@@ -167,7 +167,7 @@ const ManageTeachers = () => {
 
         axios
             .put(
-                `https://kinderlink.onrender.com/${currentTeacher._id}`,
+                `https://kinderlink.onrender.com/api/v1/teacher/${currentTeacher._id}`,
                 updatedTeacher
             )
             .then((response) => {
