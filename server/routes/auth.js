@@ -67,4 +67,37 @@ router.post("/login", async (request, response) => {
 
 });
 
+router.put('/:id', (request, response) => {
+    const adminId = request.params.id;
+    const updatedData = request.body;
+  
+    Auth.findById(adminId)
+      .then((admin) => {
+        if (!admin) {
+          return response.status(404).send({ message: 'admin not found' });
+        }
+  
+        admin.set(updatedData);
+        return admin.save();
+      })
+      .then(() => {
+        response.status(204).send();
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).send({ message: 'Error updating admin' });
+      });
+  });
+  
+
+  router.delete('/:id', (request, response) => {
+    Auth.deleteOne({_id : request.params.id})
+      .then(() => {
+        response.status(200).send({ message: "The user has been deleted" });
+      })
+      .catch(error => {
+        response.status(400).send(error);
+      })
+  });
+
 module.exports = router;
