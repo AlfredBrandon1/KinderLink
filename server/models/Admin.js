@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const AdminSchema = new mongoose.Schema({
   schoolId: String,
+  userType: String,
   firstName: String,
   middleName: String,
   lastName: String,

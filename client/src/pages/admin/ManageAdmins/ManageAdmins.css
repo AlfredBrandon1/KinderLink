@@ -1,5 +1,6 @@
-.manage-teachers-container{
+.manage-admins-container{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
