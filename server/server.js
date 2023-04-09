@@ -39,8 +39,8 @@ mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.n
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
-server.get('/', (request, response) => {
-  response.sendFile(path.join(__dirname, 'client', 'index.html'));
+server.get('/*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'index.html'));
 });
 
 server.listen(port, () => {
