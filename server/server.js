@@ -29,10 +29,12 @@ server.use(function(req, res, next) {
 // Routes initialization
 const AuthRouter = require('./routes/auth');
 const TeacherRouter = require('./routes/teacher');
+const StudentRouter = require('./routes/student')
 
 // Routes
 server.use('/api/v1/auth', AuthRouter);
 server.use('/api/v1/teacher', TeacherRouter);
+server.use('/api/v1/student', StudentRouter);
 
 //mongodb atlas connection
 mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
