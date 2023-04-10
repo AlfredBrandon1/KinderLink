@@ -21,8 +21,8 @@ const ManageStudents = () => {
     const [middleName, setMiddleName] = useState("");
     const [lastName, setLastName] = useState("");
     const [sex, setSex] = useState("");
-    const [birthdate, setBirthdate] = useState ("");
-    const [address, setAddress] = useState ("");
+    const [birthdate, setBirthdate] = useState("");
+    const [address, setAddress] = useState("");
 
     //Parent`s details
     const [contactFirstName, setContactFirstName] = useState("");
@@ -127,7 +127,6 @@ const ManageStudents = () => {
         setSex("");
         setBirthdate("");
         setAddress("");
-
         setContactFirstName("");
         setContactMiddleName("");
         setContactLastName("");
@@ -263,9 +262,9 @@ const ManageStudents = () => {
                 </Modal.Header>
                 <form
                     className="register-student-form"
-                    onSubmit={handleFormSubmit}
+                    
                 >
-                    <div>
+                    
                         <p> Student`s Basic Details </p>
                         <label htmlFor="schoolId"> School Id number</label>
                         <input
@@ -291,7 +290,7 @@ const ManageStudents = () => {
                             <option value="Student">Student</option>
                         </select>
 
-<label htmlFor="firstName"> First Name </label>
+                        <label htmlFor="firstName"> First Name </label>
                         <input
                             className="firtName"
                             type="text"
@@ -360,9 +359,9 @@ const ManageStudents = () => {
                             onChange={(event) => setAddress(event.target.value)}
                             required
                         />
-                    </div>
+                  
                     <hr />
-                    <div>
+                    
                         <p> Parent/Guardian Details </p>
                         <label htmlFor="contactFirstName"> First Name </label>
                         <input
@@ -443,10 +442,10 @@ const ManageStudents = () => {
                             required
                         />
 
-                        <button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" onClick={handleFormSubmit}>
                             Submit
-                        </button>
-                    </div>
+                        </Button>
+                    
                 </form>
             </Modal>
 

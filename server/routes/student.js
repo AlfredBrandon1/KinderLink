@@ -15,17 +15,15 @@ router.get("/", async (request, response) => {
 });
 
 // Return user details using user id
-router.get('/:id', async (request, response) => {
-  
+router.get("/:id", async (request, response) => {
     const result = await Student.findOne(
-      { _id: request.params.id }, 
-      { password: 0 }
+        { _id: request.params.id },
+        { password: 0 }
     );
     response.status(200).send(result);
-  
-  });
+});
 
-// Register new Student 
+// Register new Student
 router.post("/register", async (request, response) => {
     let hashedPassword = await bcrypt.hash(request.body.password, 10);
     let newStudent = new Student({
@@ -77,45 +75,46 @@ router.post("/login", async (request, response) => {
     }
 });
 
-
 //EDIT student
-router.put('/:id', (request, response) => {
+router.put("/:id", (request, response) => {
     const studentId = request.params.id;
     const updatedData = request.body;
-  
+
     Student.findById(studentId)
-      .then((student) => {
-        if (!student) {
-          return response.status(404).send({ message: 'Student not found' });
-        }
-  
-        student.set(updatedData);
-        return student.save();
-      })
-      .then((updatedStudent) => {
-        if (updatedStudent) {
-          response.status(204).send({ message: 'Updated successfully' });
-        } else {
-          response.status(500).send({ message: 'Error updating student' });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ message: 'Error updating student' });
-      });
-  });
-  
-  
+        .then((student) => {
+            if (!student) {
+                return response
+                    .status(404)
+                    .send({ message: "Student not found" });
+            }
+
+            student.set(updatedData);
+            return student.save();
+        })
+        .then((updatedStudent) => {
+            if (updatedStudent) {
+                response.status(204).send({ message: "Updated successfully" });
+            } else {
+                response
+                    .status(500)
+                    .send({ message: "Error updating student" });
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            response.status(500).send({ message: "Error updating student" });
+        });
+});
+
 //DELETE student
-  router.delete('/:id', (request, response) => {
-    Student.deleteOne({_id : request.params.id})
-      .then(() => {
-        response.status(200).send({ message: "The user has been deleted" });
-      })
-      .catch(error => {
-        response.status(400).send(error);
-      })
-  });
-  
+router.delete("/:id", (request, response) => {
+    Student.deleteOne({ _id: request.params.id })
+        .then(() => {
+            response.status(200).send({ message: "The user has been deleted" });
+        })
+        .catch((error) => {
+            response.status(400).send(error);
+        });
+});
 
 module.exports = router;
