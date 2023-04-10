@@ -260,6 +260,7 @@ const ManageTeachers = () => {
                                 onChange={(event) =>
                                     setMiddleName(event.target.value)
                                 }
+                                required
                             />
                         </Form.Group>
 
@@ -361,14 +362,14 @@ const ManageTeachers = () => {
                                 <td>{teacher.phone}</td>
                                 <td>{teacher.sex}</td>
                                 <td>
-                                    <button onClick={() => handleEdit(teacher)}>
+                                <FaEdit onClick={() => handleEdit(teacher)} color="green" size="30px">
                                         Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(teacher)}
+                                    </FaEdit>
+                                    <FaTrash
+                                        onClick={() => handleDelete(teacher) }color="red" size="30px"
                                     >
                                         Delete
-                                    </button>
+                                    </FaTrash>
                                 </td>
                             </tr>
                         ))}
@@ -395,6 +396,7 @@ const ManageTeachers = () => {
                                 name="schoolId"
                                 value={updatedTeacher.schoolId}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="lastName">Last Name:</label>
@@ -405,6 +407,7 @@ const ManageTeachers = () => {
                                 name="lastName"
                                 value={updatedTeacher.lastName}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="middleName">Middle Name:</label>
@@ -415,6 +418,7 @@ const ManageTeachers = () => {
                                 name="middleName"
                                 value={updatedTeacher.middleName}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="firstName">First Name:</label>
@@ -425,6 +429,7 @@ const ManageTeachers = () => {
                                 name="firstName"
                                 value={updatedTeacher.firstName}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="email">Email:</label>
@@ -435,6 +440,7 @@ const ManageTeachers = () => {
                                 name="email"
                                 value={updatedTeacher.email}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="phone">Phone:</label>
@@ -445,6 +451,7 @@ const ManageTeachers = () => {
                                 name="phone"
                                 value={updatedTeacher.phone}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <label htmlFor="sex">Sex:</label>
@@ -454,6 +461,7 @@ const ManageTeachers = () => {
                                 name="sex"
                                 value={updatedTeacher.sex}
                                 onChange={handleInputChange}
+                                required
                             >
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -467,6 +475,7 @@ const ManageTeachers = () => {
                                 name="password"
                                 value={updatedTeacher.password}
                                 onChange={handleInputChange}
+                                required
                             />
                             <br />
                             <button type="submit">Save</button>
