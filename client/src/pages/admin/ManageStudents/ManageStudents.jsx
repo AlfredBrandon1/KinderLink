@@ -69,21 +69,21 @@ const ManageStudents = () => {
             method: "post",
             url: "https://kinderlink.onrender.com/api/v1/student/register",
             data: {
-                schoolId: "",
+                schoolId,
                 userType: "Student",
-                lastName: "",
-                middleName: "",
-                firstName: "",
-                sex: "",
-                birthdate: "",
-                address: "",
-                contactFirstName: "",
-                contactLastName: "",
-                contactMiddleName: "",
-                relationship: "",
-                contactPhone: "",
-                contactEmail: "",
-                password: "",
+                lastName,
+                middleName,
+                firstName,
+                sex,
+                birthdate,
+                address,
+                contactFirstName,
+                contactLastName,
+                contactMiddleName,
+                relationship,
+                contactPhone,
+                contactEmail,
+                password,
             },
         };
 
@@ -252,34 +252,40 @@ const ManageStudents = () => {
                 className="register-student-modal"
                 show={showRegisterModal}
                 onHide={handleClose}
-                size="lg"
+                size="xl"
             >
                 <Modal.Header>
-                    <Modal.Title>Register a new student </Modal.Title>
-                    <span className="exit-button" onClick={handleClose}>
+                    <p className="form-title">Register a new student </p>
+                    <button className="exit-button" onClick={handleClose}>
                         &times;
-                    </span>
+                    </button>
                 </Modal.Header>
-                <form
+                <Form
                     className="register-student-form"
-                    
+                    onSubmit={handleFormSubmit}
+                    responsive
                 >
-                    
-                        <p> Student`s Basic Details </p>
-                        <label htmlFor="schoolId"> School Id number</label>
-                        <input
-                            className="schoolId"
+                    <div>
+                        <p className="form-subtitle"> A. Student`s Details </p>
+                    <Form.Group >
+                        <Form.Label htmlFor="schoolId">
+                            School Id number
+                        </Form.Label><br/> 
+                        <Form.Control
+                            id="schoolId"
                             type="text"
-                            placeholder="Enter school ID"
                             value={schoolId}
                             onChange={(event) =>
                                 setSchoolId(event.target.value)
                             }
                             required
                         />
-                        <label htmlFor="userType"> User Type </label>
-                        <select
-                            className="userType"
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label htmlFor="userType">User Type</Form.Label><br/>
+                        <Form.Control
+                            id="userType"
                             as="select"
                             value={userType}
                             onChange={(event) =>
@@ -288,113 +294,143 @@ const ManageStudents = () => {
                             required
                         >
                             <option value="Student">Student</option>
-                        </select>
+                        </Form.Control>
+                    </Form.Group>
 
-                        <label htmlFor="firstName"> First Name </label>
-                        <input
-                            className="firtName"
+                    <Form.Group>
+                        <Form.Label htmlFor="firstName">First Name</Form.Label><br/>
+                        <Form.Control
+                            id="firstName"
                             type="text"
-                            placeholder="Enter first name"
                             value={firstName}
                             onChange={(event) =>
                                 setFirstName(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="middleName"> Middle Name </label>
-                        <input
-                            className="middleName"
+                    <Form.Group>
+                        <Form.Label htmlFor="middleName">
+                            Middle Name
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="middleName"
                             type="text"
-                            placeholder="Enter middle name"
                             value={middleName}
                             onChange={(event) =>
                                 setMiddleName(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="lastName"> Last Name </label>
-                        <input
+                    <Form.Group>
+                        <Form.Label htmlFor="lastName">Last Name</Form.Label><br/>
+                        <Form.Control
+                            id="lastName"
                             type="text"
-                            placeholder="Enter last name"
                             value={lastName}
                             onChange={(event) =>
                                 setLastName(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="sex"> Sex </label>
-                        <select
-                            className="sex"
+                    <Form.Group>
+                        <Form.Label htmlFor="sex">Sex</Form.Label><br/>
+                        <Form.Control
+                            id="sex"
                             as="select"
                             value={sex}
                             onChange={(event) => setSex(event.target.value)}
                             required
                         >
-                            <option value="">Select sex</option>
+                            <option value="">  --------------------------------- Select sex ----------------------------------- </option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                        </select>
+                        </Form.Control>
+                    </Form.Group>
 
-                        <label htmlFor="birthdate"> Birthdate </label>
-                        <input
-                            className="birthdate"
+                    <Form.Group>
+                        <Form.Label htmlFor="birthdate">Birthdate</Form.Label><br/>
+                        <Form.Control
+                            id="birthdate"
                             type="date"
-                            placeholder="Enter birthdate"
                             value={birthdate}
                             onChange={(event) =>
                                 setBirthdate(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="address"> Address </label>
-                        <input
-                            className="address"
+                    <Form.Group>
+                        <Form.Label htmlFor="address">Address</Form.Label><br/>
+                        <Form.Control
+                            id="address"
                             type="text"
-                            placeholder="Enter address"
                             value={address}
                             onChange={(event) => setAddress(event.target.value)}
                             required
                         />
-                  
-                    <hr />
-                    
-                        <p> Parent/Guardian Details </p>
-                        <label htmlFor="contactFirstName"> First Name </label>
-                        <input
+                    </Form.Group>
+
+                    <hr/>
+
+                    <p className="form-subtitle"> B. Parent/Guardian Details</p>
+
+                    <Form.Group>
+                        <Form.Label htmlFor="contactFirstName">
+                            First Name
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="contactFirstName"
                             type="text"
-                            placeholder="Enter First Name"
                             value={contactFirstName}
                             onChange={(event) =>
                                 setContactFirstName(event.target.value)
                             }
                             required
                         />
-                        <label htmlFor="contactMiddleName"> Middle Name </label>
-                        <input
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label htmlFor="contactMiddleName">
+                            Middle Name
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="contactMiddleName"
                             type="text"
-                            placeholder="Enter Middle Name"
                             value={contactMiddleName}
                             onChange={(event) =>
                                 setContactMiddleName(event.target.value)
                             }
                             required
                         />
-                        <label htmlFor="contactLastName"> Last Name </label>
-                        <input
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label htmlFor="contactLastName">
+                            Last Name
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="contactLastName"
                             type="text"
-                            placeholder="Enter Last Name"
                             value={contactLastName}
                             onChange={(event) =>
                                 setContactLastName(event.target.value)
                             }
                             required
                         />
-                        <label htmlFor="relationship"> Relationship </label>
-                        <select
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label htmlFor="relationship">
+                            Relationship
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="relationship"
                             as="select"
                             value={relationship}
                             onChange={(event) =>
@@ -402,51 +438,59 @@ const ManageStudents = () => {
                             }
                             required
                         >
-                            <option value="">Select relationship</option>
+                            <option value=""> ------------------------------ Select relationship ------------------------------  </option>
                             <option value="Mother">Mother</option>
                             <option value="Father">Father</option>
                             <option value="Guardian">Guardian</option>
-                        </select>
+                        </Form.Control>
+                    </Form.Group>
 
-                        <label htmlFor="contactEmail"> Email </label>
-                        <input
-                            className="contactEmail"
+                    <Form.Group>
+                        <Form.Label htmlFor="contactEmail">Email</Form.Label><br/>
+                        <Form.Control
+                            id="contactEmail"
                             type="email"
-                            placeholder="Enter Email"
                             value={contactEmail}
                             onChange={(event) =>
                                 setContactEmail(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="contactPhone"> Phone Number </label>
-                        <input
+                    <Form.Group>
+                        <Form.Label htmlFor="contactPhone">
+                            Phone Number
+                        </Form.Label><br/>
+                        <Form.Control
+                            id="contactPhone"
                             type="tel"
-                            placeholder="Enter Phone Number"
                             value={contactPhone}
                             onChange={(event) =>
                                 setContactPhone(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <label htmlFor="password"> Password </label>
-                        <input
+                    <Form.Group>
+                        <Form.Label htmlFor="password">Password</Form.Label><br/>
+                        <Form.Control
+                            id="password"
                             type="password"
-                            placeholder="Enter password"
                             value={password}
                             onChange={(event) =>
                                 setPassword(event.target.value)
                             }
                             required
                         />
+                    </Form.Group>
 
-                        <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-                            Submit
-                        </Button>
-                    
-                </form>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                    </div>
+                </Form>
             </Modal>
 
             {/* Table of students */}
