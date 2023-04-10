@@ -7,13 +7,13 @@ import Navigation from './components/admin/Navigation/Navigation';
 /////Pages
 import LoginPage from './pages/common/login/LoginPage';
 //admin pages
-import AdminDashboard from './pages/admin/AdminDashboard/AdminDashboard';
-import ManageTeachers from './pages/admin/ManageTeachers/ManageTeachers';
-import ManageStudents from './pages/admin/ManageStudents/ManageStudents';
-import ManageAdmins from './pages/admin/ManageAdmins/ManageAdmins';
-import ManageAnnouncements from './pages/admin/ManageAnnouncements/ManageAnnouncements';
-import ManageLearningMaterials from './pages/admin/ManageLearningMaterials/ManageLearningMaterials';
-import MyAccount from './pages/admin/MyAccount/MyAccount';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageTeachers from './pages/admin/ManageTeachers';
+import ManageStudents from './pages/admin/ManageStudents';
+import ManageAdmins from './pages/admin/ManageAdmins';
+import ManageAnnouncements from './pages/admin/ManageAnnouncements';
+import ManageLearningMaterials from './pages/admin/ManageLearningMaterials';
+import MyAccount from './pages/admin/MyAccount';
 
 //teacher pages
 import TeacherDashboard from './pages/teacher/AdminDashboard/AdminDashboard';
