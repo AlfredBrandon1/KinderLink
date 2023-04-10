@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
     <title>Kinder Link</title>
+    <script>
+      window.onbeforeunload = function() {
+        return "Are you sure you want to leave? You may lose unsaved changes.";
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
