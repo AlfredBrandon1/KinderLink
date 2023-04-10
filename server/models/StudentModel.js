@@ -15,7 +15,7 @@ const StudentSchema = new mongoose.Schema({
   contactFirstName: String,
   contactMiddleName: String,
   contactLastName: String,
-  Relationship: String,
+  relationship: String,
   contactEmail: String,
   contactPhone: String,
 
