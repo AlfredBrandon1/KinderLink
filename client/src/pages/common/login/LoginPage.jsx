@@ -81,6 +81,7 @@ const LoginPage = () => {
             <form className="login-form" onSubmit={loginAuthentication}>
                 <p> LOGIN </p>
                 <input
+                className="login-input"
                     type="text"
                     id="schoolId"
                     value={schoolId}
@@ -88,6 +89,7 @@ const LoginPage = () => {
                     placeholder="ID number"
                 />
                 <input
+                className="login-input"
                     type="password"
                     id="password"
                     value={password}
