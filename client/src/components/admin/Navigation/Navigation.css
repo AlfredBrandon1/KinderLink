@@ -4,7 +4,7 @@
     align-items: center;
     padding: 1rem;
     background-color: #DFFADF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
   }
   
   .Navigation__logo a {
