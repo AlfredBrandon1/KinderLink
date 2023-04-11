@@ -1,18 +1,3 @@
-/* Manage Page Styles */
-.manage-teachers-container,
-.manage-students-container,
-.manage-admins-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-    margin:1em 2rem;
-}
-
-.card-title{
-    font-size: 2em;
-}
 /* =====================================Table Styles ==================================================*/
 table {
     border-collapse: separate;

@@ -3,3 +3,23 @@ body {
     margin: 0px;
     
 }
+
+  /* Admin Pages Title */
+  .page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 1em 1em;
+    text-align: center;
+  }
+
+  /* Manage Page Styles */
+.manage-teachers-container,
+.manage-students-container,
+.manage-admins-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin:1em 2rem;
+}

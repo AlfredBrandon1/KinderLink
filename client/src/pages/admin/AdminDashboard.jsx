@@ -10,6 +10,9 @@ import "../../styles/AdminDashboard.css";
 import News from "../../components/admin/News";
 import Trivia from "../../components/admin/Trivia";
 import ClockWidget from "../../components/admin/ClockWidget";
+import QuotesWidget from "../../components/admin/QuotesWidget";
+import TimeTracker from "../../components/admin/TimeTracler";
+import CoffeeCounter from "../../components/admin/CoffeeCounter";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -50,10 +53,9 @@ const AdminDashboard = () => {
     return (
         <>
             <Navigation />
-            <p className="dashboard-title">ADMIN DASHBOARD</p>
+            <p className="page-title">ADMIN DASHBOARD</p>
             <div className="admin-dashboard-container">
-            <div className="widget-card">
-                
+            <div className="widget-card">            
                     <div>
                         <Weather
                             location="La Trinidad, Benguet"
@@ -64,8 +66,16 @@ const AdminDashboard = () => {
                     <div>
                         <ClockWidget />
                     </div>
+                    <div>
+                    <TimeTracker/>
+                    </div>
+                    <CoffeeCounter/>
+                    
+              {/*       <QuotesWidget/> */}
 
                 </div>
+
+                <hr className="dashboard-divider"/>
                 
                 <div className="user-counter-card">
                     <div className="counter-card">

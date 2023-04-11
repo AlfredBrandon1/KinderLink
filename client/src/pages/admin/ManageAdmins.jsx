@@ -212,7 +212,7 @@ const ManageAdmins = (handleFormSubmit) => {
                         <span className="ml-2">Register a new admin</span>
                     </Button>
                 </div>
-                <p className="card-title">Manage Admins</p>
+                <p className="page-title">Manage Admins</p>
                 {/* ==================================================== Search ================================================== */}
                 <Form onSubmit={(event) => event.preventDefault()}>
       <InputGroup>

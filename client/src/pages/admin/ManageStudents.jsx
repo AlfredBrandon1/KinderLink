@@ -347,7 +347,7 @@ const ManageStudents = () => {
                                 </Button>
 
                                 </div>
-                                <p className="card-title">Manage Students</p>
+                                <p className="page-title">Manage Students</p>
                     {/* ==================================================== Search ================================================== */}
                     <Form onSubmit={(event) => event.preventDefault()}>
       <InputGroup>

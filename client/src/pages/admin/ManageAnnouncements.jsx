@@ -5,11 +5,14 @@ import CalendarWidget from "../../components/admin/CalendarWidget";
 
 const ManageAnnouncements = () => {
     return(
-        <div>
+        <>
             <Navigation/>
-            This is the Manage announcements page
+            <p className="page-title"> Announcements and School Calendar </p>
+            <div>
             <CalendarWidget/>
-        </div>
+            </div>
+
+        </>
     )
 }
 

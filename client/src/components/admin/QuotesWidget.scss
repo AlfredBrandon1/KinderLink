@@ -1,0 +1,27 @@
+.quote-widget {
+    width: 300px;
+    height: 200px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+  
+    &__body {
+      padding: 20px;
+    }
+  
+    .quote {
+      font-size: 20px;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+  
+    &__footer {
+      background-color: #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+    }
+  }
+  

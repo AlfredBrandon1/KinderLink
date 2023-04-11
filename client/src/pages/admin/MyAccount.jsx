@@ -4,10 +4,10 @@ import Navigation from "../../components/admin/Navigation/Navigation"
 
 const MyAccount = () => {
     return(
-        <div>
+        <>
             <Navigation/>
-            MY ACCOUNT
-        </div>
+           <p className="page-title"> My Account </p> 
+        </>
     )
 }
 

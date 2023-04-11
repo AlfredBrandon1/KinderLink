@@ -293,7 +293,7 @@ const ManageTeachers = () => {
                         <span className="ml-2">Register a new teacher</span>
                     </Button>
                 </div>
-                <p className="card-title">Manage Teachers</p>
+                <p className="page-title">Manage Teachers</p>
                 {/* ==================================================== Search ================================================== */}
                 <Form onSubmit={(event) => event.preventDefault()}>
                     <InputGroup>
