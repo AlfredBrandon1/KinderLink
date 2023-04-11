@@ -45,7 +45,6 @@ const Navigation = () => {
           <Link to="/" onClick={() => {
                         if (window.confirm('Are you sure you want to logout?')) {
                             window.localStorage.clear();
-                            navigate('/');
                         }
                     }}>Logout</Link>
         </li>

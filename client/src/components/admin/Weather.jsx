@@ -37,14 +37,13 @@ const Weather = ({ location, apiKey }) => {
                         <FaCloudSun /> Current Weather
                     </p>
                     <div className="weather-card__info">
-                        <div className="weather-card__temp">
+                        <div className="weather-card__loc">
                             <FaMapMarkerAlt /> {location}
                         </div>
-                        <span className="weather-card__temp">
-                            {" "}
+                        <div className="weather-card__temp">
                             <FaTemperatureHigh />
-                            {weatherData.main.temp} degrees Celcius
-                        </span>
+                            {weatherData.main.temp} °C
+                        </div>
                         <div className="weather-card__desc">
                             <FaCloud /> {weatherData.weather[0].description}
                         </div>

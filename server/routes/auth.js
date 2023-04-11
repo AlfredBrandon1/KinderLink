@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const Auth = require("../models/Admin");
 
+const jwt = require("jsonwebtoken");
+const secretKey = "secretKey"; // Replace with your own secret key
+
 //get all admins
 router.get("/", async (request, response) => {
     try {
@@ -41,31 +44,44 @@ router.post("/register", async (request, response) => {
 
 // Admin login
 router.post("/login", async (request, response) => {
-    const result = await Auth.findOne({ schoolId: request.body.schoolId });
+  const result = await Auth.findOne({ schoolId: request.body.schoolId });
 
-    if (result === null) {
-        return response.status(404).send({
+  if (result === null) {
+    return response.status(404).send({
+      status: "Invalid schoolId or password",
+    });
+  } else {
+    bcrypt.compare(
+      request.body.password,
+      result.password,
+      (error, match) => {
+        if (match) {
+          const payload = {
+            userId: result._id,
+            schoolId: result.schoolId,
+            userType: result.userType,
+          };
+
+          const options = {
+            expiresIn: "1d",
+          };
+
+          const token = jwt.sign(payload, secretKey, options);
+
+          response.status(200).send({
+            status: "Logged in successfully",
+            token: token,
+          });
+        } else {
+          return response.status(404).send({
             status: "Invalid schoolId or password",
-        });
-    } else {
-        bcrypt.compare(
-            request.body.password,
-            result.password,
-            (error, match) => {
-                if (match) {
-                    response.status(200).send({
-                        status: "Logged in successfully",
-                    });
-                } else {
-                    return response.status(404).send({
-                        status: "Invalid schoolId or password",
-                    });
-                }
-            }
-        );
-    }
-
+          });
+        }
+      }
+    );
+  }
 });
+
 
 router.put('/:id', (request, response) => {
     const adminId = request.params.id;

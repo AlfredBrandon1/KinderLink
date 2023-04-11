@@ -3,62 +3,35 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginPage.css";
 
-//images
-import ecdclogo from "../../../assets/ecdclogo.jpg";
-import loginCartoon from "../../../assets/loginCartoon.png";
-
 const LoginPage = () => {
     const [schoolId, setSchoolId] = useState("");
     const [password, setPassword] = useState("");
-
-    const navigate = useNavigate();
+    const navigate = new useNavigate();
 
     const loginAuthentication = (e) => {
         e.preventDefault();
         const configuration = {
             method: "post",
-            url: "https://kinderlink.onrender.com/api/v1/auth/login", //TODO: separate this. Trial only.
+            url: "https://kinderlink.onrender.com/api/v1/auth/login",
             data: {
-                schoolId,
-                password,
+              schoolId,
+              password,
             },
-        };
-
-        // API call
-        axios(configuration)
+          };
+          
+          axios(configuration)
             .then((result) => {
-                alert(result.data.status);
-                navigate("/admin-dashboard");
-                /* window.location.reload(false);  */
+              alert(result.data.status);
+              localStorage.setItem("currentUser",result.data._id);
+              navigate("/admin-dashboard");
+              console.log(`hello ${result.data._id}`)
             })
-            .catch((error) => {
-                alert(error.response.data.status);
-                setSchoolId("");
-                setPassword("");
-            });
 
-/*             const TeacherConfiguration = {
-                method: "post",
-                url: "https://kinderlink.onrender.com/api/v1/teacher/login", //TODO: separate this. Trial only.
-                data: {
-                    schoolId,
-                    password,
-                },
-            };
-    
-            // API call
-            axios(TeacherConfiguration)
-                .then((result) => {
-                    alert(result.data.status);
-                    navigate("/teacher-dashboard");
-                    window.location.reload(false);
-                })
-                .catch((error) => {
-                    alert(error.response.data.status);
-                    setSchoolId("");
-                    setPassword("");
-                }); */
-            
+            .catch((error) => {
+              alert(error.response.data.status);
+              setSchoolId("");
+              setPassword("");
+            });
     };
 
     const handleForgotPassword = () => {
@@ -81,7 +54,7 @@ const LoginPage = () => {
             <form className="login-form" onSubmit={loginAuthentication}>
                 <p> LOGIN </p>
                 <input
-                className="login-input"
+                    className="login-input"
                     type="text"
                     id="schoolId"
                     value={schoolId}
@@ -89,16 +62,14 @@ const LoginPage = () => {
                     placeholder="ID number"
                 />
                 <input
-                className="login-input"
+                    className="login-input"
                     type="password"
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="password"
                 />
-                <button type="submit">
-                    Login
-                </button>
+                <button type="submit">Login</button>
                 <a href="#" onClick={handleForgotPassword}>
                     Forgot password?
                 </a>

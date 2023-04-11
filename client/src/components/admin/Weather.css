@@ -3,15 +3,14 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  width: 300px;
+  width: auto;
+  display: flex;
+  align-items: flex-start;
 }
 
 .weather-card__container {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  text-align: center;
 }
 
 .weather-card__title {
@@ -24,7 +23,11 @@
   text-align:left;
 }
 
-.weather-card__temp {
+.weather-card__desc
+.weather-card__sunset 
+.weather-card__sunrise
+.weather-card__temp
+.weather-card__loc {
   font-size: 1rem;
   font-weight: bold;
   margin: 10px 0;
@@ -32,24 +35,3 @@
   align-items: center;
 }
 
-.weather-card__temp svg {
-  margin-right: 5px;
-}
-
-.weather-card__desc {
-  font-size: 1.2rem;
-  margin-bottom: 5px;
-}
-
-.weather-card__sunrise,
-.weather-card__sunset {
-  font-size: 1rem;
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.weather-card__sunrise svg,
-.weather-card__sunset svg {
-  margin-right: 5px;
-}
