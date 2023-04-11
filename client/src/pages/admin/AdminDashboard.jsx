@@ -53,6 +53,7 @@ const AdminDashboard = () => {
             <p className="dashboard-title">ADMIN DASHBOARD</p>
             <div className="admin-dashboard-container">
             <div className="widget-card">
+                
                     <div>
                         <Weather
                             location="La Trinidad, Benguet"
@@ -63,7 +64,9 @@ const AdminDashboard = () => {
                     <div>
                         <ClockWidget />
                     </div>
+
                 </div>
+                
                 <div className="user-counter-card">
                     <div className="counter-card">
                         <FaUserShield size={64} />
