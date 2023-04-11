@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../styles/AdminDashboard.css";
+import { FaUserShield, FaUserGraduate, FaUserTie } from "react-icons/fa";
+import { IoMdPeople } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 import Navigation from "../../components/admin/Navigation/Navigation";
-
-//APIs
+import Weather from "../../components/admin/Weather";
+import "../../styles/AdminDashboard.css";
 import News from "../../components/admin/News";
 import Trivia from "../../components/admin/Trivia";
-import Weather from "../../components/admin/Weather";
+import ClockWidget from "../../components/admin/ClockWidget";
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
     const [admins, setAdmins] = useState([]);
     const [teachers, setTeachers] = useState([]);
     const [students, setStudents] = useState([]);
@@ -47,34 +50,62 @@ const AdminDashboard = () => {
     return (
         <>
             <Navigation />
-            <p> Welcome, Master Admin! </p>
+            <p className="dashboard-title">ADMIN DASHBOARD</p>
             <div className="admin-dashboard-container">
-                <div>
-                    <p> ADMIN DASHBOARD</p>
+            <div className="widget-card">
+                    <div>
+                        <Weather
+                            location="La Trinidad, Benguet"
+                            apiKey="89e70020981ac4ad8c525a2d89373ae9"
+                        />
+                    </div>
+                    
+                    <div>
+                        <ClockWidget />
+                    </div>
                 </div>
+                <div className="user-counter-card">
+                    <div className="counter-card">
+                        <FaUserShield size={64} />
+                        <div className="counter-text">
+                            <span onClick={() => navigate("/manage-admins")}>
+                                Total Admins
+                            </span>{" "}
+                            {numAdmins}
+                        </div>
+                    </div>
 
-                <div>
-                    <table>
-                        <tr>
-                            <th> Total Admins: </th>
+                    <div className="counter-card">
+                        <FaUserGraduate size={64} />
+                        <div className="counter-text">
+                            <span onClick={() => navigate("/manage-students")}>
+                                Total Students
+                            </span>{" "}
+                            {numStudents}
+                        </div>
+                    </div>
 
-                            <td> {numAdmins} </td>
-                        </tr>
+                    <div className="counter-card">
+                        <FaUserTie size={64} />
+                        <div className="counter-text">
+                            <span onClick={() => navigate("/manage-teachers")}>
+                                Total Teachers
+                            </span>{" "}
+                            {numTeachers}
+                        </div>
+                    </div>
 
-                        <tr>
-                            <th> Total Students: </th> <td> {numStudents}</td>
-                        </tr>
-
-                        <tr>
-                            <th> Total Teachers: </th>
-                            <td> {numTeachers}</td>
-                        </tr>
-                    </table>
+                    <div className="counter-card">
+                        <IoMdPeople size={64} />
+                        <div className="counter-text">
+                            <span>Total Users</span>{" "}
+                            {numAdmins + numStudents + numTeachers}
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <Weather location="La Trinidad, Benguet" apiKey="89e70020981ac4ad8c525a2d89373ae9" />
+                <hr />
 
-                </div>
+   {/*              <Trivia /> */}
             </div>
         </>
     );
