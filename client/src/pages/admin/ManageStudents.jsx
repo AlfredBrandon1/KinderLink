@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "../../components/admin/Navigation/Navigation";
-import { Table, Button, Modal, Form, InputGroup, FormControl } from "react-bootstrap";
+import {
+    Table,
+    Button,
+    Modal,
+    Form,
+    InputGroup,
+    FormControl,
+} from "react-bootstrap";
 import {
     FaPlus,
     FaEdit,
@@ -15,7 +22,7 @@ import "../../styles/TableAndModal.css";
 
 import axios from "axios";
 
-const BackendApi = 'https://kinderlink.onrender.com'
+const BackendApi = "https://kinderlink.onrender.com";
 
 const ManageStudents = () => {
     //modal for REGISTER a student
@@ -62,17 +69,15 @@ const ManageStudents = () => {
         password: "",
     });
 
-            /* ========================================= Fetch all student  ======================================= */
+    /* ========================================= Fetch all student  ======================================= */
     useEffect(() => {
-        axios
-            .get(`${BackendApi}/api/v1/student/`)
-            .then((response) => {
-                setStudents(response.data);
-            });
+        axios.get(`${BackendApi}/api/v1/student/`).then((response) => {
+            setStudents(response.data);
+        });
     }, []);
 
-        /* ========================================= handler for REGISTER student ======================================= */
-    
+    /* ========================================= handler for REGISTER student ======================================= */
+
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
@@ -157,17 +162,14 @@ const ManageStudents = () => {
 
     const handleClose = () => setShowRegisterModal(false);
 
-
-/* ========================================= handler for DELETE student ======================================= */
+    /* ========================================= handler for DELETE student ======================================= */
     const handleDelete = (currentStudent) => {
         const confirmDelete = window.confirm(
             `Are you sure you want to delete the student record for ${currentStudent.lastName}?`
         );
         if (confirmDelete) {
             axios
-                .delete(
-                    `${BackendApi}/api/v1/student/${currentStudent._id}`
-                )
+                .delete(`${BackendApi}/api/v1/student/${currentStudent._id}`)
                 .then((response) => {
                     alert(response.data.message);
                     // remove deleted student from list of students
@@ -183,12 +185,11 @@ const ManageStudents = () => {
         }
     };
 
-        /* ========================================= handler for EDIT student ======================================= */
-        const handleShowEditModal = () => {
-            setShowEditModal(true);
-        };
-        const handleCloseEditModal = () => setShowEditModal(false);
-    
+    /* ========================================= handler for EDIT student ======================================= */
+    const handleShowEditModal = () => {
+        setShowEditModal(true);
+    };
+    const handleCloseEditModal = () => setShowEditModal(false);
 
     const handleEdit = (student) => {
         setShowEditModal(true);
@@ -293,14 +294,14 @@ const ManageStudents = () => {
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
         handleSearch(event.target.value);
-      };
+    };
 
     const handleSearch = (searchTerm) => {
         setSearchTerm(searchTerm);
-      
-        if (searchTerm.trim() === '') {
-          setSortedStudents(students);
-          return;
+
+        if (searchTerm.trim() === "") {
+            setSortedStudents(students);
+            return;
         }
         const filteredResults = students.filter(
             (student) =>
@@ -341,32 +342,24 @@ const ManageStudents = () => {
         <>
             <Navigation />
             <div className="manage-students-container container mt-5">
-<div>
-                                
-                                <Button
-                                    variant="primary"
-                                    onClick={handleShow}
-                                >
-                                    <FaPlus />
-                                    <span className="ml-2">
-                                        Register a new student
-                                    </span>
-                                </Button>
-
-                                </div>
-                                <p className="page-title">Manage Students</p>
-                    {/* ==================================================== Search ================================================== */}
-                    <Form onSubmit={(event) => event.preventDefault()}>
-      <InputGroup>
-        <FormControl
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleChange}
-        />
-      </InputGroup>
-    </Form>
-
+                <div>
+                    <Button variant="primary" onClick={handleShow}>
+                        <FaPlus />
+                        <span className="ml-2">Register a new student</span>
+                    </Button>
+                </div>
+                <p className="page-title">Manage Students</p>
+                {/* ==================================================== Search ================================================== */}
+                <Form onSubmit={(event) => event.preventDefault()}>
+                    <InputGroup>
+                        <FormControl
+                            type="text"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={handleChange}
+                        />
+                    </InputGroup>
+                </Form>
             </div>
 
             {/* ====================================== REGISTER MODAL ==================================================== */}
@@ -640,8 +633,11 @@ const ManageStudents = () => {
             <div className="students-table">
                 <Table striped bordered hover>
                     <thead>
-                    <tr>
-                            <th className="list-title" colSpan={17}> List of Students </th>
+                        <tr>
+                            <th className="list-title" colSpan={17}>
+                                {" "}
+                                List of Students{" "}
+                            </th>
                         </tr>
                         <tr>
                             <th> &nbsp; &nbsp; </th>
@@ -666,12 +662,26 @@ const ManageStudents = () => {
                             <th onClick={() => handleSort("birthdate")}>
                                 Birthdate <FaSort />{" "}
                             </th>
-                            <th onClick={() => handleSort("address")}>Address <FaSort /></th>
-                            <th onClick={() => handleSort("contactFirstName")}> Contact Person`s Name <FaSort /> </th>
-                            <th onClick={() => handleSort("relationship")}> Relationship <FaSort /> </th>
-                            <th onClick={() => handleSort("contactEmail")}> Email  <FaSort /></th>
-                            <th onClick={() => handleSort("contactPhone")}> Phone #  <FaSort /></th>
-                            <th >Action</th>
+                            <th onClick={() => handleSort("address")}>
+                                Address <FaSort />
+                            </th>
+                            <th onClick={() => handleSort("contactFirstName")}>
+                                {" "}
+                                Contact Person`s Name <FaSort />{" "}
+                            </th>
+                            <th onClick={() => handleSort("relationship")}>
+                                {" "}
+                                Relationship <FaSort />{" "}
+                            </th>
+                            <th onClick={() => handleSort("contactEmail")}>
+                                {" "}
+                                Email <FaSort />
+                            </th>
+                            <th onClick={() => handleSort("contactPhone")}>
+                                {" "}
+                                Phone # <FaSort />
+                            </th>
+                            <th>Action</th>
                             <th> &nbsp; &nbsp; </th>
                             <th> &nbsp; &nbsp; </th>
                         </tr>

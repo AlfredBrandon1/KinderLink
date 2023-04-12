@@ -16,8 +16,15 @@ th{
   background-color: rgb(233, 231, 231);
 }
 
+.content-row{
+    width: 40rem;
+    word-wrap: break-word;
+padding-right: 5rem;
+}
+
 td{
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 td,
