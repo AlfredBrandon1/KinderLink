@@ -203,3 +203,11 @@ select {
     border-radius: .2em;
     background-color: rgb(241, 239, 239);
 }
+
+textarea{
+    width: 28em;
+    height: 20em;
+    background-color: rgb(241, 239, 239);
+    font-family: sans-serif ;
+    font-size: 16px;
+}

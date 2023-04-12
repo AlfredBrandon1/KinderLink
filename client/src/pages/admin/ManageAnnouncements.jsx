@@ -9,18 +9,18 @@ const ManageAnnouncement = () => {
     const [userDetails, setUserDetails] = useState("");
     const [announcements, setAnnouncements] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
     const [newAnnouncement, setNewAnnouncement] = useState({
       title: "",
       content: "",
       author: localStorage.getItem("currentUserId"),
+      date: ""
     });
   
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
     const [editedAnnouncement, setEditedAnnouncement] = useState({
       title: "",
-      content: "",
-      author: `Edited by: ${localStorage.getItem("currentUserId")}`,
+      content: ""
     });
   
     // get all announcements
@@ -28,6 +28,7 @@ const ManageAnnouncement = () => {
       try {
         const res = await axios.get(`${BackendApi}/api/v1/announcement/`);
         setAnnouncements(res.data);
+        console.log(res.data)
       } catch (err) {
         console.log(err);
       }
@@ -64,7 +65,7 @@ const ManageAnnouncement = () => {
       try {
         const res = await axios.post(`${BackendApi}/api/v1/announcement/`, {
           ...newAnnouncement,
-          author: `${userDetails.firstName} ${userDetails.lastName}`,
+          author: `${userDetails.firstName} ${userDetails.lastName} (${userDetails.userType})`,
           date: new Date(),
         });
   
@@ -76,35 +77,46 @@ const ManageAnnouncement = () => {
         console.log(err);
       }
     };
+    
+    const handleCloseCreateModal = () => setShowModal(false);
+
   
-    //handles the update/edit of announcement
-    const handleUpdate = (event) => {
-      event.preventDefault();
-      axios
-        .put(
-          `${BackendApi}/api/v1/announcement/${editedAnnouncement._id}`,
-          editedAnnouncement
-        )
-        .then((res) => {
-          const updatedAnnouncement = res.data;
-          const updatedAnnouncements = announcements.map((announcement) =>
-            announcement._id === updatedAnnouncement._id
-              ? updatedAnnouncement
-              : announcement
-          );
-          setAnnouncements(updatedAnnouncements);
-          setShowEditModal(false);
-        })
-        .catch((err) => console.log(err));
-    };
-  
-    const handleEditInputChange = (event) => {
-      const { name, value } = event.target;
-      setEditedAnnouncement((prevAnnouncement) => ({
-        ...prevAnnouncement,
-        [name]: value,
-      }));
-    };
+// handles the update/edit of announcement
+const handleCloseEditModal = () => setShowEditModal(false);
+
+const handleEdit = (announcement) => {
+  setShowEditModal(true);
+  setCurrentAnnouncement(announcement);
+  setEditedAnnouncement({
+    title: announcement.title,
+    content: announcement.content
+  });
+};
+
+const handleInputEditChange = (event) => {
+  const { name, value } = event.target;
+  setEditedAnnouncement({ ...editedAnnouncement , [name]: value });
+};
+
+const handleSubmitEdit = (event) => {
+  event.preventDefault();
+
+  axios
+    .put(
+      `${BackendApi}/api/v1/announcement/${currentAnnouncement._id}`,
+      editedAnnouncement
+    )
+    .then((response) => {
+      console.log(response.data);
+      alert("Announcement successfully updated!");
+      setCurrentAnnouncement(null);
+      handleCloseEditModal();
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Error updating announcement!");
+    });
+};
   
     //delete
     const handleDelete = (currentAnnouncement) => {
@@ -118,7 +130,7 @@ const ManageAnnouncement = () => {
                 )
                 .then((response) => {
                     alert(response.data.message);
-                    // remove deleted announcement from list of teachers
+                    // remove deleted announcement from list of announcements
                     setAnnouncements((prevState) =>
                         prevState.filter(
                             (announcement) => announcement._id !== currentAnnouncement._id
@@ -137,7 +149,7 @@ const ManageAnnouncement = () => {
             <Navigation />
             <h2>Manage Announcements</h2>
             <Button variant="success" onClick={() => setShowModal(true)}>
-                Add Announcement
+                Post an announcement
             </Button>
             <table className="table table-hover">
                 <thead className="thead-light">
@@ -145,6 +157,7 @@ const ManageAnnouncement = () => {
                         <th>Title</th>
                         <th>Content</th>
                         <th>Author</th>
+                        <th>Date created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -155,18 +168,19 @@ const ManageAnnouncement = () => {
                                 <td>{announcement.title}</td>
                                 <td>{announcement.content}</td>
                                 <td>{announcement.author}</td>
+                                <td> {new Date(announcement.date).toLocaleDateString()}</td>
                                 <td>
                                     <button
                                         className="btn btn-danger mr-2"
                                         onClick={() =>
-                                            handleDelete(announcement._id)
+                                            handleDelete(announcement)
                                         }
                                     >
                                         Delete
                                     </button>
                                     <button
                                         className="btn btn-info"
-                                        onClick={() => handleUpdate(announcement)}
+                                        onClick={() => handleEdit(announcement)}
                                     >
                                         Edit
                                     </button>
@@ -178,13 +192,16 @@ const ManageAnnouncement = () => {
 
             {/* Add Announcement Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add New Announcement</Modal.Title>
+            <Modal.Header>
+                    <p className="form-title"> Post an announcement </p>
+                    <span className="exit-button" onClick={handleCloseCreateModal}>
+                        &times;
+                    </span>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="title">
-                            <Form.Label>Title</Form.Label>
+                            <Form.Label>Title</Form.Label> <br/>
                             <Form.Control
                                 type="text"
                                 name="title"
@@ -194,7 +211,7 @@ const ManageAnnouncement = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="content">
-                            <Form.Label>Content</Form.Label>
+                            <Form.Label>Content</Form.Label><br/>
                             <Form.Control
                                 as="textarea"
                                 name="content"
@@ -204,7 +221,7 @@ const ManageAnnouncement = () => {
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">
-                            Add Announcement
+                            Post
                         </Button>
                     </Form>
                 </Modal.Body>
@@ -212,28 +229,31 @@ const ManageAnnouncement = () => {
 
             {/* Edit Announcement Modal */}
             <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Edit Announcement</Modal.Title>
+            <Modal.Header>
+                    <p className="form-title"> Edit announcement </p>
+                    <span className="exit-button" onClick={handleCloseEditModal}>
+                        &times;
+                    </span>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleUpdate}>
+                    <Form onSubmit={handleSubmitEdit}>
                         <Form.Group controlId="editTitle">
-                            <Form.Label>Title</Form.Label>
+                            <Form.Label>Title</Form.Label><br/>
                             <Form.Control
                                 type="text"
                                 name="title"
                                 value={editedAnnouncement.title}
-                                onChange={handleEditInputChange}
+                                onChange={handleInputEditChange}
                                 required
                             />
                         </Form.Group>
                         <Form.Group controlId="editContent">
-                            <Form.Label>Content</Form.Label>
+                            <Form.Label>Content</Form.Label><br/>
                             <Form.Control
                                 as="textarea"
                                 name="content"
                                 value={editedAnnouncement.content}
-                                onChange={handleEditInputChange}
+                                onChange={handleInputEditChange}
                                 required
                             />
                         </Form.Group>
