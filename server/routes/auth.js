@@ -18,7 +18,7 @@ router.get("/", async (request, response) => {
 });
 
 //get an admin using unique id
-router.get("/users/:id", async (request, response) => {
+router.get("/:id", async (request, response) => {
   try {
     const user = await Auth.findById(request.params.id);
     response.status(200).send(user);
