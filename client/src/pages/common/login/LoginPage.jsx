@@ -18,12 +18,14 @@ const LoginPage = () => {
         password,
       },
     };
-
+  
     axios(configuration)
       .then((response) => {
         alert(response.data.status);
-        localStorage.setItem("currentUser", response.data.userId);
+        localStorage.setItem("currentUser", response.data.token);
+        localStorage.setItem("currentUserId", response.data.userId); // Add user ID to localStorage
         navigate("/admin-dashboard");
+        console.log(response.data);
       })
       .catch((error) => {
         alert(error.response.data.status);
@@ -31,6 +33,7 @@ const LoginPage = () => {
         setPassword("");
       });
   };
+  
 
   const handleForgotPassword = () => {
     // TODO: handle forgot password logic

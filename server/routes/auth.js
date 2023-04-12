@@ -17,6 +17,17 @@ router.get("/", async (request, response) => {
     }
 });
 
+//get an admin using unique id
+router.get("/users/:id", async (request, response) => {
+  try {
+    const user = await Auth.findById(request.params.id);
+    response.status(200).send(user);
+  } catch (error) {
+    response.status(500).send(error.message);
+  }
+});
+
+
 // Register new admin
 router.post("/register", async (request, response) => {
     let hashedPassword = await bcrypt.hash(request.body.password, 10);
@@ -71,6 +82,7 @@ router.post("/login", async (request, response) => {
           response.status(200).send({
             status: "Logged in successfully",
             token: token,
+            userId: result._id, // Add user ID to response
           });
         } else {
           return response.status(404).send({
@@ -81,6 +93,7 @@ router.post("/login", async (request, response) => {
     );
   }
 });
+
 
 
 router.put('/:id', (request, response) => {
