@@ -36,38 +36,40 @@ router.get("/:id", getAnnouncement, (req, res) => {
 });
 
 // Update one announcement
-router.patch("/:id", getAnnouncement, async (req, res) => {
-    if (req.body.title != null) {
-        res.announcement.title = req.body.title;
-    }
-
-    if (req.body.content != null) {
-        res.announcement.content = req.body.content;
-    }
-
-    if (req.body.author != null) {
-        res.announcement.author = req.body.author;
-    }
-
-    try {
-        const updatedAnnouncement = await res.announcement.save();
-
-        res.json(updatedAnnouncement);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
+router.put('/:id', (request, response) => {
+    const announcementId = request.params.id;
+    const updatedData = request.body;
+  
+    Announcement.findById(announcementId)
+      .then((announcement) => {
+        if (!announcement) {
+          return response.status(404).send({ message: 'Announcement not found' });
+        }
+  
+        announcement.set(updatedData);
+        return announcement.save();
+      })
+      .then(() => {
+        response.status(204).send();
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).send({ message: 'Error updating announcement' });
+      });
+  });
 
 // Delete one announcement
-router.delete("/:id", getAnnouncement, async (req, res) => {
-    try {
-        await res.announcement.remove();
 
-        res.json({ message: "Announcement deleted" });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+router.delete('/:id', (request, response) => {
+    Announcement.deleteOne({_id : request.params.id})
+      .then(() => {
+        response.status(200).send({ message: "The announcement has been deleted" });
+      })
+      .catch(error => {
+        response.status(400).send(error);
+      })
+  });
+  
 
 // Middleware function to get a single announcement by ID
 async function getAnnouncement(req, res, next) {

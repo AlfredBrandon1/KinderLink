@@ -16,7 +16,8 @@ body {
   /* Manage Page Styles */
 .manage-teachers-container,
 .manage-students-container,
-.manage-admins-container {
+.manage-admins-container,
+.manage-announcements-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

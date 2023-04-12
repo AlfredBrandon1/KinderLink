@@ -127,13 +127,7 @@ const ManageTeachers = () => {
 
     const handleClose = () => setShowRegisterModal(false);
 
-    /* ====== handler for EDIT teacher ====== */
-    const handleShowEditModal = () => {
-        setShowEditModal(true);
-    };
-    const handleCloseEditModal = () => setShowEditModal(false);
-
-    /* TODO: not yet working */
+    /* ====== handler for DELETE teacher ====== */
     const handleDelete = (currentTeacher) => {
         const confirmDelete = window.confirm(
             `Are you sure you want to delete the teacher record for ${currentTeacher.lastName}?`
@@ -157,6 +151,12 @@ const ManageTeachers = () => {
                 });
         }
     };
+
+    /* ====== handler for EDIT teacher ====== */
+    const handleShowEditModal = () => {
+        setShowEditModal(true);
+    };
+    const handleCloseEditModal = () => setShowEditModal(false);
 
     const handleEdit = (teacher) => {
         setShowEditModal(true);
@@ -477,8 +477,11 @@ const ManageTeachers = () => {
             <div className="teachers-table">
                 <Table striped bordered hover>
                     <thead>
-                    <tr>
-                            <th className="list-title" colSpan={13}> List of Teachers </th>
+                        <tr>
+                            <th className="list-title" colSpan={13}>
+                                {" "}
+                                List of Teachers{" "}
+                            </th>
                         </tr>
                         <tr>
                             <th> &nbsp; &nbsp; </th>
