@@ -40,15 +40,12 @@ const ManageAnnouncement = () => {
     });
 
     // get all announcements
-    const fetchAnnouncements = async () => {
-        try {
-            const res = await axios.get(`${BackendApi}/api/v1/announcement/`);
-            setAnnouncements(res.data);
-            console.log(res.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    useEffect(() => {
+        axios.get(`${BackendApi}/api/v1/announcement/`).then((response) => {
+            setAnnouncements(response.data);
+        });
+    }, []);
+
 
     //sets the current user
     const clientInStorage = localStorage.getItem("currentUserId");
@@ -62,10 +59,6 @@ const ManageAnnouncement = () => {
     });
 
     //get the current user
-    useEffect(() => {
-        fetchAnnouncements();
-    }, []);
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNewAnnouncement((prevState) => ({
@@ -114,7 +107,6 @@ const ManageAnnouncement = () => {
     };
 
     const handleSubmitEdit = (event) => {
-        event.preventDefault();
 
         axios
             .put(
