@@ -42,11 +42,15 @@ const Navigation = () => {
           <Link to="/my-account" onClick={toggleMenu}>My Account</Link>
         </li>
         <li className="Navigation__item">
-          <Link to="/" onClick={() => {
-                        if (window.confirm('Are you sure you want to logout?')) {
-                            window.localStorage.clear();
-                        }
-                    }}>Logout</Link>
+        <Link to="/" onClick={(event) => {
+  if (window.confirm('Are you sure you want to logout?')) {
+    window.localStorage.clear();
+  } else {
+    event.preventDefault();
+    return false;
+  }
+}}>Logout</Link>
+
         </li>
       </ul>
     </nav>

@@ -172,14 +172,14 @@ const ManageAdmins = (handleFormSubmit) => {
  const handleChange = (event) => {
      setSearchTerm(event.target.value);
      handleSearch(event.target.value);
-   };
+ };
 
  const handleSearch = (searchTerm) => {
      setSearchTerm(searchTerm);
-   
-     if (searchTerm.trim() === '') {
-       setSortedAdmins(admins);
-       return;
+
+     if (searchTerm.trim() === "") {
+         setSortedAdmins(admins);
+         return;
      }
 
      const filteredResults = admins.filter(
@@ -200,6 +200,7 @@ const ManageAdmins = (handleFormSubmit) => {
      );
      setSortedAdmins(filteredResults);
  };
+
 
 
     return (
@@ -238,20 +239,23 @@ const ManageAdmins = (handleFormSubmit) => {
                 <Table striped bordered hover responsive>
                     <thead>
                         <tr>
+                            <th className="list-title" colSpan={13}> List of Admins </th>
+                        </tr>
+                        <tr>
                             <th> &nbsp; &nbsp; </th>
                             <th> &nbsp; &nbsp; </th>
                             <th>#</th>
-                            <th onClick={() => sortTable("schoolId")}>
+                            <th onClick={() => handleSort("schoolId")}>
                                 School ID <FaSort />
                             </th>
-                            <th onClick={() => sortTable("lastName")}>
+                            <th onClick={() => handleSort("lastName")}>
                                 {" "}
                                 Last Name <FaSort />
                             </th>
-                            <th onClick={() => sortTable("firstName")}>
+                            <th onClick={() => handleSort("firstName")}>
                                 First Name <FaSort />
                             </th>
-                            <th onClick={() => sortTable("middleName")}>
+                            <th onClick={() => handleSort("middleName")}>
                                 Middle Name <FaSort />
                             </th>
                             <th>Email</th>

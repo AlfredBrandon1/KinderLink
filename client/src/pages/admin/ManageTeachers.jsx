@@ -477,6 +477,9 @@ const ManageTeachers = () => {
             <div className="teachers-table">
                 <Table striped bordered hover>
                     <thead>
+                    <tr>
+                            <th className="list-title" colSpan={13}> List of Teachers </th>
+                        </tr>
                         <tr>
                             <th> &nbsp; &nbsp; </th>
                             <th> &nbsp; &nbsp; </th>

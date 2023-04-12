@@ -15,6 +15,8 @@ import "../../styles/TableAndModal.css";
 
 import axios from "axios";
 
+const BackendApi = 'https://kinderlink.onrender.com'
+
 const ManageStudents = () => {
     //modal for REGISTER a student
     const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -60,20 +62,23 @@ const ManageStudents = () => {
         password: "",
     });
 
+            /* ========================================= Fetch all student  ======================================= */
     useEffect(() => {
         axios
-            .get("https://kinderlink.onrender.com/api/v1/student/")
+            .get(`${BackendApi}/api/v1/student/`)
             .then((response) => {
                 setStudents(response.data);
             });
     }, []);
 
+        /* ========================================= handler for REGISTER student ======================================= */
+    
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
         const configuration = {
             method: "post",
-            url: "https://kinderlink.onrender.com/api/v1/student/register",
+            url: `${BackendApi}/api/v1/student/register`,
             data: {
                 schoolId,
                 userType: "Student",
@@ -152,13 +157,8 @@ const ManageStudents = () => {
 
     const handleClose = () => setShowRegisterModal(false);
 
-    /* ========================================= handler for EDIT student ======================================= */
-    const handleShowEditModal = () => {
-        setShowEditModal(true);
-    };
-    const handleCloseEditModal = () => setShowEditModal(false);
 
-    /* TODO: not yet working */
+/* ========================================= handler for DELETE student ======================================= */
     const handleDelete = (currentStudent) => {
         const confirmDelete = window.confirm(
             `Are you sure you want to delete the student record for ${currentStudent.lastName}?`
@@ -166,7 +166,7 @@ const ManageStudents = () => {
         if (confirmDelete) {
             axios
                 .delete(
-                    `https://kinderlink.onrender.com/api/v1/student/${currentStudent._id}`
+                    `${BackendApi}/api/v1/student/${currentStudent._id}`
                 )
                 .then((response) => {
                     alert(response.data.message);
@@ -182,6 +182,13 @@ const ManageStudents = () => {
                 });
         }
     };
+
+        /* ========================================= handler for EDIT student ======================================= */
+        const handleShowEditModal = () => {
+            setShowEditModal(true);
+        };
+        const handleCloseEditModal = () => setShowEditModal(false);
+    
 
     const handleEdit = (student) => {
         setShowEditModal(true);
@@ -214,7 +221,7 @@ const ManageStudents = () => {
 
         axios
             .put(
-                `https://kinderlink.onrender.com/api/v1/student/${currentStudent._id}`,
+                `${BackendApi}/api/v1/student/${currentStudent._id}`,
                 updatedStudent
             )
             .then((response) => {
@@ -235,7 +242,7 @@ const ManageStudents = () => {
 
     useEffect(() => {
         axios
-            .get("https://kinderlink.onrender.com/api/v1/student/")
+            .get(`${BackendApi}/api/v1/student/`)
             .then((response) => {
                 const sortedResults = response.data.sort((a, b) => {
                     // Sort by last name
@@ -633,6 +640,9 @@ const ManageStudents = () => {
             <div className="students-table">
                 <Table striped bordered hover>
                     <thead>
+                    <tr>
+                            <th className="list-title" colSpan={17}> List of Students </th>
+                        </tr>
                         <tr>
                             <th> &nbsp; &nbsp; </th>
                             <th> &nbsp; &nbsp; </th>
@@ -839,7 +849,6 @@ const ManageStudents = () => {
                                     type="date"
                                     value={updatedStudent.birthdate}
                                     onChange={handleInputChange}
-                                    required
                                 />
                             </Form.Group>
 
