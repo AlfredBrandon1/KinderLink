@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
     Card,
+    Table,
     Button,
     Modal,
     Form,
@@ -45,7 +46,6 @@ const ManageAnnouncement = () => {
             setAnnouncements(response.data);
         });
     }, []);
-
 
     //sets the current user
     const clientInStorage = localStorage.getItem("currentUserId");
@@ -165,20 +165,14 @@ const ManageAnnouncement = () => {
                     // Sort by title
                     if (a.title.toLowerCase() < b.title.toLowerCase()) {
                         return -1;
-                    } else if (
-                        a.title.toLowerCase() > b.title.toLowerCase()
-                    ) {
+                    } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
                         return 1;
                     } else {
                         // If last names are the same, sort by first name
-                        if (
-                            a.author.toLowerCase() <
-                            b.author.toLowerCase()
-                        ) {
+                        if (a.author.toLowerCase() < b.author.toLowerCase()) {
                             return -1;
                         } else if (
-                            a.author.toLowerCase() >
-                            b.author.toLowerCase()
+                            a.author.toLowerCase() > b.author.toLowerCase()
                         ) {
                             return 1;
                         } else {
@@ -187,7 +181,7 @@ const ManageAnnouncement = () => {
                     }
                 });
                 setSortedAnnouncements(sortedResults);
-                console.log(sortedResults)
+                console.log(sortedResults);
             })
 
             .catch((error) => {
@@ -240,32 +234,37 @@ const ManageAnnouncement = () => {
     };
 
     return (
-        <div className=" container mt-3">
+        <>
             <Navigation />
-            <h2>Manage Announcements</h2>
-            <Button variant="success" onClick={() => setShowModal(true)}>
-                Post an announcement
-            </Button>
-            {/* ==================================================== Search ================================================== */}
-            <Form onSubmit={(event) => event.preventDefault()}>
-                <InputGroup>
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={handleChange}
-                    />
-                </InputGroup>
-            </Form>
-            <table className="table table-hover table-responsive-lg">
+            <div className=" manage-teachers-container container mt-5">
+                <Button variant="primary" onClick={() => setShowModal(true)}>
+                    <FaPlus />
+                    <span className="ml-2">Create an announcement </span>
+                </Button>
+                <p className="page-title">Manage Announcements </p>
+                {/* ==================================================== Search ================================================== */}
+                <Form onSubmit={(event) => event.preventDefault()}>
+                    <InputGroup>
+                        <FormControl
+                            type="text"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={handleChange}
+                        />
+                    </InputGroup>
+                </Form>
+            </div>
+            <Table responsive >
                 <thead className="thead-light">
                     <tr>
-                        <th className="list-title" colSpan={17}>
+                        <th className="list-title" colSpan={10}>
                             {" "}
                             List of announcements{" "}
                         </th>
                     </tr>
                     <tr>
+                        <th> &nbsp; &nbsp; </th>
+                        <th> &nbsp; &nbsp; </th>
                         <th> # </th>
                         <th onClick={() => handleSort("title")}>
                             Title <FaSort />{" "}
@@ -283,12 +282,16 @@ const ManageAnnouncement = () => {
                             Date created <FaSort />
                         </th>
                         <th>Actions</th>
+                        <th> &nbsp; &nbsp; </th>
+                        <th> &nbsp; &nbsp; </th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedAnnouncements &&
                         sortedAnnouncements.map((announcement, index) => (
                             <tr key={announcement._id}>
+                                <td> &nbsp; &nbsp; </td>
+                                <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
                                 <td>{announcement.title}</td>
                                 <td className="content-row">
@@ -302,25 +305,27 @@ const ManageAnnouncement = () => {
                                     ).toLocaleDateString()}
                                 </td>
                                 <td>
-                                    <button
-                                        className="btn btn-danger mr-2"
-                                        onClick={() =>
-                                            handleDelete(announcement)
-                                        }
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="btn btn-info"
+                                <FaEdit
                                         onClick={() => handleEdit(announcement)}
+                                        color="green"
+                                        size="30px"
                                     >
                                         Edit
-                                    </button>
+                                    </FaEdit>
+                                    <FaTrash
+                                        onClick={() => handleDelete(announcement)}
+                                        color="red"
+                                        size="30px"
+                                    >
+                                        Delete
+                                    </FaTrash>
                                 </td>
+                                <td> &nbsp; &nbsp; </td>
+                                <td> &nbsp; &nbsp; </td>
                             </tr>
                         ))}
                 </tbody>
-            </table>
+            </Table>
 
             {/* Add Announcement Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -404,7 +409,7 @@ const ManageAnnouncement = () => {
                     </Form>
                 </Modal.Body>
             </Modal>
-        </div>
+        </>
     );
 };
 

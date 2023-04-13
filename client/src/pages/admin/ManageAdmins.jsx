@@ -235,8 +235,7 @@ const ManageAdmins = (handleFormSubmit) => {
             />
 
             {/* ====================================== TABLE LIST ==================================================== */}
-            <div className="admins-table">
-                <Table striped bordered hover responsive>
+                <Table responsive>
                     <thead>
                         <tr>
                             <th className="list-title" colSpan={13}> List of Admins </th>
@@ -409,7 +408,6 @@ const ManageAdmins = (handleFormSubmit) => {
                         <button type="submit">Save</button>
                     </form>
                 </Modal>
-            </div>
         </>
     );
 };

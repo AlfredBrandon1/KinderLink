@@ -474,8 +474,7 @@ const ManageTeachers = () => {
             </Modal>
 
             {/* ====================================== TABLE LIST ==================================================== */}
-            <div className="teachers-table">
-                <Table striped bordered hover>
+                <Table responsive>
                     <thead>
                         <tr>
                             <th className="list-title" colSpan={13}>
@@ -658,7 +657,6 @@ const ManageTeachers = () => {
                         <button type="submit">Save</button>
                     </form>
                 </Modal>
-            </div>
         </>
     );
 };

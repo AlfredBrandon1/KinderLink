@@ -31,7 +31,6 @@ function App() {
           <Route exact path ="/manage-announcements" element ={<ManageAnnouncements/>}/>
           <Route exact path ="/manage-learning-materials" element ={<ManageLearningMaterials/>}/>
           <Route exact path ="/my-account" element ={<MyAccount/>}/>
-      
 
       {/* Teacher routes */}
         <Route exact path ="/teacher-dashboard" element ={<TeacherDashboard/>}/>

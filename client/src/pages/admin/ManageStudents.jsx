@@ -630,105 +630,60 @@ const ManageStudents = () => {
             </Modal>
 
             {/* ====================================== TABLE LIST ==================================================== */}
-            <div className="students-table">
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th className="list-title" colSpan={17}>
-                                {" "}
-                                List of Students{" "}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th> &nbsp; &nbsp; </th>
-                            <th> &nbsp; &nbsp; </th>
-                            <th>#</th>
-                            <th onClick={() => handleSort("schoolId")}>
-                                School ID <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("lastName")}>
-                                {" "}
-                                Last Name <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("firstName")}>
-                                First Name <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("middleName")}>
-                                Middle Name <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("sex")}>
-                                Sex <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("birthdate")}>
-                                Birthdate <FaSort />{" "}
-                            </th>
-                            <th onClick={() => handleSort("address")}>
-                                Address <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("contactFirstName")}>
-                                {" "}
-                                Contact Person`s Name <FaSort />{" "}
-                            </th>
-                            <th onClick={() => handleSort("relationship")}>
-                                {" "}
-                                Relationship <FaSort />{" "}
-                            </th>
-                            <th onClick={() => handleSort("contactEmail")}>
-                                {" "}
-                                Email <FaSort />
-                            </th>
-                            <th onClick={() => handleSort("contactPhone")}>
-                                {" "}
-                                Phone # <FaSort />
-                            </th>
-                            <th>Action</th>
-                            <th> &nbsp; &nbsp; </th>
-                            <th> &nbsp; &nbsp; </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedStudents.map((student, index) => (
-                            <tr key={student._id}>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
-                                <td>{index + 1}</td>
-                                <td>{student.schoolId}</td>
-                                <td>{student.lastName}</td>
-                                <td>{student.middleName}</td>
-                                <td>{student.firstName}</td>
-                                <td>{student.sex}</td>
-                                <td>
-                                    {new Date(
-                                        student.birthdate
-                                    ).toLocaleDateString()}
-                                </td>
-                                <td>{student.address}</td>
-                                <td>{`${student.contactFirstName} ${student.contactMiddleName} ${student.contactLastName}`}</td>
-                                <td> {student.relationship}</td>
-                                <td> {student.contactEmail}</td>
-                                <td> {student.contactPhone}</td>
-                                <td>
-                                    <FaEdit
-                                        onClick={() => handleEdit(student)}
-                                        color="green"
-                                        size="30px"
-                                    >
-                                        Edit
-                                    </FaEdit>
-                                    <FaTrash
-                                        onClick={() => handleDelete(student)}
-                                        color="red"
-                                        size="30px"
-                                    >
-                                        Delete
-                                    </FaTrash>
-                                </td>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+            <Table responsive>
+  <thead>
+    <tr>
+      <th className="list-title" colSpan={17}>List of Students</th>
+    </tr>
+    <tr>
+      <th>&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;</th>
+      <th>#</th>
+      <th onClick={() => handleSort("schoolId")}>School ID <FaSort /></th>
+      <th onClick={() => handleSort("lastName")}>Last Name <FaSort /></th>
+      <th onClick={() => handleSort("firstName")}>First Name <FaSort /></th>
+      <th onClick={() => handleSort("middleName")}>Middle Name <FaSort /></th>
+      <th onClick={() => handleSort("sex")}>Sex <FaSort /></th>
+      <th onClick={() => handleSort("birthdate")}>Birthdate <FaSort /></th>
+      <th onClick={() => handleSort("address")}>Address <FaSort /></th>
+      <th onClick={() => handleSort("contactFirstName")}>Contact Person's Name <FaSort /></th>
+      <th onClick={() => handleSort("relationship")}>Relationship <FaSort /></th>
+      <th onClick={() => handleSort("contactEmail")}>Email <FaSort /></th>
+      <th onClick={() => handleSort("contactPhone")}>Phone # <FaSort /></th>
+      <th>Action</th>
+      <th>&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    {sortedStudents.map((student, index) => (
+      <tr key={student._id}>
+        <td>&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{index + 1}</td>
+        <td>{student.schoolId}</td>
+        <td>{student.lastName}</td>
+        <td>{student.middleName}</td>
+        <td>{student.firstName}</td>
+        <td>{student.sex}</td>
+        <td>{new Date(student.birthdate).toLocaleDateString()}</td>
+        <td>{student.address}</td>
+        <td>{`${student.contactFirstName} ${student.contactMiddleName} ${student.contactLastName}`}</td>
+        <td>{student.relationship}</td>
+        <td>{student.contactEmail}</td>
+        <td>{student.contactPhone}</td>
+        <td>
+          <FaEdit onClick={() => handleEdit(student)} color="green" size="30px">Edit</FaEdit>
+          <FaTrash onClick={() => handleDelete(student)} color="red" size="30px">Delete</FaTrash>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;</td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
+
+
                 {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
                 <Modal
                     show={showEditModal}
@@ -1004,7 +959,6 @@ const ManageStudents = () => {
                         </Button>
                     </Form>
                 </Modal>
-            </div>
         </>
     );
 };
