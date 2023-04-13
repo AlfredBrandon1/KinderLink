@@ -521,10 +521,22 @@ const ManageTeachers = () => {
                                 <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
                                 <td>{teacher.schoolId}</td>
-                                <td>{teacher.lastName}</td>
-                                <td>{teacher.middleName}</td>
-                                <td>{teacher.firstName}</td>
-                                <td>{teacher.email}</td>
+                                <td>{teacher.lastName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.lastName.toLowerCase().slice(1)}</td>
+                                <td>{teacher.middleName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.middleName.toLowerCase().slice(1)}</td>
+                                <td>{teacher.firstName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.firstName.toLowerCase().slice(1)}</td>
+                                <td>{teacher.email.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.email.toLowerCase().slice(1)}</td>
                                 <td>{teacher.phone}</td>
                                 <td>{teacher.sex}</td>
                                 <td>

@@ -254,7 +254,7 @@ const ManageAnnouncement = () => {
                     </InputGroup>
                 </Form>
             </div>
-            <Table responsive >
+            <Table responsive>
                 <thead className="thead-light">
                     <tr>
                         <th className="list-title" colSpan={10}>
@@ -279,7 +279,7 @@ const ManageAnnouncement = () => {
                             Author <FaSort />
                         </th>
                         <th onClick={() => handleSort("date")}>
-                            Date created <FaSort />
+                            Date posted <FaSort />
                         </th>
                         <th>Actions</th>
                         <th> &nbsp; &nbsp; </th>
@@ -293,19 +293,30 @@ const ManageAnnouncement = () => {
                                 <td> &nbsp; &nbsp; </td>
                                 <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
-                                <td>{announcement.title}</td>
+                                <td>{announcement.title.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    announcement.title.toLowerCase().slice(1)}</td>
                                 <td className="content-row">
                                     {announcement.content}
                                 </td>
                                 <td>{announcement.author}</td>
                                 <td>
-                                    {" "}
-                                    {new Date(
-                                        announcement.date
-                                    ).toLocaleDateString()}
+                                    {new Date(announcement.date).toLocaleString(
+                                        "en-US",
+                                        {
+                                            year: "numeric",
+                                            month: "short",
+                                            day: "numeric",
+                                            hour: "numeric",
+                                            minute: "numeric",
+                                            hour12: true,
+                                        }
+                                    )}
                                 </td>
+
                                 <td>
-                                <FaEdit
+                                    <FaEdit
                                         onClick={() => handleEdit(announcement)}
                                         color="green"
                                         size="30px"
@@ -313,7 +324,9 @@ const ManageAnnouncement = () => {
                                         Edit
                                     </FaEdit>
                                     <FaTrash
-                                        onClick={() => handleDelete(announcement)}
+                                        onClick={() =>
+                                            handleDelete(announcement)
+                                        }
                                         color="red"
                                         size="30px"
                                     >

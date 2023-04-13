@@ -14,6 +14,7 @@ import ManageAdmins from './pages/admin/ManageAdmins';
 import ManageAnnouncements from './pages/admin/ManageAnnouncements';
 import ManageLearningMaterials from './pages/admin/ManageLearningMaterials';
 import MyAccount from './pages/admin/MyAccount';
+import ReportCard from './pages/admin/ReportCard';
 
 //teacher pages
 import TeacherDashboard from './pages/teacher/AdminDashboard/AdminDashboard';
@@ -31,6 +32,7 @@ function App() {
           <Route exact path ="/manage-announcements" element ={<ManageAnnouncements/>}/>
           <Route exact path ="/manage-learning-materials" element ={<ManageLearningMaterials/>}/>
           <Route exact path ="/my-account" element ={<MyAccount/>}/>
+          <Route exact path ="/:id/report-card" element ={<ReportCard/>}/>
 
       {/* Teacher routes */}
         <Route exact path ="/teacher-dashboard" element ={<TeacherDashboard/>}/>

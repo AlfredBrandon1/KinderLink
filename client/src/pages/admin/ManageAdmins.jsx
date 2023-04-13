@@ -272,10 +272,22 @@ const ManageAdmins = (handleFormSubmit) => {
                                 <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
                                 <td>{admin.schoolId}</td>
-                                <td>{admin.lastName}</td>
-                                <td>{admin.middleName}</td>
-                                <td>{admin.firstName}</td>
-                                <td>{admin.email}</td>
+                                <td>{admin.lastName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    admin.lastName.toLowerCase().slice(1)}</td>
+                                <td>{admin.middleName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    admin.middleName.toLowerCase().slice(1)}</td>
+                                <td>{admin.firstName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    admin.firstName.toLowerCase().slice(1)}</td>
+                                <td>{admin.email.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    admin.email.toLowerCase().slice(1)}</td>
                                 <td>{admin.phone}</td>
                                 <td>{admin.sex}</td>
                                 <td>

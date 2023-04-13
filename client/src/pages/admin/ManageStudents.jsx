@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Navigation from "../../components/admin/Navigation/Navigation";
 import {
     Table,
@@ -15,16 +17,17 @@ import {
     FaEye,
     FaSort,
     FaSearch,
+    FaList,
 } from "react-icons/fa";
 
 //style for the Table and Modal
 import "../../styles/TableAndModal.css";
 
-import axios from "axios";
-
 const BackendApi = "https://kinderlink.onrender.com";
 
 const ManageStudents = () => {
+    const navigate = useNavigate();
+
     //modal for REGISTER a student
     const [showRegisterModal, setShowRegisterModal] = useState(false);
 
@@ -631,334 +634,420 @@ const ManageStudents = () => {
 
             {/* ====================================== TABLE LIST ==================================================== */}
             <Table responsive>
-  <thead>
-    <tr>
-      <th className="list-title" colSpan={17}>List of Students</th>
-    </tr>
-    <tr>
-      <th>&nbsp;&nbsp;</th>
-      <th>&nbsp;&nbsp;</th>
-      <th>#</th>
-      <th onClick={() => handleSort("schoolId")}>School ID <FaSort /></th>
-      <th onClick={() => handleSort("lastName")}>Last Name <FaSort /></th>
-      <th onClick={() => handleSort("firstName")}>First Name <FaSort /></th>
-      <th onClick={() => handleSort("middleName")}>Middle Name <FaSort /></th>
-      <th onClick={() => handleSort("sex")}>Sex <FaSort /></th>
-      <th onClick={() => handleSort("birthdate")}>Birthdate <FaSort /></th>
-      <th onClick={() => handleSort("address")}>Address <FaSort /></th>
-      <th onClick={() => handleSort("contactFirstName")}>Contact Person's Name <FaSort /></th>
-      <th onClick={() => handleSort("relationship")}>Relationship <FaSort /></th>
-      <th onClick={() => handleSort("contactEmail")}>Email <FaSort /></th>
-      <th onClick={() => handleSort("contactPhone")}>Phone # <FaSort /></th>
-      <th>Action</th>
-      <th>&nbsp;&nbsp;</th>
-      <th>&nbsp;&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    {sortedStudents.map((student, index) => (
-      <tr key={student._id}>
-        <td>&nbsp;&nbsp;</td>
-        <td>&nbsp;&nbsp;</td>
-        <td>{index + 1}</td>
-        <td>{student.schoolId}</td>
-        <td>{student.lastName}</td>
-        <td>{student.middleName}</td>
-        <td>{student.firstName}</td>
-        <td>{student.sex}</td>
-        <td>{new Date(student.birthdate).toLocaleDateString()}</td>
-        <td>{student.address}</td>
-        <td>{`${student.contactFirstName} ${student.contactMiddleName} ${student.contactLastName}`}</td>
-        <td>{student.relationship}</td>
-        <td>{student.contactEmail}</td>
-        <td>{student.contactPhone}</td>
-        <td>
-          <FaEdit onClick={() => handleEdit(student)} color="green" size="30px">Edit</FaEdit>
-          <FaTrash onClick={() => handleDelete(student)} color="red" size="30px">Delete</FaTrash>
-        </td>
-        <td>&nbsp;&nbsp;</td>
-        <td>&nbsp;&nbsp;</td>
-      </tr>
-    ))}
-  </tbody>
-</Table>
+                <thead>
+                    <tr>
+                        <th className="list-title" colSpan={17}>
+                            List of Students
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;&nbsp;</th>
+                        <th>&nbsp;&nbsp;</th>
+                        <th>#</th>
+                        <th onClick={() => handleSort("schoolId")}>
+                            School ID <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("lastName")}>
+                            Last Name <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("firstName")}>
+                            First Name <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("middleName")}>
+                            Middle Name <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("sex")}>
+                            Sex <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("birthdate")}>
+                            Birthdate <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("address")}>
+                            Address <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("contactFirstName")}>
+                            Contact Person's Name <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("relationship")}>
+                            Relationship <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("contactEmail")}>
+                            Email <FaSort />
+                        </th>
+                        <th onClick={() => handleSort("contactPhone")}>
+                            Phone # <FaSort />
+                        </th>
+                        <th>Action</th>
+                        <th>&nbsp;&nbsp;</th>
+                        <th>&nbsp;&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedStudents.map((student, index) => (
+                        <tr key={student._id}>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>{index + 1}</td>
+                            <td>{student.schoolId}</td>
+                            <td>
+                                {student.lastName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    student.lastName.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {student.middleName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    student.middleName.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {student.firstName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    student.firstName.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {student.sex
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    student.sex.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {new Date(student.birthdate).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    }
+                                )}
+                            </td>
 
-
-                {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
-                <Modal
-                    show={showEditModal}
-                    onHide={handleCloseEditModal}
-                    size="lg"
-                >
-                    <Modal.Header>
-                        <p className="form-title"> Update student profile </p>
-                        <span
-                            className="exit-button"
-                            onClick={handleCloseEditModal}
-                        >
-                            &times;
-                        </span>
-                    </Modal.Header>
-                    <Form className="register-form" onSubmit={handleSubmit}>
-                        <div>
-                            <p className="form-subtitle">
-                                {" "}
-                                A. Student`s Details{" "}
-                            </p>
-                            <Form.Group>
-                                <Form.Label htmlFor="schoolId">
-                                    School Id number
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="schoolId"
-                                    name="schoolId"
-                                    type="text"
-                                    value={updatedStudent.schoolId}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="userType">
-                                    User Type
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="userType"
-                                    name="userType"
-                                    as="select"
-                                    value={updatedStudent.userType}
-                                    onChange={handleInputChange}
-                                    required
+                            <td>{student.address}</td>
+                            <td>{`${
+                                student.contactFirstName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                student.contactFirstName.toLowerCase().slice(1)
+                            } ${
+                                student.contactMiddleName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                student.contactMiddleName.toLowerCase().slice(1)
+                            } ${
+                                student.contactLastName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                student.contactLastName.toLowerCase().slice(1)
+                            }`}</td>
+                            <td>{student.relationship}</td>
+                            <td>
+                                {student.contactEmail
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    student.contactEmail.toLowerCase().slice(1)}
+                            </td>
+                            <td>{student.contactPhone}</td>
+                            <td>
+                                <FaEdit
+                                    onClick={() => handleEdit(student)}
+                                    color="green"
+                                    size="30px"
                                 >
-                                    <option value="Student">Student</option>
-                                </Form.Control>
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="firstName">
-                                    First Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="firstName"
-                                    name="firstName"
-                                    type="text"
-                                    value={updatedStudent.firstName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="middleName">
-                                    Middle Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="middleName"
-                                    name="middleName"
-                                    type="text"
-                                    value={updatedStudent.middleName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="lastName">
-                                    Last Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="lastName"
-                                    name="lastName"
-                                    type="text"
-                                    value={updatedStudent.lastName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="sex">Sex</Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="sex"
-                                    name="sex"
-                                    as="select"
-                                    value={updatedStudent.sex}
-                                    onChange={handleInputChange}
-                                    required
+                                    Edit
+                                </FaEdit>
+                                <FaTrash
+                                    onClick={() => handleDelete(student)}
+                                    color="red"
+                                    size="30px"
                                 >
-                                    <option value="">
-                                        {" "}
-                                        --------------------------------- Select
-                                        sex -----------------------------------{" "}
-                                    </option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </Form.Control>
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="birthdate">
-                                    Birthdate
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="birthdate"
-                                    name="birthdate"
-                                    type="date"
-                                    value={updatedStudent.birthdate}
-                                    onChange={handleInputChange}
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="address">
-                                    Address
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="address"
-                                    name="address"
-                                    type="text"
-                                    value={updatedStudent.address}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <hr />
-
-                            <p className="form-subtitle">
-                                {" "}
-                                B. Parent/Guardian Details
-                            </p>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="contactFirstName">
-                                    First Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="contactFirstName"
-                                    name="contactFirstName"
-                                    type="text"
-                                    value={updatedStudent.contactFirstName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label htmlFor="contactMiddleName">
-                                    Middle Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="contactMiddleName"
-                                    name="contactMiddleName"
-                                    type="text"
-                                    value={updatedStudent.contactMiddleName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="contactLastName">
-                                    Last Name
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="contactLastName"
-                                    name="contactLastName"
-                                    type="text"
-                                    value={updatedStudent.contactLastName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Label htmlFor="relationship">
-                                    Relationship
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="relationship"
-                                    name="relationship"
-                                    as="select"
-                                    value={updatedStudent.relationship}
-                                    onChange={handleInputChange}
-                                    required
+                                    Delete
+                                </FaTrash>
+                                <button
+                                    onClick={() => navigate(`/${student._id}/report-card`)}
                                 >
-                                    <option value="">
-                                        {" "}
-                                        ------------------------------ Select
-                                        relationship
-                                        ------------------------------{" "}
-                                    </option>
-                                    <option value="Mother">Mother</option>
-                                    <option value="Father">Father</option>
-                                    <option value="Guardian">Guardian</option>
-                                </Form.Control>
-                            </Form.Group>
+                                    View Report Card
+                                </button>
+                            </td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
 
-                            <Form.Group>
-                                <Form.Label htmlFor="contactEmail">
-                                    Email
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="contactEmail"
-                                    name="contactEmail"
-                                    type="email"
-                                    value={updatedStudent.contactEmail}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
+            {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
+            <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
+                <Modal.Header>
+                    <p className="form-title"> Update student profile </p>
+                    <span
+                        className="exit-button"
+                        onClick={handleCloseEditModal}
+                    >
+                        &times;
+                    </span>
+                </Modal.Header>
+                <Form className="register-form" onSubmit={handleSubmit}>
+                    <div>
+                        <p className="form-subtitle"> A. Student`s Details </p>
+                        <Form.Group>
+                            <Form.Label htmlFor="schoolId">
+                                School Id number
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="schoolId"
+                                name="schoolId"
+                                type="text"
+                                value={updatedStudent.schoolId}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
 
-                            <Form.Group>
-                                <Form.Label htmlFor="contactPhone">
-                                    Phone Number
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="contactPhone"
-                                    name="contactPhone"
-                                    type="tel"
-                                    value={updatedStudent.contactPhone}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
+                        <Form.Group>
+                            <Form.Label htmlFor="userType">
+                                User Type
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="userType"
+                                name="userType"
+                                as="select"
+                                value={updatedStudent.userType}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="Student">Student</option>
+                            </Form.Control>
+                        </Form.Group>
 
-                            <Form.Group>
-                                <Form.Label htmlFor="password">
-                                    Password
-                                </Form.Label>
-                                <br />
-                                <Form.Control
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    value={updatedStudent.password}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </Form.Group>
-                        </div>
+                        <Form.Group>
+                            <Form.Label htmlFor="firstName">
+                                First Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="firstName"
+                                name="firstName"
+                                type="text"
+                                value={updatedStudent.firstName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
 
-                        <Button variant="primary" type="submit">
-                            Save
-                        </Button>
-                    </Form>
-                </Modal>
+                        <Form.Group>
+                            <Form.Label htmlFor="middleName">
+                                Middle Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="middleName"
+                                name="middleName"
+                                type="text"
+                                value={updatedStudent.middleName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="lastName">
+                                Last Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="lastName"
+                                name="lastName"
+                                type="text"
+                                value={updatedStudent.lastName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="sex">Sex</Form.Label>
+                            <br />
+                            <Form.Control
+                                id="sex"
+                                name="sex"
+                                as="select"
+                                value={updatedStudent.sex}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="">
+                                    {" "}
+                                    --------------------------------- Select sex
+                                    -----------------------------------{" "}
+                                </option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="birthdate">
+                                Birthdate
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="birthdate"
+                                name="birthdate"
+                                type="date"
+                                value={updatedStudent.birthdate}
+                                onChange={handleInputChange}
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="address">Address</Form.Label>
+                            <br />
+                            <Form.Control
+                                id="address"
+                                name="address"
+                                type="text"
+                                value={updatedStudent.address}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <hr />
+
+                        <p className="form-subtitle">
+                            {" "}
+                            B. Parent/Guardian Details
+                        </p>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="contactFirstName">
+                                First Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="contactFirstName"
+                                name="contactFirstName"
+                                type="text"
+                                value={updatedStudent.contactFirstName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label htmlFor="contactMiddleName">
+                                Middle Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="contactMiddleName"
+                                name="contactMiddleName"
+                                type="text"
+                                value={updatedStudent.contactMiddleName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="contactLastName">
+                                Last Name
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="contactLastName"
+                                name="contactLastName"
+                                type="text"
+                                value={updatedStudent.contactLastName}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="relationship">
+                                Relationship
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="relationship"
+                                name="relationship"
+                                as="select"
+                                value={updatedStudent.relationship}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="">
+                                    {" "}
+                                    ------------------------------ Select
+                                    relationship ------------------------------{" "}
+                                </option>
+                                <option value="Mother">Mother</option>
+                                <option value="Father">Father</option>
+                                <option value="Guardian">Guardian</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="contactEmail">
+                                Email
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="contactEmail"
+                                name="contactEmail"
+                                type="email"
+                                value={updatedStudent.contactEmail}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="contactPhone">
+                                Phone Number
+                            </Form.Label>
+                            <br />
+                            <Form.Control
+                                id="contactPhone"
+                                name="contactPhone"
+                                type="tel"
+                                value={updatedStudent.contactPhone}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label htmlFor="password">Password</Form.Label>
+                            <br />
+                            <Form.Control
+                                id="password"
+                                name="password"
+                                type="password"
+                                value={updatedStudent.password}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </Form.Group>
+                    </div>
+
+                    <Button variant="primary" type="submit">
+                        Save
+                    </Button>
+                </Form>
+            </Modal>
         </>
     );
 };
