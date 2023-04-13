@@ -15,9 +15,9 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use(helmet());
 
-// Serve static files from React app
+/* // Serve static files from React app
 server.use(express.static(path.join(__dirname, 'client')));
-
+ */
 // Enable CORS for all routes
 server.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
