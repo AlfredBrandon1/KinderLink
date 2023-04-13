@@ -24,7 +24,7 @@ const CoffeeCounter = () => {
     <div className="coffee-counter">
         <div className="coffee-counter__title"> Total Coffee Cups </div>
       <div className="coffee-counter__info">
-      <img src="https://img.icons8.com/external-justicon-flat-justicon/100/null/external-hot-coffee-coffee-shop-justicon-flat-justicon-2.png"/>
+      <img src="https://img.icons8.com/external-justicon-flat-justicon/60/null/external-hot-coffee-coffee-shop-justicon-flat-justicon-2.png"/>
         <div className="coffee-counter__count">{counter}</div>
       </div>
     </div>

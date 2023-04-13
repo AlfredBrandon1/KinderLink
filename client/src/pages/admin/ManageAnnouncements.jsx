@@ -49,7 +49,7 @@ const ManageAnnouncement = () => {
 
     //sets the current user
     const clientInStorage = localStorage.getItem("currentUserId");
-
+    //get the current user through user storage
     useEffect(() => {
         axios
             .get(`${BackendApi}/api/v1/auth/${clientInStorage}`)

@@ -13,6 +13,7 @@ import ClockWidget from "../../components/admin/ClockWidget";
 import QuotesWidget from "../../components/admin/QuotesWidget";
 import TimeTracker from "../../components/admin/TimeTracler";
 import CoffeeCounter from "../../components/admin/CoffeeCounter";
+import BulletinBoard from "../../components/admin/BulletinBoard";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -55,28 +56,32 @@ const AdminDashboard = () => {
             <Navigation />
             <p className="page-title">ADMIN DASHBOARD</p>
             <div className="admin-dashboard-container">
-            <div className="widget-card">            
+                <div className="widget-card">
                     <div>
                         <Weather
                             location="La Trinidad, Benguet"
                             apiKey="89e70020981ac4ad8c525a2d89373ae9"
                         />
                     </div>
-                    
+
                     <div>
                         <ClockWidget />
                     </div>
                     <div>
-                    <TimeTracker/>
+                    <BulletinBoard />
                     </div>
-                    <CoffeeCounter/>
-                    
-              {/*       <QuotesWidget/> */}
+                        
+                    <div>
+                    <TimeTracker />
+                        <CoffeeCounter />
+                    </div>
 
+
+                    {/*       <QuotesWidget/> */}
                 </div>
 
-                <hr className="dashboard-divider"/>
-                
+                <hr className="dashboard-divider" />
+
                 <div className="user-counter-card">
                     <div className="counter-card">
                         <FaUserShield size={64} />
@@ -118,7 +123,7 @@ const AdminDashboard = () => {
                 </div>
                 <hr />
 
-   {/*              <Trivia /> */}
+                {/*              <Trivia /> */}
             </div>
         </>
     );
