@@ -107,6 +107,7 @@ const ManageAnnouncement = () => {
     };
 
     const handleSubmitEdit = (event) => {
+        event.preventDefault();
 
         axios
             .put(
@@ -161,17 +162,34 @@ const ManageAnnouncement = () => {
             .get(`${BackendApi}/api/v1/announcement/`)
             .then((response) => {
                 const sortedResults = response.data.sort((a, b) => {
-                    // Sort by author
-                    if (a.author.toLowerCase() < b.author.toLowerCase()) {
+                    // Sort by title
+                    if (a.title.toLowerCase() < b.title.toLowerCase()) {
                         return -1;
+                    } else if (
+                        a.title.toLowerCase() > b.title.toLowerCase()
+                    ) {
+                        return 1;
                     } else {
-                        return a.author.toLowerCase() > b.author.toLowerCase()
-                            ? 1
-                            : 0;
+                        // If last names are the same, sort by first name
+                        if (
+                            a.author.toLowerCase() <
+                            b.author.toLowerCase()
+                        ) {
+                            return -1;
+                        } else if (
+                            a.author.toLowerCase() >
+                            b.author.toLowerCase()
+                        ) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
                     }
                 });
                 setSortedAnnouncements(sortedResults);
+                console.log(sortedResults)
             })
+
             .catch((error) => {
                 console.error(error);
             });
@@ -248,6 +266,7 @@ const ManageAnnouncement = () => {
                         </th>
                     </tr>
                     <tr>
+                        <th> # </th>
                         <th onClick={() => handleSort("title")}>
                             Title <FaSort />{" "}
                         </th>
@@ -267,9 +286,10 @@ const ManageAnnouncement = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {announcements &&
-                        announcements.map((announcement) => (
+                    {sortedAnnouncements &&
+                        sortedAnnouncements.map((announcement, index) => (
                             <tr key={announcement._id}>
+                                <td>{index + 1}</td>
                                 <td>{announcement.title}</td>
                                 <td className="content-row">
                                     {announcement.content}
