@@ -56,9 +56,7 @@
   }
 
   .Navigation__item :hover {
-    background-color: white;
     color: #fea633;
-    outline: 1px solid #fea633;
   }
   
   @media screen and (max-width: 768px) {
