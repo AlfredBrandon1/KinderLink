@@ -5,6 +5,7 @@ table {
     width: 98%;
     align-items: center;
     margin: 0 1em 0 1em;
+    border: 2px solid #009ee7;
 }
 
 .list-title{
