@@ -154,54 +154,51 @@ const ManageAnnouncement = () => {
 
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortedAnnouncements, setSortedAnnouncements] =
-        useState(announcements);
-
+    const [sortedAnnouncements, setSortedAnnouncements] = useState(announcements);
+    const [sortOrder, setSortOrder] = useState("asc");
+    
     useEffect(() => {
-        axios
-            .get(`${BackendApi}/api/v1/announcement/`)
-            .then((response) => {
-                const sortedResults = response.data.sort((a, b) => {
-                    // Sort by title
-                    if (a.title.toLowerCase() < b.title.toLowerCase()) {
-                        return -1;
-                    } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
-                        return 1;
-                    } else {
-                        // If last names are the same, sort by first name
-                        if (a.author.toLowerCase() < b.author.toLowerCase()) {
-                            return -1;
-                        } else if (
-                            a.author.toLowerCase() > b.author.toLowerCase()
-                        ) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                });
-                setSortedAnnouncements(sortedResults);
-                console.log(sortedResults);
-            })
-
-            .catch((error) => {
-                console.error(error);
-            });
+      axios
+        .get(`${BackendApi}/api/v1/announcement/`)
+        .then((response) => {
+          setSortedAnnouncements(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }, []);
-
+    
     const handleSort = (field) => {
-        setSortedAnnouncements(
-            [...sortedAnnouncements].sort((a, b) => {
-                if (a[field].toLowerCase() < b[field].toLowerCase()) {
-                    return -1;
-                } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            })
-        );
+      let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+      setSortOrder(newSortOrder);
+    
+      setSortedAnnouncements(
+        [...sortedAnnouncements].sort((a, b) => {
+          if (field === "title" || field === "author") {
+            let valueA = a[field].toLowerCase();
+            let valueB = b[field].toLowerCase();
+            if (valueA < valueB) {
+              return newSortOrder === "asc" ? -1 : 1;
+            } else if (valueA > valueB) {
+              return newSortOrder === "asc" ? 1 : -1;
+            } else {
+              return 0;
+            }
+          } else if (field === "date") {
+            let dateA = new Date(a[field]);
+            let dateB = new Date(b[field]);
+            if (dateA < dateB) {
+              return newSortOrder === "asc" ? -1 : 1;
+            } else if (dateA > dateB) {
+              return newSortOrder === "asc" ? 1 : -1;
+            } else {
+              return 0;
+            }
+          }
+        })
+      );
     };
+    
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -268,19 +265,16 @@ const ManageAnnouncement = () => {
                     <tr>
                         <th> # </th>
                         <th onClick={() => handleSort("date")}>
-                            Date posted <FaSort />
+                            Date posted {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("title")}>
-                            Title <FaSort />{" "}
+                            Title {sortOrder === "asc" ? "↑" : "↓"}{" "}
                         </th>
-                        <th
-                            onClick={() => handleSort("content")}
-                            className="content-column"
-                        >
-                            Content <FaSort />
+                        <th className="content-column">
+                            Content
                         </th>
                         <th onClick={() => handleSort("author")}>
-                            Author <FaSort />
+                            Author {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
 
                         <th>Actions</th>

@@ -32,24 +32,30 @@
   }
   
   .Navigation__item {
-    padding: 1em;
+    padding: 0 1em;
     color:rgba(0, 0, 0, 0.925);
+
+
   }
 
   .Navigation__item a {
-    background-color: #fea633;
-    color: white;
-    padding: 13px;
-    border-radius: 10px;
+    color:white;
+    font-weight: bolder;
+    padding: .3em;
+    border-radius: 5px;
     font-size: 1.1em;
     cursor:pointer ;
-    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .Navigation__item :hover {
-    background-color: rgb(255, 255, 255);
-    color:#fea633 ;
-
+    background-color: white;
+    color: #fea633;
+    outline: 1px solid #fea633;
   }
   
   @media screen and (max-width: 768px) {

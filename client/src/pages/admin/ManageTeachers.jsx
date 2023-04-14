@@ -199,57 +199,52 @@ const ManageTeachers = () => {
     };
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortedTeachers, setSortedTeachers] = useState(teachers);
+  const [sortedTeachers, setSortedTeachers] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
 
-    useEffect(() => {
-        axios
-            .get("https://kinderlink.onrender.com/api/v1/teacher/")
-            .then((response) => {
-                const sortedResults = response.data.sort((a, b) => {
-                    // Sort by last name
-                    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-                        return -1;
-                    } else if (
-                        a.lastName.toLowerCase() > b.lastName.toLowerCase()
-                    ) {
-                        return 1;
-                    } else {
-                        // If last names are the same, sort by first name
-                        if (
-                            a.firstName.toLowerCase() <
-                            b.firstName.toLowerCase()
-                        ) {
-                            return -1;
-                        } else if (
-                            a.firstName.toLowerCase() >
-                            b.firstName.toLowerCase()
-                        ) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                });
-                setSortedTeachers(sortedResults);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+  useEffect(() => {
+    axios
+      .get("https://kinderlink.onrender.com/api/v1/teacher/")
+      .then((response) => {
+        const sortedResults = response.data.sort((a, b) => {
+          // Sort by last name
+          if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
+            return -1;
+          } else if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
+            return 1;
+          } else {
+            // If last names are the same, sort by first name
+            if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
+              return -1;
+            } else if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }
+        });
+        setSortedTeachers(sortedResults);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-    const handleSort = (field) => {
-        setSortedTeachers(
-            [...sortedTeachers].sort((a, b) => {
-                if (a[field].toLowerCase() < b[field].toLowerCase()) {
-                    return -1;
-                } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            })
-        );
-    };
+  const handleSort = (field) => {
+    const direction = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(direction);
+    setSortedTeachers(
+      [...sortedTeachers].sort((a, b) => {
+        if (a[field].toLowerCase() < b[field].toLowerCase()) {
+          return direction === "asc" ? -1 : 1;
+        } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
+          return direction === "asc" ? 1 : -1;
+        } else {
+          return 0;
+        }
+      })
+    );
+  };
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -485,27 +480,27 @@ const ManageTeachers = () => {
                         <tr>
                             <th>#</th>
                             <th onClick={() => handleSort("schoolId")}>
-                                School ID <FaSort />
+                                School ID {sortOrder === "asc" ? "↑" : "↓"}
                             </th>
                             <th onClick={() => handleSort("lastName")}>
                                 {" "}
-                                Last Name <FaSort />
+                                Last Name {sortOrder === "asc" ? "↑" : "↓"}
                             </th>
                             <th onClick={() => handleSort("firstName")}>
-                                First Name <FaSort />
+                                First Name {sortOrder === "asc" ? "↑" : "↓"}
                             </th>
-                            <th onClick={() => handleSort("middleName")}>
-                                Middle Name <FaSort />
+                            <th >
+                                Middle Name 
                             </th>
-                            <th onClick={() => handleSort("email")}>
-                                Email <FaSort />
+                            <th>
+                                Email 
                             </th>
-                            <th onClick={() => handleSort("phone")}>
-                                Phone <FaSort />
+                            <th>
+                                Phone 
                             </th>
                             <th onClick={() => handleSort("sex")}>
                                 Sex
-                                <FaSort />
+                                {sortOrder === "asc" ? "↑" : "↓"}
                             </th>
                             <th>Action</th>
                         </tr>
@@ -519,14 +514,15 @@ const ManageTeachers = () => {
                                     .charAt(0)
                                     .toUpperCase() +
                                     teacher.lastName.toLowerCase().slice(1)}</td>
+                                                                    <td>{teacher.firstName.toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.firstName.toLowerCase().slice(1)}</td>
                                 <td>{teacher.middleName.toLowerCase()
                                     .charAt(0)
                                     .toUpperCase() +
                                     teacher.middleName.toLowerCase().slice(1)}</td>
-                                <td>{teacher.firstName.toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    teacher.firstName.toLowerCase().slice(1)}</td>
+
                                 <td>{teacher.email.toLowerCase()
                                     .charAt(0)
                                     .toUpperCase() +

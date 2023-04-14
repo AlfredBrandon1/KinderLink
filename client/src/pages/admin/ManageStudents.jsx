@@ -243,57 +243,67 @@ const ManageStudents = () => {
 
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortedStudents, setSortedStudents] = useState(students);
+const [sortedStudents, setSortedStudents] = useState(students);
+const [sortOrder, setSortOrder] = useState("asc");
 
-    useEffect(() => {
-        axios
-            .get(`${BackendApi}/api/v1/student/`)
-            .then((response) => {
-                const sortedResults = response.data.sort((a, b) => {
-                    // Sort by last name
-                    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-                        return -1;
-                    } else if (
-                        a.lastName.toLowerCase() > b.lastName.toLowerCase()
-                    ) {
-                        return 1;
-                    } else {
-                        // If last names are the same, sort by first name
-                        if (
-                            a.firstName.toLowerCase() <
-                            b.firstName.toLowerCase()
-                        ) {
-                            return -1;
-                        } else if (
-                            a.firstName.toLowerCase() >
-                            b.firstName.toLowerCase()
-                        ) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                });
-                setSortedStudents(sortedResults);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+useEffect(() => {
+  axios
+    .get(`${BackendApi}/api/v1/student/`)
+    .then((response) => {
+      const sortedResults = response.data.sort((a, b) => {
+        // Sort by last name
+        if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
+          return -1;
+        } else if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
+          return 1;
+        } else {
+          // If last names are the same, sort by first name
+          if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
+            return -1;
+          } else if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+      });
+      setSortedStudents(sortedResults);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, []);
 
-    const handleSort = (field) => {
-        setSortedStudents(
-            [...sortedStudents].sort((a, b) => {
-                if (a[field].toLowerCase() < b[field].toLowerCase()) {
-                    return -1;
-                } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            })
-        );
-    };
+const handleSort = (field) => {
+  const sortOrderReverse = sortOrder === "asc" ? "desc" : "asc";
+  setSortOrder(sortOrderReverse);
+
+  setSortedStudents(
+    [...sortedStudents].sort((a, b) => {
+      const aValue = a[field].toLowerCase();
+      const bValue = b[field].toLowerCase();
+
+      if (sortOrderReverse === "asc") {
+        if (aValue < bValue) {
+          return -1;
+        } else if (aValue > bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      } else {
+        if (aValue > bValue) {
+          return -1;
+        } else if (aValue < bValue) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    })
+  );
+};
+
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -644,40 +654,40 @@ const ManageStudents = () => {
                     <tr>
                         <th>#</th>
                         <th onClick={() => handleSort("schoolId")}>
-                            School ID <FaSort />
+                            School ID {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("lastName")}>
-                            Last Name <FaSort />
+                            Last Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("firstName")}>
-                            First Name <FaSort />
+                            First Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th onClick={() => handleSort("middleName")}>
-                            Middle Name <FaSort />
+                        <th>
+                            Middle Name
                         </th>
                         <th onClick={() => handleSort("sex")}>
-                            Sex <FaSort />
+                            Sex {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("birthdate")}>
-                            Birthdate <FaSort />
+                            Birthdate {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("age")}>
-                            Age <FaSort />
+                            Age {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th onClick={() => handleSort("address")}>
-                            Address <FaSort />
+                        <th>
+                            Address 
                         </th>
                         <th onClick={() => handleSort("contactFirstName")}>
-                            Contact Person's Name <FaSort />
+                            Contact Person's Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("relationship")}>
-                            Relationship <FaSort />
+                            Relationship {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th onClick={() => handleSort("contactEmail")}>
-                            Email <FaSort />
+                        <th>
+                            Email 
                         </th>
-                        <th onClick={() => handleSort("contactPhone")}>
-                            Phone # <FaSort />
+                        <th>
+                            Phone # 
                         </th>
                         <th>Action</th>
                     </tr>

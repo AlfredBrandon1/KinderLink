@@ -14,6 +14,7 @@ import QuotesWidget from "../../components/admin/QuotesWidget";
 import TimeTracker from "../../components/admin/TimeTracler";
 import CoffeeCounter from "../../components/admin/CoffeeCounter";
 import BulletinBoard from "../../components/admin/BulletinBoard";
+import GithubCommits from "../../components/admin/GithubCommits";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ const AdminDashboard = () => {
                         <CoffeeCounter />
                     </div>
 
+
                     {/*       <QuotesWidget/> */}
                 </div>
 
@@ -115,7 +117,11 @@ const AdminDashboard = () => {
                 <hr />
 
                 {/*              <Trivia /> */}
+                <div>
+                        <GithubCommits/>
+                    </div>
             </div>
+            
         </>
     );
 };

@@ -194,7 +194,8 @@ const ManageAdmins = () => {
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
     const [sortedAdmins, setSortedAdmins] = useState(admins);
-
+    const [sortOrder, setSortOrder] = useState("asc");
+    
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/auth/")
@@ -230,17 +231,25 @@ const ManageAdmins = () => {
                 console.error(error);
             });
     }, []);
-
+    
     const handleSort = (field) => {
+        let order = "asc";
+        if (sortOrder === "asc") {
+            order = "desc";
+        }
+        setSortOrder(order);
         setSortedAdmins(
             [...sortedAdmins].sort((a, b) => {
+                let comparison = 0;
                 if (a[field].toLowerCase() < b[field].toLowerCase()) {
-                    return -1;
+                    comparison = -1;
                 } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
-                    return 1;
-                } else {
-                    return 0;
+                    comparison = 1;
                 }
+                if (order === "desc") {
+                    comparison = comparison * -1;
+                }
+                return comparison;
             })
         );
     };
@@ -478,21 +487,21 @@ const ManageAdmins = () => {
                     <tr>
                         <th>#</th>
                         <th onClick={() => handleSort("schoolId")}>
-                            School ID <FaSort />
+                            School ID {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("lastName")}>
                             {" "}
-                            Last Name <FaSort />
+                            Last Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("firstName")}>
-                            First Name <FaSort />
+                            First Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th onClick={() => handleSort("middleName")}>
-                            Middle Name <FaSort />
+                        <th>
+                            Middle Name 
                         </th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th onClick={() => handleSort("sex")}>Sex</th>
+                        <th onClick={() => handleSort("sex")}>Sex {sortOrder === "asc" ? "↑" : "↓"}</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -509,19 +518,20 @@ const ManageAdmins = () => {
                                     admin.lastName.toLowerCase().slice(1)}
                             </td>
                             <td>
-                                {admin.middleName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    admin.middleName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
                                 {admin.firstName
                                     .toLowerCase()
                                     .charAt(0)
                                     .toUpperCase() +
                                     admin.firstName.toLowerCase().slice(1)}
                             </td>
+                            <td>
+                                {admin.middleName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    admin.middleName.toLowerCase().slice(1)}
+                            </td>
+
                             <td>
                                 {admin.email
                                     .toLowerCase()
