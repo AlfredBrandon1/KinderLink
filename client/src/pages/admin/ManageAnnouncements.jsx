@@ -237,9 +237,12 @@ const ManageAnnouncement = () => {
         <>
             <Navigation />
             <div className=" manage-teachers-container container mt-5">
-                <button className="register-button" onClick={() => setShowModal(true)}>
+                <button
+                    className="register-button"
+                    onClick={() => setShowModal(true)}
+                >
                     <FaPlus />
-                    <span className="ml-2">Create announcement </span>
+                    <span className="ml-2">Create an announcement </span>
                 </button>
                 <p className="page-title">Manage Announcements </p>
                 {/* ==================================================== Search ================================================== */}
@@ -263,9 +266,10 @@ const ManageAnnouncement = () => {
                         </th>
                     </tr>
                     <tr>
-                        <th> &nbsp; &nbsp; </th>
-                        <th> &nbsp; &nbsp; </th>
                         <th> # </th>
+                        <th onClick={() => handleSort("date")}>
+                            Date posted <FaSort />
+                        </th>
                         <th onClick={() => handleSort("title")}>
                             Title <FaSort />{" "}
                         </th>
@@ -278,42 +282,60 @@ const ManageAnnouncement = () => {
                         <th onClick={() => handleSort("author")}>
                             Author <FaSort />
                         </th>
-                        <th onClick={() => handleSort("date")}>
-                            Date posted <FaSort />
-                        </th>
+
                         <th>Actions</th>
-                        <th> &nbsp; &nbsp; </th>
-                        <th> &nbsp; &nbsp; </th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedAnnouncements &&
                         sortedAnnouncements.map((announcement, index) => (
                             <tr key={announcement._id}>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
-                                <td>{announcement.title.toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    announcement.title.toLowerCase().slice(1)}</td>
-                                <td className="content-row">
-                                    {announcement.content}
-                                </td>
-                                <td>{announcement.author}</td>
                                 <td>
-                                    {new Date(announcement.date).toLocaleString(
-                                        "en-US",
-                                        {
+                                    {(() => {
+                                        const today = new Date();
+                                        const announcementDate = new Date(
+                                            announcement.date
+                                        );
+                                        const sameDate =
+                                            today.getDate() ===
+                                                announcementDate.getDate() &&
+                                            today.getMonth() ===
+                                                announcementDate.getMonth() &&
+                                            today.getFullYear() ===
+                                                announcementDate.getFullYear();
+                                        const options = {
                                             year: "numeric",
                                             month: "short",
                                             day: "numeric",
                                             hour: "numeric",
                                             minute: "numeric",
                                             hour12: true,
-                                        }
-                                    )}
+                                        };
+                                        const dateString =
+                                            announcementDate.toLocaleString(
+                                                "en-US",
+                                                options
+                                            );
+                                        return sameDate
+                                            ? `${dateString} (today)`
+                                            : dateString;
+                                    })()}
                                 </td>
+
+                                <td>
+                                    {announcement.title
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        announcement.title
+                                            .toLowerCase()
+                                            .slice(1)}
+                                </td>
+                                <td className="content-row">
+                                    {announcement.content}
+                                </td>
+                                <td>{announcement.author}</td>
 
                                 <td>
                                     <FaEdit
@@ -333,8 +355,6 @@ const ManageAnnouncement = () => {
                                         Delete
                                     </FaTrash>
                                 </td>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
                             </tr>
                         ))}
                 </tbody>

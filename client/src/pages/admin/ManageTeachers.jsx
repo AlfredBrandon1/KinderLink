@@ -483,8 +483,6 @@ const ManageTeachers = () => {
                             </th>
                         </tr>
                         <tr>
-                            <th> &nbsp; &nbsp; </th>
-                            <th> &nbsp; &nbsp; </th>
                             <th>#</th>
                             <th onClick={() => handleSort("schoolId")}>
                                 School ID <FaSort />
@@ -510,15 +508,11 @@ const ManageTeachers = () => {
                                 <FaSort />
                             </th>
                             <th>Action</th>
-                            <th> &nbsp; &nbsp; </th>
-                            <th> &nbsp; &nbsp; </th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedTeachers.map((teacher, index) => (
                             <tr key={teacher._id}>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
                                 <td>{index + 1}</td>
                                 <td>{teacher.schoolId}</td>
                                 <td>{teacher.lastName.toLowerCase()
@@ -555,8 +549,6 @@ const ManageTeachers = () => {
                                         Delete
                                     </FaTrash>
                                 </td>
-                                <td> &nbsp; &nbsp; </td>
-                                <td> &nbsp; &nbsp; </td>
                             </tr>
                         ))}
                     </tbody>

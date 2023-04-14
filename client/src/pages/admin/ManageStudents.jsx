@@ -642,8 +642,6 @@ const ManageStudents = () => {
                         </th>
                     </tr>
                     <tr>
-                        <th>&nbsp;&nbsp;</th>
-                        <th>&nbsp;&nbsp;</th>
                         <th>#</th>
                         <th onClick={() => handleSort("schoolId")}>
                             School ID <FaSort />
@@ -687,8 +685,6 @@ const ManageStudents = () => {
                 <tbody>
                     {sortedStudents.map((student, index) => (
                         <tr key={student._id}>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;</td>
                             <td>{index + 1}</td>
                             <td>{student.schoolId}</td>
                             <td>

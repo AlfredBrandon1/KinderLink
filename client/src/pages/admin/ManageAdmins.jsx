@@ -476,8 +476,6 @@ const ManageAdmins = () => {
                         </th>
                     </tr>
                     <tr>
-                        <th> &nbsp; &nbsp; </th>
-                        <th> &nbsp; &nbsp; </th>
                         <th>#</th>
                         <th onClick={() => handleSort("schoolId")}>
                             School ID <FaSort />
@@ -496,15 +494,11 @@ const ManageAdmins = () => {
                         <th>Phone</th>
                         <th onClick={() => handleSort("sex")}>Sex</th>
                         <th>Action</th>
-                        <th> &nbsp; &nbsp; </th>
-                        <th> &nbsp; &nbsp; </th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedAdmins.map((admin, index) => (
                         <tr key={admin._id}>
-                            <td> &nbsp; &nbsp; </td>
-                            <td> &nbsp; &nbsp; </td>
                             <td>{index + 1}</td>
                             <td>{admin.schoolId}</td>
                             <td>
@@ -553,8 +547,6 @@ const ManageAdmins = () => {
                                     Delete
                                 </FaTrash>
                             </td>
-                            <td> &nbsp; &nbsp; </td>
-                            <td> &nbsp; &nbsp; </td>
                         </tr>
                     ))}
                 </tbody>
