@@ -68,14 +68,13 @@ const AdminDashboard = () => {
                         <ClockWidget />
                     </div>
                     <div>
-                    <BulletinBoard />
-                    </div>
-                        
-                    <div>
-                    <TimeTracker />
-                        <CoffeeCounter />
+                        <BulletinBoard />
                     </div>
 
+                    <div>
+                        <TimeTracker />
+                        <CoffeeCounter />
+                    </div>
 
                     {/*       <QuotesWidget/> */}
                 </div>
@@ -84,41 +83,33 @@ const AdminDashboard = () => {
 
                 <div className="user-counter-card">
                     <div className="counter-card">
-                        <FaUserShield size={64} />
-                        <div className="counter-text">
-                            <span onClick={() => navigate("/manage-admins")}>
-                                Total Admins
-                            </span>{" "}
-                            {numAdmins}
-                        </div>
+                        <FaUserShield size={32} />
+                        <span onClick={() => navigate("/manage-admins")}>
+                            Total Admins
+                        </span>{" "}
+                        {numAdmins}
                     </div>
 
                     <div className="counter-card">
-                        <FaUserGraduate size={64} />
-                        <div className="counter-text">
-                            <span onClick={() => navigate("/manage-students")}>
-                                Total Students
-                            </span>{" "}
-                            {numStudents}
-                        </div>
+                        <FaUserGraduate size={32} />
+                        <span onClick={() => navigate("/manage-students")}>
+                            Total Students
+                        </span>{" "}
+                        {numStudents}
                     </div>
 
                     <div className="counter-card">
-                        <FaUserTie size={64} />
-                        <div className="counter-text">
-                            <span onClick={() => navigate("/manage-teachers")}>
-                                Total Teachers
-                            </span>{" "}
-                            {numTeachers}
-                        </div>
+                        <FaUserTie size={32} />
+                        <span onClick={() => navigate("/manage-teachers")}>
+                            Total Teachers
+                        </span>{" "}
+                        {numTeachers}
                     </div>
 
                     <div className="counter-card">
-                        <IoMdPeople size={64} />
-                        <div className="counter-text">
-                            <span>Total Users</span>{" "}
-                            {numAdmins + numStudents + numTeachers}
-                        </div>
+                        <IoMdPeople size={32} />
+                        <span>Total Users</span>{" "}
+                        {numAdmins + numStudents + numTeachers}
                     </div>
                 </div>
                 <hr />

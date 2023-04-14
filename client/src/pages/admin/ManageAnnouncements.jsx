@@ -237,10 +237,10 @@ const ManageAnnouncement = () => {
         <>
             <Navigation />
             <div className=" manage-teachers-container container mt-5">
-                <Button variant="primary" onClick={() => setShowModal(true)}>
+                <button className="register-button" onClick={() => setShowModal(true)}>
                     <FaPlus />
-                    <span className="ml-2">Create an announcement </span>
-                </Button>
+                    <span className="ml-2">Create announcement </span>
+                </button>
                 <p className="page-title">Manage Announcements </p>
                 {/* ==================================================== Search ================================================== */}
                 <Form onSubmit={(event) => event.preventDefault()}>

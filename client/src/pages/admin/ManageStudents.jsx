@@ -347,10 +347,10 @@ const ManageStudents = () => {
             <Navigation />
             <div className="manage-students-container container mt-5">
                 <div>
-                    <Button variant="primary" onClick={handleShow}>
+                    <button className="register-button" onClick={handleShow}>
                         <FaPlus />
-                        <span className="ml-2">Register a new student</span>
-                    </Button>
+                        <span className="ml-2">Register a student</span>
+                    </button>
                 </div>
                 <p className="page-title">Manage Students</p>
                 {/* ==================================================== Search ================================================== */}

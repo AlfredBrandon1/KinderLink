@@ -280,10 +280,10 @@ const ManageAdmins = () => {
             <Navigation />
             <div className="manage-admins-container container mt-5">
                 <div>
-                    <Button variant="primary" onClick={handleShow}>
+                    <button className="register-button" onClick={handleShow}>
                         <FaPlus />
-                        <span className="ml-2">Register a new admin</span>
-                    </Button>
+                        <span className="ml-2">Register an admin</span>
+                    </button>
                 </div>
                 <p className="page-title">Manage Admins</p>
                 {/* ==================================================== Search ================================================== */}

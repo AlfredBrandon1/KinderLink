@@ -46,7 +46,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <div className="intro-card">
-        <h1>Welcome to KinderLink</h1>
+        <h1>Welcome to <br/> <span className="kinder">Kinder</span><span className="link">Link</span></h1>
         <p className="intro">
           KinderLink is a developmental online portal <br />
           for the Early Childhood Development Center (ECDC) <br />

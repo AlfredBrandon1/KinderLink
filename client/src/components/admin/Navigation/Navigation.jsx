@@ -17,7 +17,7 @@ const Navigation = () => {
     return (
         <nav className="Navigation">
             <div className="Navigation__logo">
-                <Link to="/"> <span style = {{color:"yellow"}}> Kinder</span><span style = {{color:"green"}}></span>.<span style = {{color:"red"}}>Link</span></Link>
+                <Link to="/"> <span className="kinder">Kinder</span><span className="link">Link</span> </Link>
             </div>
             <div className="Navigation__icon" onClick={toggleMenu}>
                 {showMenu ? (
@@ -32,45 +32,52 @@ const Navigation = () => {
                 }`}
             >
                 <li className="Navigation__item">
-                    <FaHome/>
+                    
                     <Link to="/admin-dashboard" onClick={toggleMenu}>
+                    <FaHome/>
                          Dashboard
                     </Link>
                 </li>
                 <li className="Navigation__item">
-                <FaUserTie/>
+                
                     <Link to="/manage-teachers" onClick={toggleMenu}>
-                    Manage Teachers
+                    <FaUserTie/>
+                    Teachers
                     </Link>
                 </li>
                 <li className="Navigation__item">
-                    <FaUserGraduate/>
+                    
                     <Link to="/manage-students" onClick={toggleMenu}>
-                        Manage Students
+                    <FaUserGraduate/>
+                     Students
                     </Link>
                 </li>
                 <li className="Navigation__item">
-                <FaUserShield/>
+                
                     <Link to="/manage-admins" onClick={toggleMenu}>
-                        Manage Admins
+                    <FaUserShield/>
+                         Admins
                     </Link>
                 </li>
                 <li className="Navigation__item">
 
-                <FaBullhorn/>
+                
                     <Link to="/manage-announcements" onClick={toggleMenu}>
+                    <FaBullhorn/>
                         Announcement
                     </Link>
                 </li>
                 <li className="Navigation__item">
-                  <FaBook/>
+                  
                     <Link to="/manage-learning-materials" onClick={toggleMenu}>
+                    <FaBook/>
                         Learning Materials
                     </Link>
                 </li>
                 <li className="Navigation__item">
-                  <FaUserCircle/>
+                  
                     <Link to="/my-account" onClick={toggleMenu}>
+                    <FaUserCircle/>
                         My Account
                     </Link>
                 </li>
@@ -90,7 +97,7 @@ const Navigation = () => {
                             }
                         }}>
                     <FaSignOutAlt 
-                         style={{ color: 'red', cursor: 'pointer' }}
+                         style={{ cursor: 'pointer' }}
                     />
                     </Link>
                 </li>

@@ -4,17 +4,19 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(90deg, #38b7f1 0%, #a2e8fa 100%);
+  background:#009ee7;
 
 }
 
 h1 {
-  font-size: 36px;
+  color: white;
+  font-size: 45px;
   margin-bottom: 20px;
 }
 
 .intro {
-  font-size: 18px;
+  color: white;
+  font-size: 20px;
   margin: 5vh;
   text-align: center;
 }
@@ -91,8 +93,8 @@ a:hover {
 }
 
 .contact-us-button {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #fea633;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -102,7 +104,9 @@ a:hover {
 }
 
 .contact-us-button:hover {
-  background-color: #91ff00;
+  background-color: rgb(255, 255, 255);
+  color:#fea633 ;
+  border: 1px solid #fea633;
 }
 
 /* Media query for smaller screens */
