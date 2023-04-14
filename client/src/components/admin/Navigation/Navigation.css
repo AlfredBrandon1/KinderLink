@@ -1,3 +1,6 @@
+/* for "Link" */
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+
 .Navigation {
     display: flex;
     justify-content: space-between;
@@ -116,7 +119,10 @@
     color: #fea633;
   }
 
+
+
   .link{
     font-size: 1.7em;
     color: white;
+    font-family: 'Parisienne', cursive;
   }
