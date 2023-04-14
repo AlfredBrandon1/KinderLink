@@ -41,7 +41,7 @@ const ReportCard = ({ studentId }) => {
         const updatedReportCard = { ...reportCard, subjects };
         axios
             .put(
-                `${BackendApi}/api/v1/${studentId}/report-card`,
+                `${BackendApi}/api/v1/reportCard/${studentId}/`,
                 updatedReportCard
             )
             .then((response) => {
@@ -75,7 +75,7 @@ const ReportCard = ({ studentId }) => {
         <>
             <Navigation />
             <div>
-                <h1>Report Card for {/* {reportCard.studentName} */}</h1>
+                <h1>Report Card for  {studentId} </h1>
                 <table>
                     <thead>
                         <tr>

@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #DFFADF;
+    background:  #38b7f1 ;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
   }
   
@@ -33,6 +33,13 @@
   
   .Navigation__item {
     margin: 0 1rem;
+    color:rgba(0, 0, 0, 0.925);
+  }
+
+  .Navigation__item a {
+    font-size: 1em;
+    font-weight: 100;
+    color:rgb(255, 255, 255);
   }
   
   @media screen and (max-width: 768px) {
@@ -77,6 +84,12 @@
     
     .Navigation__item:last-child {
       margin-bottom: 0;
+    }
+
+    .Navigation__item a {
+      font-size: 1.2em;
+      font-weight: 100;
+      color:rgb(0, 0, 0);
     }
   }
   

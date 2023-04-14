@@ -6,7 +6,7 @@ const ManageLearningMaterials = () => {
     return(
         <div>
             <Navigation/>
-            This is the Manage students page
+            This is the Manage learning materials page
         </div>
     )
 }

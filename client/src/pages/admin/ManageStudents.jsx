@@ -18,6 +18,7 @@ import {
     FaSort,
     FaSearch,
     FaList,
+    FaTable,
 } from "react-icons/fa";
 
 //style for the Table and Modal
@@ -662,6 +663,9 @@ const ManageStudents = () => {
                         <th onClick={() => handleSort("birthdate")}>
                             Birthdate <FaSort />
                         </th>
+                        <th onClick={() => handleSort("age")}>
+                            Age <FaSort />
+                        </th>
                         <th onClick={() => handleSort("address")}>
                             Address <FaSort />
                         </th>
@@ -678,8 +682,6 @@ const ManageStudents = () => {
                             Phone # <FaSort />
                         </th>
                         <th>Action</th>
-                        <th>&nbsp;&nbsp;</th>
-                        <th>&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -727,6 +729,16 @@ const ManageStudents = () => {
                                     }
                                 )}
                             </td>
+                            <td>
+                                {(() => {
+                                    const dob = new Date(student.birthdate);
+                                    const diff_ms = Date.now() - dob.getTime();
+                                    const age_dt = new Date(diff_ms);
+                                    return Math.abs(
+                                        age_dt.getUTCFullYear() - 1970
+                                    );
+                                })()}
+                            </td>
 
                             <td>{student.address}</td>
                             <td>{`${
@@ -759,27 +771,29 @@ const ManageStudents = () => {
                             <td>{student.contactPhone}</td>
                             <td>
                                 <FaEdit
+                                    title="Edit"
                                     onClick={() => handleEdit(student)}
                                     color="green"
                                     size="30px"
-                                >
-                                    Edit
-                                </FaEdit>
+                                    style={{ cursor: "pointer" }}
+                                ></FaEdit>
                                 <FaTrash
+                                    title="Delete"
                                     onClick={() => handleDelete(student)}
                                     color="red"
                                     size="30px"
-                                >
-                                    Delete
-                                </FaTrash>
-                                <button
-                                    onClick={() => navigate(`/${student._id}/report-card`)}
-                                >
-                                    View Report Card
-                                </button>
+                                    style={{ cursor: "pointer" }}
+                                ></FaTrash>
+                                <FaTable
+                                    title="                                    View Report Card"
+                                    color="blue"
+                                    size="30px"
+                                    onClick={() =>
+                                        navigate(`/${student._id}/report-card`)
+                                    }
+                                    style={{ cursor: "pointer" }}
+                                ></FaTable>
                             </td>
-                            <td>&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;</td>
                         </tr>
                     ))}
                 </tbody>

@@ -4,7 +4,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: 	#DFFADF;
+  background: linear-gradient(90deg, #38b7f1 0%, #a2e8fa 100%);
+
 }
 
 h1 {
@@ -90,18 +91,18 @@ a:hover {
 }
 
 .contact-us-button {
-  background-color: #0ab2e6;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 18px;
-  cursor: pointer;
+  cursor:pointer ;
   margin-bottom: 20px;
 }
 
 .contact-us-button:hover {
-  background-color: #60b8a6;
+  background-color: #91ff00;
 }
 
 /* Media query for smaller screens */

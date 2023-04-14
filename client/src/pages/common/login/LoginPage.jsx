@@ -39,6 +39,10 @@ const LoginPage = () => {
     // TODO: handle forgot password logic
   };
 
+  const handleContactClick =() => {
+    window.location.href = "mailto:calawa.alfredbrandon@gmail.com";
+  }
+
   return (
     <div className="login-page">
       <div className="intro-card">
@@ -49,7 +53,7 @@ const LoginPage = () => {
           of the Benguet State University (BSU).
         </p>
         <br />
-        <button className="contact-us-button">Contact Us</button>
+        <button onClick={handleContactClick} className="contact-us-button" target="_blank" >Contact Us</button>
       </div>
 
       <form className="login-form" onSubmit={loginAuthentication}>
