@@ -40,6 +40,13 @@ const ManageAnnouncement = () => {
         content: "",
     });
 
+        /* For Table Pagination */
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage =5;
+    const lastIndex = currentPage * itemsPerPage;
+    const firstIndex = lastIndex - itemsPerPage;
+    const totalPages = Math.ceil(announcements.length / itemsPerPage);
+
     // get all announcements
     useEffect(() => {
         axios.get(`${BackendApi}/api/v1/announcement/`).then((response) => {
@@ -256,6 +263,34 @@ const ManageAnnouncement = () => {
             </div>
             <Table responsive>
                 <thead className="thead-light">
+                    {/* table pagination */}
+                    <tr>
+                        <td colSpan={9}>
+                            <div>
+                                Showing table {currentPage} of {totalPages}
+                            </div>
+
+                            <div>
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                >
+                                    &larr; Prev
+                                </button>
+                                &nbsp;
+                                <button
+                                    disabled={lastIndex >= sortedAnnouncements.length}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                >
+                                    Next &rarr;
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <th className="list-title" colSpan={10}>
                             {" "}
@@ -282,7 +317,7 @@ const ManageAnnouncement = () => {
                 </thead>
                 <tbody>
                     {sortedAnnouncements &&
-                        sortedAnnouncements.map((announcement, index) => (
+                        sortedAnnouncements.slice(firstIndex, lastIndex).map((announcement, index) => (
                             <tr key={announcement._id}>
                                 <td>{index + 1}</td>
                                 <td>
@@ -353,6 +388,10 @@ const ManageAnnouncement = () => {
                         ))}
                 </tbody>
             </Table>
+            <div>
+                                {/* counts all announcement */}
+                <p> Total Announcements: {announcements.length} </p>
+            </div>
 
             {/* Add Announcement Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>

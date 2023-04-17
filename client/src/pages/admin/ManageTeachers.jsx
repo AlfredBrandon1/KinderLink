@@ -53,6 +53,13 @@ const ManageTeachers = () => {
         sex: "",
     });
 
+    /* For Table Pagination */
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage =5;
+    const lastIndex = currentPage * itemsPerPage;
+    const firstIndex = lastIndex - itemsPerPage;
+    const totalPages = Math.ceil(teachers.length / itemsPerPage);
+
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/teacher/")
@@ -199,52 +206,60 @@ const ManageTeachers = () => {
     };
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-  const [sortedTeachers, setSortedTeachers] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc");
+    const [sortedTeachers, setSortedTeachers] = useState([]);
+    const [sortOrder, setSortOrder] = useState("asc");
 
-  useEffect(() => {
-    axios
-      .get("https://kinderlink.onrender.com/api/v1/teacher/")
-      .then((response) => {
-        const sortedResults = response.data.sort((a, b) => {
-          // Sort by last name
-          if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-            return -1;
-          } else if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-            return 1;
-          } else {
-            // If last names are the same, sort by first name
-            if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
-              return -1;
-            } else if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
-              return 1;
-            } else {
-              return 0;
-            }
-          }
-        });
-        setSortedTeachers(sortedResults);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    useEffect(() => {
+        axios
+            .get("https://kinderlink.onrender.com/api/v1/teacher/")
+            .then((response) => {
+                const sortedResults = response.data.sort((a, b) => {
+                    // Sort by last name
+                    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
+                        return -1;
+                    } else if (
+                        a.lastName.toLowerCase() > b.lastName.toLowerCase()
+                    ) {
+                        return 1;
+                    } else {
+                        // If last names are the same, sort by first name
+                        if (
+                            a.firstName.toLowerCase() <
+                            b.firstName.toLowerCase()
+                        ) {
+                            return -1;
+                        } else if (
+                            a.firstName.toLowerCase() >
+                            b.firstName.toLowerCase()
+                        ) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+                setSortedTeachers(sortedResults);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
-  const handleSort = (field) => {
-    const direction = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(direction);
-    setSortedTeachers(
-      [...sortedTeachers].sort((a, b) => {
-        if (a[field].toLowerCase() < b[field].toLowerCase()) {
-          return direction === "asc" ? -1 : 1;
-        } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
-          return direction === "asc" ? 1 : -1;
-        } else {
-          return 0;
-        }
-      })
-    );
-  };
+    const handleSort = (field) => {
+        const direction = sortOrder === "asc" ? "desc" : "asc";
+        setSortOrder(direction);
+        setSortedTeachers(
+            [...sortedTeachers].sort((a, b) => {
+                if (a[field].toLowerCase() < b[field].toLowerCase()) {
+                    return direction === "asc" ? -1 : 1;
+                } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
+                    return direction === "asc" ? 1 : -1;
+                } else {
+                    return 0;
+                }
+            })
+        );
+    };
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -283,7 +298,7 @@ const ManageTeachers = () => {
             <Navigation />
             <div className="manage-teachers-container container mt-5">
                 <div>
-                    <button className="register-button"onClick={handleShow}>
+                    <button className="register-button" onClick={handleShow}>
                         <FaPlus />
                         <span className="ml-2">Register a teacher</span>
                     </button>
@@ -469,194 +484,230 @@ const ManageTeachers = () => {
             </Modal>
 
             {/* ====================================== TABLE LIST ==================================================== */}
-                <Table responsive>
-                    <thead>
-                        <tr>
-                            <th className="list-title" colSpan={13}>
-                                {" "}
-                                List of Teachers{" "}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th onClick={() => handleSort("schoolId")}>
-                                School ID {sortOrder === "asc" ? "↑" : "↓"}
-                            </th>
-                            <th onClick={() => handleSort("lastName")}>
-                                {" "}
-                                Last Name {sortOrder === "asc" ? "↑" : "↓"}
-                            </th>
-                            <th onClick={() => handleSort("firstName")}>
-                                First Name {sortOrder === "asc" ? "↑" : "↓"}
-                            </th>
-                            <th >
-                                Middle Name 
-                            </th>
-                            <th>
-                                Email 
-                            </th>
-                            <th>
-                                Phone 
-                            </th>
-                            <th onClick={() => handleSort("sex")}>
-                                Sex
-                                {sortOrder === "asc" ? "↑" : "↓"}
-                            </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedTeachers.map((teacher, index) => (
-                            <tr key={teacher._id}>
-                                <td>{index + 1}</td>
-                                <td>{teacher.schoolId}</td>
-                                <td>{teacher.lastName.toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    teacher.lastName.toLowerCase().slice(1)}</td>
-                                                                    <td>{teacher.firstName.toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    teacher.firstName.toLowerCase().slice(1)}</td>
-                                <td>{teacher.middleName.toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    teacher.middleName.toLowerCase().slice(1)}</td>
+            <Table responsive>
+                <thead>
+                    {/* table pagination */}
+                    <tr>
+                        <td colSpan={9}>
+                            <div>
+                                Showing table {currentPage} of {totalPages}
+                            </div>
 
-                                <td>{teacher.email.toLowerCase()
+                            <div>
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                >
+                                    &larr; Prev
+                                </button>
+                                &nbsp;
+                                <button
+                                    disabled={
+                                        lastIndex >= sortedTeachers.length
+                                    }
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                >
+                                    Next &rarr;
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th className="list-title" colSpan={13}>
+                            {" "}
+                            List of Teachers{" "}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        <th onClick={() => handleSort("schoolId")}>
+                            School ID {sortOrder === "asc" ? "↑" : "↓"}
+                        </th>
+                        <th onClick={() => handleSort("lastName")}>
+                            {" "}
+                            Last Name {sortOrder === "asc" ? "↑" : "↓"}
+                        </th>
+                        <th onClick={() => handleSort("firstName")}>
+                            First Name {sortOrder === "asc" ? "↑" : "↓"}
+                        </th>
+                        <th>Middle Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th onClick={() => handleSort("sex")}>
+                            Sex
+                            {sortOrder === "asc" ? "↑" : "↓"}
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedTeachers.slice(firstIndex, lastIndex).map((teacher, index) => (
+                        <tr key={teacher._id}>
+                            <td>{index + 1}</td>
+                            <td>{teacher.schoolId}</td>
+                            <td>
+                                {teacher.lastName
+                                    .toLowerCase()
                                     .charAt(0)
                                     .toUpperCase() +
-                                    teacher.email.toLowerCase().slice(1)}</td>
-                                <td>{teacher.phone}</td>
-                                <td>{teacher.sex}</td>
-                                <td>
-                                    <FaEdit
-                                        onClick={() => handleEdit(teacher)}
-                                        color="green"
-                                        size="30px"
-                                    >
-                                        Edit
-                                    </FaEdit>
-                                    <FaTrash
-                                        onClick={() => handleDelete(teacher)}
-                                        color="red"
-                                        size="30px"
-                                    >
-                                        Delete
-                                    </FaTrash>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-                {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
-                <Modal
-                    show={showEditModal}
-                    onHide={handleCloseEditModal}
-                    size="lg"
-                >
-                    <Modal.Header>
-                        <p className="form-title"> Update teacher profile </p>
-                        <span
-                            className="exit-button"
-                            onClick={handleCloseEditModal}
-                        >
-                            &times;
-                        </span>
-                    </Modal.Header>
-                    <form className="register-form" onSubmit={handleSubmit}>
-                        <label htmlFor="schoolId">School ID:</label> <br />
-                        <input
-                            type="text"
-                            id="schoolId"
-                            name="schoolId"
-                            value={updatedTeacher.schoolId}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="lastName">Last Name:</label>
-                        <br />
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={updatedTeacher.lastName}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="middleName">Middle Name:</label>
-                        <br />
-                        <input
-                            type="text"
-                            id="middleName"
-                            name="middleName"
-                            value={updatedTeacher.middleName}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="firstName">First Name:</label>
-                        <br />
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={updatedTeacher.firstName}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="email">Email:</label>
-                        <br />
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={updatedTeacher.email}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="phone">Phone:</label>
-                        <br />
-                        <input
-                            type="text"
-                            id="phone"
-                            name="phone"
-                            value={updatedTeacher.phone}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <label htmlFor="sex">Sex:</label>
-                        <br />
-                        <select
-                            id="sex"
-                            name="sex"
-                            value={updatedTeacher.sex}
-                            onChange={handleInputChange}
-                            required
-                        >
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                        <br />
-                        <label htmlFor="password">Password:</label>
-                        <br />
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={updatedTeacher.password}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <br />
-                        <button type="submit">Save</button>
-                    </form>
-                </Modal>
+                                    teacher.lastName.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {teacher.firstName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.firstName.toLowerCase().slice(1)}
+                            </td>
+                            <td>
+                                {teacher.middleName
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.middleName.toLowerCase().slice(1)}
+                            </td>
+
+                            <td>
+                                {teacher.email
+                                    .toLowerCase()
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                    teacher.email.toLowerCase().slice(1)}
+                            </td>
+                            <td>{teacher.phone}</td>
+                            <td>{teacher.sex}</td>
+                            <td>
+                                <FaEdit
+                                    onClick={() => handleEdit(teacher)}
+                                    color="green"
+                                    size="30px"
+                                >
+                                    Edit
+                                </FaEdit>
+                                <FaTrash
+                                    onClick={() => handleDelete(teacher)}
+                                    color="red"
+                                    size="30px"
+                                >
+                                    Delete
+                                </FaTrash>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+            <div>
+                {/* counts all teachers */}
+                <p> Total Teachers: {teachers.length} </p>
+            </div>
+            {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
+            <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
+                <Modal.Header>
+                    <p className="form-title"> Update teacher profile </p>
+                    <span
+                        className="exit-button"
+                        onClick={handleCloseEditModal}
+                    >
+                        &times;
+                    </span>
+                </Modal.Header>
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <label htmlFor="schoolId">School ID:</label> <br />
+                    <input
+                        type="text"
+                        id="schoolId"
+                        name="schoolId"
+                        value={updatedTeacher.schoolId}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="lastName">Last Name:</label>
+                    <br />
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        value={updatedTeacher.lastName}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="middleName">Middle Name:</label>
+                    <br />
+                    <input
+                        type="text"
+                        id="middleName"
+                        name="middleName"
+                        value={updatedTeacher.middleName}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="firstName">First Name:</label>
+                    <br />
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        value={updatedTeacher.firstName}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="email">Email:</label>
+                    <br />
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={updatedTeacher.email}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="phone">Phone:</label>
+                    <br />
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value={updatedTeacher.phone}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <label htmlFor="sex">Sex:</label>
+                    <br />
+                    <select
+                        id="sex"
+                        name="sex"
+                        value={updatedTeacher.sex}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <br />
+                    <label htmlFor="password">Password:</label>
+                    <br />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={updatedTeacher.password}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <br />
+                    <button type="submit">Save</button>
+                </form>
+            </Modal>
         </>
     );
 };

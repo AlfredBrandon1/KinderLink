@@ -73,6 +73,13 @@ const ManageStudents = () => {
         password: "",
     });
 
+    /* For Table Pagination */
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const lastIndex = currentPage * itemsPerPage;
+    const firstIndex = lastIndex - itemsPerPage;
+    const totalPages = Math.ceil(students.length / itemsPerPage);
+
     /* ========================================= Fetch all student  ======================================= */
     useEffect(() => {
         axios.get(`${BackendApi}/api/v1/student/`).then((response) => {
@@ -243,67 +250,74 @@ const ManageStudents = () => {
 
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-const [sortedStudents, setSortedStudents] = useState(students);
-const [sortOrder, setSortOrder] = useState("asc");
+    const [sortedStudents, setSortedStudents] = useState(students);
+    const [sortOrder, setSortOrder] = useState("asc");
 
-useEffect(() => {
-  axios
-    .get(`${BackendApi}/api/v1/student/`)
-    .then((response) => {
-      const sortedResults = response.data.sort((a, b) => {
-        // Sort by last name
-        if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-          return -1;
-        } else if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-          return 1;
-        } else {
-          // If last names are the same, sort by first name
-          if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
-            return -1;
-          } else if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
-            return 1;
-          } else {
-            return 0;
-          }
-        }
-      });
-      setSortedStudents(sortedResults);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}, []);
+    useEffect(() => {
+        axios
+            .get(`${BackendApi}/api/v1/student/`)
+            .then((response) => {
+                const sortedResults = response.data.sort((a, b) => {
+                    // Sort by last name
+                    if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
+                        return -1;
+                    } else if (
+                        a.lastName.toLowerCase() > b.lastName.toLowerCase()
+                    ) {
+                        return 1;
+                    } else {
+                        // If last names are the same, sort by first name
+                        if (
+                            a.firstName.toLowerCase() <
+                            b.firstName.toLowerCase()
+                        ) {
+                            return -1;
+                        } else if (
+                            a.firstName.toLowerCase() >
+                            b.firstName.toLowerCase()
+                        ) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                });
+                setSortedStudents(sortedResults);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
-const handleSort = (field) => {
-  const sortOrderReverse = sortOrder === "asc" ? "desc" : "asc";
-  setSortOrder(sortOrderReverse);
+    const handleSort = (field) => {
+        const sortOrderReverse = sortOrder === "asc" ? "desc" : "asc";
+        setSortOrder(sortOrderReverse);
 
-  setSortedStudents(
-    [...sortedStudents].sort((a, b) => {
-      const aValue = a[field].toLowerCase();
-      const bValue = b[field].toLowerCase();
+        setSortedStudents(
+            [...sortedStudents].sort((a, b) => {
+                const aValue = a[field].toLowerCase();
+                const bValue = b[field].toLowerCase();
 
-      if (sortOrderReverse === "asc") {
-        if (aValue < bValue) {
-          return -1;
-        } else if (aValue > bValue) {
-          return 1;
-        } else {
-          return 0;
-        }
-      } else {
-        if (aValue > bValue) {
-          return -1;
-        } else if (aValue < bValue) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }
-    })
-  );
-};
-
+                if (sortOrderReverse === "asc") {
+                    if (aValue < bValue) {
+                        return -1;
+                    } else if (aValue > bValue) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    if (aValue > bValue) {
+                        return -1;
+                    } else if (aValue < bValue) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            })
+        );
+    };
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -646,6 +660,36 @@ const handleSort = (field) => {
             {/* ====================================== TABLE LIST ==================================================== */}
             <Table responsive>
                 <thead>
+                    {/* table pagination */}
+                    <tr>
+                        <td colSpan={14}>
+                            <div>
+                                Showing table {currentPage} of {totalPages}
+                            </div>
+
+                            <div>
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                >
+                                    &larr; Prev
+                                </button>
+                                &nbsp;
+                                <button
+                                    disabled={
+                                        lastIndex >= sortedStudents.length
+                                    }
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                >
+                                    Next &rarr;
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <th className="list-title" colSpan={17}>
                             List of Students
@@ -662,9 +706,7 @@ const handleSort = (field) => {
                         <th onClick={() => handleSort("firstName")}>
                             First Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th>
-                            Middle Name
-                        </th>
+                        <th>Middle Name</th>
                         <th onClick={() => handleSort("sex")}>
                             Sex {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
@@ -674,136 +716,151 @@ const handleSort = (field) => {
                         <th onClick={() => handleSort("age")}>
                             Age {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th>
-                            Address 
-                        </th>
+                        <th>Address</th>
                         <th onClick={() => handleSort("contactFirstName")}>
-                            Contact Person's Name {sortOrder === "asc" ? "↑" : "↓"}
+                            Contact Person's Name{" "}
+                            {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
                         <th onClick={() => handleSort("relationship")}>
                             Relationship {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th>
-                            Email 
-                        </th>
-                        <th>
-                            Phone # 
-                        </th>
+                        <th>Email</th>
+                        <th>Phone #</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedStudents.map((student, index) => (
-                        <tr key={student._id}>
-                            <td>{index + 1}</td>
-                            <td>{student.schoolId}</td>
-                            <td>
-                                {student.lastName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    student.lastName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {student.middleName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    student.middleName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {student.firstName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    student.firstName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {student.sex
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    student.sex.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {new Date(student.birthdate).toLocaleDateString(
-                                    "en-US",
-                                    {
+                    {sortedStudents
+                        .slice(firstIndex, lastIndex)
+                        .map((student, index) => (
+                            <tr key={student._id}>
+                                <td>{index + 1}</td>
+                                <td>{student.schoolId}</td>
+                                <td>
+                                    {student.lastName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        student.lastName.toLowerCase().slice(1)}
+                                </td>
+                                <td>
+                                    {student.middleName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        student.middleName
+                                            .toLowerCase()
+                                            .slice(1)}
+                                </td>
+                                <td>
+                                    {student.firstName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        student.firstName
+                                            .toLowerCase()
+                                            .slice(1)}
+                                </td>
+                                <td>
+                                    {student.sex
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        student.sex.toLowerCase().slice(1)}
+                                </td>
+                                <td>
+                                    {new Date(
+                                        student.birthdate
+                                    ).toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",
-                                    }
-                                )}
-                            </td>
-                            <td>
-                                {(() => {
-                                    const dob = new Date(student.birthdate);
-                                    const diff_ms = Date.now() - dob.getTime();
-                                    const age_dt = new Date(diff_ms);
-                                    return Math.abs(
-                                        age_dt.getUTCFullYear() - 1970
-                                    );
-                                })()}
-                            </td>
+                                    })}
+                                </td>
+                                <td>
+                                    {(() => {
+                                        const dob = new Date(student.birthdate);
+                                        const diff_ms =
+                                            Date.now() - dob.getTime();
+                                        const age_dt = new Date(diff_ms);
+                                        return Math.abs(
+                                            age_dt.getUTCFullYear() - 1970
+                                        );
+                                    })()}
+                                </td>
 
-                            <td>{student.address}</td>
-                            <td>{`${
-                                student.contactFirstName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                student.contactFirstName.toLowerCase().slice(1)
-                            } ${
-                                student.contactMiddleName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                student.contactMiddleName.toLowerCase().slice(1)
-                            } ${
-                                student.contactLastName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                student.contactLastName.toLowerCase().slice(1)
-                            }`}</td>
-                            <td>{student.relationship}</td>
-                            <td>
-                                {student.contactEmail
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    student.contactEmail.toLowerCase().slice(1)}
-                            </td>
-                            <td>{student.contactPhone}</td>
-                            <td>
-                                <FaEdit
-                                    title="Edit"
-                                    onClick={() => handleEdit(student)}
-                                    color="green"
-                                    size="30px"
-                                    style={{ cursor: "pointer" }}
-                                ></FaEdit>
-                                <FaTrash
-                                    title="Delete"
-                                    onClick={() => handleDelete(student)}
-                                    color="red"
-                                    size="30px"
-                                    style={{ cursor: "pointer" }}
-                                ></FaTrash>
-                                <FaTable
-                                    title="                                    View Report Card"
-                                    color="blue"
-                                    size="30px"
-                                    onClick={() =>
-                                        navigate(`/${student._id}/report-card`)
-                                    }
-                                    style={{ cursor: "pointer" }}
-                                ></FaTable>
-                            </td>
-                        </tr>
-                    ))}
+                                <td>{student.address}</td>
+                                <td>{`${
+                                    student.contactFirstName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                    student.contactFirstName
+                                        .toLowerCase()
+                                        .slice(1)
+                                } ${
+                                    student.contactMiddleName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                    student.contactMiddleName
+                                        .toLowerCase()
+                                        .slice(1)
+                                } ${
+                                    student.contactLastName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                    student.contactLastName
+                                        .toLowerCase()
+                                        .slice(1)
+                                }`}</td>
+                                <td>{student.relationship}</td>
+                                <td>
+                                    {student.contactEmail
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        student.contactEmail
+                                            .toLowerCase()
+                                            .slice(1)}
+                                </td>
+                                <td>{student.contactPhone}</td>
+                                <td>
+                                    <FaEdit
+                                        title="Edit"
+                                        onClick={() => handleEdit(student)}
+                                        color="green"
+                                        size="30px"
+                                        style={{ cursor: "pointer" }}
+                                    ></FaEdit>
+                                    <FaTrash
+                                        title="Delete"
+                                        onClick={() => handleDelete(student)}
+                                        color="red"
+                                        size="30px"
+                                        style={{ cursor: "pointer" }}
+                                    ></FaTrash>
+                                    <FaTable
+                                        title="                                    View Report Card"
+                                        color="blue"
+                                        size="30px"
+                                        onClick={() =>
+                                            navigate(
+                                                `/${student._id}/report-card`
+                                            )
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                    ></FaTable>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </Table>
+            <div>
+                {/* counts all student */}
+                <p> Total Students: {students.length} </p>
+            </div>
 
             {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
             <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">

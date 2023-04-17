@@ -14,7 +14,8 @@ import {
     FaTrash,
     FaEye,
     FaSort,
-    FaSearch,
+    FaArrowLeft,
+    FaArrowRight,
 } from "react-icons/fa";
 
 import axios from "axios";
@@ -34,7 +35,7 @@ const ManageAdmins = () => {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
 
-    const [showRegisterModal, setShowRegisterModal] = useState(false); //modal for REGISTER a admin
+    const [showRegisterModal, setShowRegisterModal] = useState(false); //modal for REGISTER an admin
     const [showEditModal, setShowEditModal] = useState(false); //modal for EDIT admin
     const [admins, setadmins] = useState([]);
     const [currentAdmin, setCurrentAdmin] = useState(null);
@@ -47,6 +48,13 @@ const ManageAdmins = () => {
         phone: "",
         sex: "",
     });
+
+    /* For Table Pagination */
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const lastIndex = currentPage * itemsPerPage;
+    const firstIndex = lastIndex - itemsPerPage;
+    const totalPages = Math.ceil(admins.length / itemsPerPage);
 
     /* =============================================== GET ALL admins ============================================= */
     useEffect(() => {
@@ -195,7 +203,7 @@ const ManageAdmins = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [sortedAdmins, setSortedAdmins] = useState(admins);
     const [sortOrder, setSortOrder] = useState("asc");
-    
+
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/auth/")
@@ -231,7 +239,7 @@ const ManageAdmins = () => {
                 console.error(error);
             });
     }, []);
-    
+
     const handleSort = (field) => {
         let order = "asc";
         if (sortOrder === "asc") {
@@ -478,6 +486,34 @@ const ManageAdmins = () => {
             {/* ====================================== TABLE LIST ==================================================== */}
             <Table responsive>
                 <thead>
+                    {/* table pagination */}
+                    <tr>
+                        <td colSpan={9}>
+                            <div>
+                                Showing table {currentPage} of {totalPages}
+                            </div>
+
+                            <div>
+                                <button
+                                    disabled={currentPage === 1}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage - 1)
+                                    }
+                                >
+                                    &larr; Prev
+                                </button>
+                                &nbsp;
+                                <button
+                                    disabled={lastIndex >= sortedAdmins.length}
+                                    onClick={() =>
+                                        setCurrentPage(currentPage + 1)
+                                    }
+                                >
+                                    Next &rarr;
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <th className="list-title" colSpan={13}>
                             {" "}
@@ -496,71 +532,78 @@ const ManageAdmins = () => {
                         <th onClick={() => handleSort("firstName")}>
                             First Name {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
-                        <th>
-                            Middle Name 
-                        </th>
+                        <th>Middle Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th onClick={() => handleSort("sex")}>Sex {sortOrder === "asc" ? "↑" : "↓"}</th>
+                        <th onClick={() => handleSort("sex")}>
+                            Sex {sortOrder === "asc" ? "↑" : "↓"}
+                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedAdmins.map((admin, index) => (
-                        <tr key={admin._id}>
-                            <td>{index + 1}</td>
-                            <td>{admin.schoolId}</td>
-                            <td>
-                                {admin.lastName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    admin.lastName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {admin.firstName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    admin.firstName.toLowerCase().slice(1)}
-                            </td>
-                            <td>
-                                {admin.middleName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    admin.middleName.toLowerCase().slice(1)}
-                            </td>
+                    {sortedAdmins
+                        .slice(firstIndex, lastIndex)
+                        .map((admin, index) => (
+                            <tr key={admin._id}>
+                                <td>{index + 1}</td>
+                                <td>{admin.schoolId}</td>
+                                <td>
+                                    {admin.lastName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        admin.lastName.toLowerCase().slice(1)}
+                                </td>
+                                <td>
+                                    {admin.firstName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        admin.firstName.toLowerCase().slice(1)}
+                                </td>
+                                <td>
+                                    {admin.middleName
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        admin.middleName.toLowerCase().slice(1)}
+                                </td>
 
-                            <td>
-                                {admin.email
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                    admin.email.toLowerCase().slice(1)}
-                            </td>
-                            <td>{admin.phone}</td>
-                            <td>{admin.sex}</td>
-                            <td>
-                                <FaEdit
-                                    onClick={() => handleEdit(admin)}
-                                    color="green"
-                                    size="30px"
-                                >
-                                    Edit
-                                </FaEdit>
-                                <FaTrash
-                                    onClick={() => handleDelete(admin)}
-                                    color="red"
-                                    size="30px"
-                                >
-                                    Delete
-                                </FaTrash>
-                            </td>
-                        </tr>
-                    ))}
+                                <td>
+                                    {admin.email
+                                        .toLowerCase()
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                        admin.email.toLowerCase().slice(1)}
+                                </td>
+                                <td>{admin.phone}</td>
+                                <td>{admin.sex}</td>
+                                <td>
+                                    <FaEdit
+                                        onClick={() => handleEdit(admin)}
+                                        color="green"
+                                        size="30px"
+                                    >
+                                        Edit
+                                    </FaEdit>
+                                    <FaTrash
+                                        onClick={() => handleDelete(admin)}
+                                        color="red"
+                                        size="30px"
+                                    >
+                                        Delete
+                                    </FaTrash>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
+
             </Table>
+            <div>
+                    {/* counts all admin */}
+                    <p> Total Admins: {admins.length} </p>
+                </div>
             {/* ====================================== EDIT PROFILE MODAL ==================================================== */}
             <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
                 <Modal.Header>
