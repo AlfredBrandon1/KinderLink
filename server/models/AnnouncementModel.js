@@ -9,6 +9,9 @@ const announcementSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  picture: {
+    type: String,
+  },
   author: {
     type: String,
     required: true,

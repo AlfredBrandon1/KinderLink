@@ -1,6 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
 const Announcement = require("../models/AnnouncementModel");
+
+// Configure Cloudinary API credentials
+cloudinary.config({
+  cloud_name: 'dpkopzc8h',
+  api_key: '618761729683793',
+  api_secret: 'UJq_ixkyIGMRfPodgS588Vb6DXU'
+});
+
+// Upload image to Cloudinary
+router.post('/upload', (req, res) => {
+  const file = req.files.file;
+  cloudinary.uploader.upload(file.tempFilePath, (error, result) => {
+    if (error) {
+      return res.status(500).send(error);
+    }
+    res.json(result);
+  });
+});
 
 // Create a new announcement
 router.post("/", async (req, res) => {
@@ -9,6 +28,7 @@ router.post("/", async (req, res) => {
             title: req.body.title,
             content: req.body.content,
             author: req.body.author,
+            picture: req.body.picture
         });
 
         await announcement.save();

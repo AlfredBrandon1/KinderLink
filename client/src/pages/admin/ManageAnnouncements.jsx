@@ -29,6 +29,7 @@ const ManageAnnouncement = () => {
     const [newAnnouncement, setNewAnnouncement] = useState({
         title: "",
         content: "",
+        picture: "",
         author: localStorage.getItem("currentUserId"),
         date: "",
     });
@@ -40,9 +41,9 @@ const ManageAnnouncement = () => {
         content: "",
     });
 
-        /* For Table Pagination */
+    /* For Table Pagination */
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage =5;
+    const itemsPerPage = 5;
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex - itemsPerPage;
     const totalPages = Math.ceil(announcements.length / itemsPerPage);
@@ -79,11 +80,44 @@ const ManageAnnouncement = () => {
         event.preventDefault();
 
         try {
-            const res = await axios.post(`${BackendApi}/api/v1/announcement/`, {
-                ...newAnnouncement,
-                author: `${userDetails.firstName} ${userDetails.lastName} (${userDetails.userType})`,
-                date: new Date(),
+            // Create a new 'FormData' object to hold the announcement data and image file
+            const formData = new FormData();
+            formData.append("title", newAnnouncement.title);
+            formData.append("content", newAnnouncement.content);
+            formData.append("picture", picture); // 'picture' is the selected image file
+
+            // Create a new 'axios' instance with 'multipart/form-data' content type
+            const axiosInstance = axios.create({
+                headers: {
+                    "content-type": "multipart/form-data",
+                },
             });
+
+            // Upload the image file to Cloudinary
+            try {
+                const cloudinaryRes = await axios.post(
+                    `${BackendApi}/api/v1/announcement/upload`,
+                    formData
+                );
+                const pictureUrl = cloudinaryRes.data.secure_url; // Get the image URL from Cloudinary response
+                formData.append("picture", pictureUrl); // Add the image URL to the 'formData' object
+            } catch (error) {
+                console.log(error);
+            }
+
+            // Create the new announcement in the database
+            const res = await axiosInstance.post(
+                `${BackendApi}/api/v1/announcement/`,
+                {
+                    ...newAnnouncement,
+                    author: `${userDetails.firstName} ${userDetails.lastName} (${userDetails.userType})`,
+                    date: new Date(),
+                    picture: formData.get("picture"), // Get the image URL from the 'formData' object
+                },
+                {
+                    withCredentials: true, // If using cookies for authentication
+                }
+            );
 
             setAnnouncements((prevState) => [...prevState, res.data]);
             setNewAnnouncement({ title: "", content: "" });
@@ -161,51 +195,51 @@ const ManageAnnouncement = () => {
 
     /* ============================================ SEARCH and SORT =================================================== */
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortedAnnouncements, setSortedAnnouncements] = useState(announcements);
+    const [sortedAnnouncements, setSortedAnnouncements] =
+        useState(announcements);
     const [sortOrder, setSortOrder] = useState("asc");
-    
+
     useEffect(() => {
-      axios
-        .get(`${BackendApi}/api/v1/announcement/`)
-        .then((response) => {
-          setSortedAnnouncements(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        axios
+            .get(`${BackendApi}/api/v1/announcement/`)
+            .then((response) => {
+                setSortedAnnouncements(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, []);
-    
+
     const handleSort = (field) => {
-      let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-      setSortOrder(newSortOrder);
-    
-      setSortedAnnouncements(
-        [...sortedAnnouncements].sort((a, b) => {
-          if (field === "title" || field === "author") {
-            let valueA = a[field].toLowerCase();
-            let valueB = b[field].toLowerCase();
-            if (valueA < valueB) {
-              return newSortOrder === "asc" ? -1 : 1;
-            } else if (valueA > valueB) {
-              return newSortOrder === "asc" ? 1 : -1;
-            } else {
-              return 0;
-            }
-          } else if (field === "date") {
-            let dateA = new Date(a[field]);
-            let dateB = new Date(b[field]);
-            if (dateA < dateB) {
-              return newSortOrder === "asc" ? -1 : 1;
-            } else if (dateA > dateB) {
-              return newSortOrder === "asc" ? 1 : -1;
-            } else {
-              return 0;
-            }
-          }
-        })
-      );
+        let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+        setSortOrder(newSortOrder);
+
+        setSortedAnnouncements(
+            [...sortedAnnouncements].sort((a, b) => {
+                if (field === "title" || field === "author") {
+                    let valueA = a[field].toLowerCase();
+                    let valueB = b[field].toLowerCase();
+                    if (valueA < valueB) {
+                        return newSortOrder === "asc" ? -1 : 1;
+                    } else if (valueA > valueB) {
+                        return newSortOrder === "asc" ? 1 : -1;
+                    } else {
+                        return 0;
+                    }
+                } else if (field === "date") {
+                    let dateA = new Date(a[field]);
+                    let dateB = new Date(b[field]);
+                    if (dateA < dateB) {
+                        return newSortOrder === "asc" ? -1 : 1;
+                    } else if (dateA > dateB) {
+                        return newSortOrder === "asc" ? 1 : -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            })
+        );
     };
-    
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -272,21 +306,25 @@ const ManageAnnouncement = () => {
 
                             <div>
                                 <button
+                                    className="arrow-buttons"
                                     disabled={currentPage === 1}
                                     onClick={() =>
                                         setCurrentPage(currentPage - 1)
                                     }
                                 >
-                                    &larr; Prev
+                                    &larr; prev
                                 </button>
                                 &nbsp;
                                 <button
-                                    disabled={lastIndex >= sortedAnnouncements.length}
+                                    className="arrow-buttons"
+                                    disabled={
+                                        lastIndex >= sortedAnnouncements.length
+                                    }
                                     onClick={() =>
                                         setCurrentPage(currentPage + 1)
                                     }
                                 >
-                                    Next &rarr;
+                                    next &rarr;
                                 </button>
                             </div>
                         </td>
@@ -305,9 +343,7 @@ const ManageAnnouncement = () => {
                         <th onClick={() => handleSort("title")}>
                             Title {sortOrder === "asc" ? "↑" : "↓"}{" "}
                         </th>
-                        <th className="content-column">
-                            Content
-                        </th>
+                        <th className="content-column">Content</th>
                         <th onClick={() => handleSort("author")}>
                             Author {sortOrder === "asc" ? "↑" : "↓"}
                         </th>
@@ -317,79 +353,83 @@ const ManageAnnouncement = () => {
                 </thead>
                 <tbody>
                     {sortedAnnouncements &&
-                        sortedAnnouncements.slice(firstIndex, lastIndex).map((announcement, index) => (
-                            <tr key={announcement._id}>
-                                <td>{index + 1}</td>
-                                <td>
-                                    {(() => {
-                                        const today = new Date();
-                                        const announcementDate = new Date(
-                                            announcement.date
-                                        );
-                                        const sameDate =
-                                            today.getDate() ===
-                                                announcementDate.getDate() &&
-                                            today.getMonth() ===
-                                                announcementDate.getMonth() &&
-                                            today.getFullYear() ===
-                                                announcementDate.getFullYear();
-                                        const options = {
-                                            year: "numeric",
-                                            month: "short",
-                                            day: "numeric",
-                                            hour: "numeric",
-                                            minute: "numeric",
-                                            hour12: true,
-                                        };
-                                        const dateString =
-                                            announcementDate.toLocaleString(
-                                                "en-US",
-                                                options
+                        sortedAnnouncements
+                            .slice(firstIndex, lastIndex)
+                            .map((announcement, index) => (
+                                <tr key={announcement._id}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                        {(() => {
+                                            const today = new Date();
+                                            const announcementDate = new Date(
+                                                announcement.date
                                             );
-                                        return sameDate
-                                            ? `${dateString} (today)`
-                                            : dateString;
-                                    })()}
-                                </td>
+                                            const sameDate =
+                                                today.getDate() ===
+                                                    announcementDate.getDate() &&
+                                                today.getMonth() ===
+                                                    announcementDate.getMonth() &&
+                                                today.getFullYear() ===
+                                                    announcementDate.getFullYear();
+                                            const options = {
+                                                year: "numeric",
+                                                month: "short",
+                                                day: "numeric",
+                                                hour: "numeric",
+                                                minute: "numeric",
+                                                hour12: true,
+                                            };
+                                            const dateString =
+                                                announcementDate.toLocaleString(
+                                                    "en-US",
+                                                    options
+                                                );
+                                            return sameDate
+                                                ? `${dateString} (today)`
+                                                : dateString;
+                                        })()}
+                                    </td>
 
-                                <td>
-                                    {announcement.title
-                                        .toLowerCase()
-                                        .charAt(0)
-                                        .toUpperCase() +
-                                        announcement.title
+                                    <td>
+                                        {announcement.title
                                             .toLowerCase()
-                                            .slice(1)}
-                                </td>
-                                <td className="content-row">
-                                    {announcement.content}
-                                </td>
-                                <td>{announcement.author}</td>
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            announcement.title
+                                                .toLowerCase()
+                                                .slice(1)}
+                                    </td>
+                                    <td className="content-row">
+                                        {announcement.content}
+                                    </td>
+                                    <td>{announcement.author}</td>
 
-                                <td>
-                                    <FaEdit
-                                        onClick={() => handleEdit(announcement)}
-                                        color="green"
-                                        size="30px"
-                                    >
-                                        Edit
-                                    </FaEdit>
-                                    <FaTrash
-                                        onClick={() =>
-                                            handleDelete(announcement)
-                                        }
-                                        color="red"
-                                        size="30px"
-                                    >
-                                        Delete
-                                    </FaTrash>
-                                </td>
-                            </tr>
-                        ))}
+                                    <td>
+                                        <FaEdit
+                                            onClick={() =>
+                                                handleEdit(announcement)
+                                            }
+                                            color="green"
+                                            size="30px"
+                                        >
+                                            Edit
+                                        </FaEdit>
+                                        <FaTrash
+                                            onClick={() =>
+                                                handleDelete(announcement)
+                                            }
+                                            color="red"
+                                            size="30px"
+                                        >
+                                            Delete
+                                        </FaTrash>
+                                    </td>
+                                </tr>
+                            ))}
                 </tbody>
             </Table>
             <div>
-                                {/* counts all announcement */}
+                {/* counts all announcement */}
                 <p> Total Announcements: {announcements.length} </p>
             </div>
 
@@ -425,6 +465,15 @@ const ManageAnnouncement = () => {
                                 value={newAnnouncement.content}
                                 onChange={handleInputChange}
                                 required
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="picture">
+                            <Form.Label>Picture</Form.Label>
+                            <Form.Control
+                                type="file"
+                                name="picture"
+                                onChange={newAnnouncement.picture}
+                                accept="image/*"
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">

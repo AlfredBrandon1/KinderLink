@@ -669,23 +669,23 @@ const ManageStudents = () => {
 
                             <div>
                                 <button
+                                    className="arrow-buttons"
                                     disabled={currentPage === 1}
                                     onClick={() =>
                                         setCurrentPage(currentPage - 1)
                                     }
                                 >
-                                    &larr; Prev
+                                    &larr; prev
                                 </button>
                                 &nbsp;
                                 <button
-                                    disabled={
-                                        lastIndex >= sortedStudents.length
-                                    }
+                                    className="arrow-buttons"
+                                    disabled={lastIndex >= sortedStudents.length}
                                     onClick={() =>
                                         setCurrentPage(currentPage + 1)
                                     }
                                 >
-                                    Next &rarr;
+                                   next &rarr; 
                                 </button>
                             </div>
                         </td>

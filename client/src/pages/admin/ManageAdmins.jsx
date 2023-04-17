@@ -495,21 +495,23 @@ const ManageAdmins = () => {
 
                             <div>
                                 <button
+                                    className="arrow-buttons"
                                     disabled={currentPage === 1}
                                     onClick={() =>
                                         setCurrentPage(currentPage - 1)
                                     }
                                 >
-                                    &larr; Prev
+                                    &larr; prev
                                 </button>
                                 &nbsp;
                                 <button
+                                    className="arrow-buttons"
                                     disabled={lastIndex >= sortedAdmins.length}
                                     onClick={() =>
                                         setCurrentPage(currentPage + 1)
                                     }
                                 >
-                                    Next &rarr;
+                                   next &rarr; 
                                 </button>
                             </div>
                         </td>

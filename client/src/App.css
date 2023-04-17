@@ -28,9 +28,9 @@ body {
 }
 
 .register-button{
-  background-color: #fea633;
-  color: white;
-  border: none;
+  background-color: #f5f5f5 ;
+  color: #009ee7;
+  outline: 1px solid #009ee7;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 18px;
@@ -40,6 +40,18 @@ body {
 
 .register-button:hover{
   background-color: rgb(255, 255, 255);
-  color:#009ee7 ;
-  border: 1px solid #009ee7;
+  color:#fea633 ;
+  outline: 1px solid #fea633;
+}
+
+.arrow-buttons{
+  background-color: #f5f5f5;
+  color: black;
+  outline: 1px solid black;
+}
+
+.arrow-buttons:hover{
+  background-color: rgb(255, 255, 255);
+  color:#fea633 ;
+  outline: 1px solid #fea633;
 }
