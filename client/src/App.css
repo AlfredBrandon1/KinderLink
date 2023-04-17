@@ -2,7 +2,7 @@
 body {
   font-family: Nunito,sans-serif;
     margin: 0px;
-    background-color: #e9ecef;
+    background-color: #f5f5f5;
     
 }
 
@@ -40,6 +40,6 @@ body {
 
 .register-button:hover{
   background-color: rgb(255, 255, 255);
-  color:#fea633 ;
-  border: 1px solid #fea633;
+  color:#009ee7 ;
+  border: 1px solid #009ee7;
 }
