@@ -29,7 +29,7 @@ const ManageAnnouncement = () => {
     const [newAnnouncement, setNewAnnouncement] = useState({
         title: "",
         content: "",
-        image: "",
+        image: null,
         author: localStorage.getItem("currentUserId"),
         date: "",
     });
@@ -84,7 +84,7 @@ const ManageAnnouncement = () => {
             const formData = new FormData();
             formData.append("title", newAnnouncement.title);
             formData.append("content", newAnnouncement.content);
-            formData.append("image", image); // 'image' is the selected image file
+            formData.append("image", newAnnouncement.image); // 'image' is the selected image file
 
             // Create a new 'axios' instance with 'multipart/form-data' content type
             const axiosInstance = axios.create({
@@ -120,13 +120,20 @@ const ManageAnnouncement = () => {
             );
 
             setAnnouncements((prevState) => [...prevState, res.data]);
-            setNewAnnouncement({ title: "", content: "" });
+            setNewAnnouncement({ title: "", content: "", image: null });
             setCurrentAnnouncement(null);
             setShowModal(false);
         } catch (err) {
             console.log(err);
         }
     };
+
+    const handlePictureChange = (event) => {
+        setNewAnnouncement((prevState) => ({
+          ...prevState,
+          image: event.target.files[0],
+        }));
+      };
 
     const handleCloseCreateModal = () => setShowModal(false);
 
