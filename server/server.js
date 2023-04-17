@@ -20,7 +20,7 @@ server.use(express.static(path.join(__dirname, 'client')));
 
 // Enable CORS for all routes
 server.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://kinderlink.onrender.com/api/v1/');
+  res.setHeader('Access-Control-Allow-Origin', 'https://kinderlink.onrender.com/');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
