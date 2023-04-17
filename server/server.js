@@ -15,9 +15,6 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use(helmet());
 
-// Serve static files from React app
-server.use(express.static(path.join(__dirname, 'client')));
-
 let apiUrl = '';
 
 if (process.env.NODE_ENV === 'production') {
@@ -53,6 +50,9 @@ server.use('/api/v1/reportCard', ReportCardRouter);
 mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
+
+  // Serve static files from React app
+server.use(express.static(path.join(__dirname, 'client')));
 
 server.get('/*', (request, response) => {
   response.sendFile(path.join(__dirname, 'index.html'));
