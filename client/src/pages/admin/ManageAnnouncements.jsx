@@ -96,7 +96,7 @@ const ManageAnnouncement = () => {
             // Upload the image file to Cloudinary
             try {
                 const cloudinaryRes = await axios.post(
-                    `${BackendApi}/api/v1/announcement/upload`,
+                    `${BackendApi}/api/v1/announcement/`,
                     formData
                 );
                 const imageUrl = cloudinaryRes.data.secure_url; // Get the image URL from Cloudinary response
