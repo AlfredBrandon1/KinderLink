@@ -51,11 +51,11 @@ mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.n
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
-  // Serve static files from React app
+// Serve static files from React app
 server.use(express.static(path.join(__dirname, 'client')));
 
 server.get('/*', (request, response) => {
-  response.sendFile(path.join(__dirname, 'index.html'));
+  response.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
 server.listen(port, () => {
