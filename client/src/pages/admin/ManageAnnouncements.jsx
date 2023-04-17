@@ -29,7 +29,7 @@ const ManageAnnouncement = () => {
     const [newAnnouncement, setNewAnnouncement] = useState({
         title: "",
         content: "",
-        picture: "",
+        image: "",
         author: localStorage.getItem("currentUserId"),
         date: "",
     });
@@ -84,7 +84,7 @@ const ManageAnnouncement = () => {
             const formData = new FormData();
             formData.append("title", newAnnouncement.title);
             formData.append("content", newAnnouncement.content);
-            formData.append("picture", picture); // 'picture' is the selected image file
+            formData.append("image", image); // 'image' is the selected image file
 
             // Create a new 'axios' instance with 'multipart/form-data' content type
             const axiosInstance = axios.create({
@@ -99,8 +99,8 @@ const ManageAnnouncement = () => {
                     `${BackendApi}/api/v1/announcement/upload`,
                     formData
                 );
-                const pictureUrl = cloudinaryRes.data.secure_url; // Get the image URL from Cloudinary response
-                formData.append("picture", pictureUrl); // Add the image URL to the 'formData' object
+                const imageUrl = cloudinaryRes.data.secure_url; // Get the image URL from Cloudinary response
+                formData.append("image", imageUrl); // Add the image URL to the 'formData' object
             } catch (error) {
                 console.log(error);
             }
@@ -112,7 +112,7 @@ const ManageAnnouncement = () => {
                     ...newAnnouncement,
                     author: `${userDetails.firstName} ${userDetails.lastName} (${userDetails.userType})`,
                     date: new Date(),
-                    picture: formData.get("picture"), // Get the image URL from the 'formData' object
+                    image: formData.get("image"), // Get the image URL from the 'formData' object
                 },
                 {
                     withCredentials: true, // If using cookies for authentication
@@ -467,12 +467,12 @@ const ManageAnnouncement = () => {
                                 required
                             />
                         </Form.Group>
-                        <Form.Group controlId="picture">
-                            <Form.Label>Picture</Form.Label>
+                        <Form.Group controlId="image">
+                            <Form.Label>image</Form.Label>
                             <Form.Control
                                 type="file"
-                                name="picture"
-                                onChange={newAnnouncement.picture}
+                                name="image"
+                                onChange={newAnnouncement.image}
                                 accept="image/*"
                             />
                         </Form.Group>
