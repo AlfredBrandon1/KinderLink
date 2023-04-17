@@ -22,7 +22,7 @@ const AdminDashboard = () => {
     const [teachers, setTeachers] = useState([]);
     const [students, setStudents] = useState([]);
 
-    /* Count all ADMIN users */
+    //Read all admins
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/auth/")
@@ -30,9 +30,9 @@ const AdminDashboard = () => {
                 setAdmins(response.data);
             });
     }, []);
-    const numAdmins = admins.length;
+    const numAdmins = admins.length; /* Count all ADMIN users */
 
-    /* Count all TEACHERS users */
+    //Read all teachers
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/teacher/")
@@ -40,9 +40,9 @@ const AdminDashboard = () => {
                 setTeachers(response.data);
             });
     }, []);
-    const numTeachers = teachers.length;
+    const numTeachers = teachers.length; /* Count all TEACHERS users */
 
-    /* Count all STUDENTS users */
+    //Read all students
     useEffect(() => {
         axios
             .get("https://kinderlink.onrender.com/api/v1/student/")
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
                 setStudents(response.data);
             });
     }, []);
-    const numStudents = students.length;
+    const numStudents = students.length; /* Count all STUDENTS users */
 
     return (
         <>
@@ -76,7 +76,6 @@ const AdminDashboard = () => {
                         <TimeTracker />
                         <CoffeeCounter />
                     </div>
-
 
                     {/*       <QuotesWidget/> */}
                 </div>
@@ -118,10 +117,9 @@ const AdminDashboard = () => {
 
                 {/*              <Trivia /> */}
                 <div>
-                        <GithubCommits/>
-                    </div>
+                    <GithubCommits />
+                </div>
             </div>
-            
         </>
     );
 };
