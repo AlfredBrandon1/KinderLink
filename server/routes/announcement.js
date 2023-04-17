@@ -10,33 +10,30 @@ cloudinary.config({
   api_secret: 'UJq_ixkyIGMRfPodgS588Vb6DXU'
 });
 
-// Upload image to Cloudinary
-router.post('/upload', (req, res) => {
-  const file = req.files.file;
-  cloudinary.uploader.upload(file.tempFilePath, (error, result) => {
-    if (error) {
-      return res.status(500).send(error);
-    }
-    res.json(result);
-  });
-});
+// Route for creating a new announcement
+router.post('/', async (req, res) => {
+  try {
+    const { title, content, author, image } = req.body;
 
-// Create a new announcement
-router.post("/", async (req, res) => {
-    try {
-        const announcement = new Announcement({
-            title: req.body.title,
-            content: req.body.content,
-            author: req.body.author,
-            picture: req.body.picture
-        });
+    // Upload the image to Cloudinary
+    const result = await cloudinary.uploader.upload(image.path);
 
-        await announcement.save();
+    // Create a new announcement with the image URL
+    const announcement = new Announcement({
+      title,
+      content,
+      author,
+      image: result.secure_url
+    });
 
-        res.status(201).json(announcement);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+    // Save the announcement to the database
+    const savedAnnouncement = await announcement.save();
+
+    res.json(savedAnnouncement);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 });
 
 // Get all announcements
