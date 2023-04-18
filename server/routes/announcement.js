@@ -1,29 +1,44 @@
 const express = require("express");
 const router = express.Router();
-const cloudinary = require('cloudinary').v2;
+const multer = require("multer");
 const Announcement = require("../models/AnnouncementModel");
 
-// Configure Cloudinary API credentials
-cloudinary.config({
-  cloud_name: 'dpkopzc8h',
-  api_key: '618761729683793',
-  api_secret: 'UJq_ixkyIGMRfPodgS588Vb6DXU'
+// Configure Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "_" + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  // Accept only image files
+  if (file.mimetype.startsWith("image/")) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed!"), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB
+  fileFilter: fileFilter,
 });
 
 // Route for creating a new announcement
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { title, content, author, image } = req.body;
-
-    // Upload the image to Cloudinary
-    const result = await cloudinary.uploader.upload(image.path);
+    const { title, content, author } = req.body;
 
     // Create a new announcement with the image URL
     const announcement = new Announcement({
       title,
       content,
       author,
-      image: result.secure_url
+      image: req.file.path
     });
 
     // Save the announcement to the database
@@ -109,4 +124,4 @@ async function getAnnouncement(req, res, next) {
     next();
 }
 
-module.exports = router;
+module.exports = router
