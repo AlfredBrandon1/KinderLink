@@ -9,6 +9,14 @@ const path = require('path');
 const server = express();
 const port = 8080;
 
+// import routers
+const AuthRouter = require('./routes/auth');
+const TeacherRouter = require('./routes/teacher');
+const StudentRouter = require('./routes/student');
+const AnnouncementRouter = require('./routes/announcement');
+const ReportCardRouter = require('./routes/reportCard');
+
+
 // Middlewares
 server.use(morgan('dev'));
 server.use(cors());
@@ -31,13 +39,10 @@ server.use(function(req, res, next) {
   next();
 });
 
-
-// Routes initialization
-const AuthRouter = require('./routes/auth');
-const TeacherRouter = require('./routes/teacher');
-const StudentRouter = require('./routes/student');
-const AnnouncementRouter = require('./routes/announcement');
-const ReportCardRouter = require('./routes/reportCard');
+//mongodb atlas connection
+mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err));
 
 // Routes
 server.use('/api/v1/auth', AuthRouter);
@@ -45,11 +50,6 @@ server.use('/api/v1/teacher', TeacherRouter);
 server.use('/api/v1/student', StudentRouter);
 server.use('/api/v1/announcement', AnnouncementRouter);
 server.use('/api/v1/reportCard', ReportCardRouter);
-
-//mongodb atlas connection
-mongoose.connect("mongodb+srv://kinderlink:kinderlink@cluster0.t7zlntf.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err));
 
   // Serve static files from React app
 server.use(express.static(path.join(__dirname, 'client')));

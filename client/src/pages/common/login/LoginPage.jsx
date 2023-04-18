@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginPage.css";
@@ -7,6 +7,14 @@ const LoginPage = () => {
   const [schoolId, setSchoolId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const currentUser = localStorage.getItem("currentUserId");
+    if (currentUser) {
+      navigate("/admin-dashboard");
+    }
+  }, [navigate]);
 
   const loginAuthentication = (e) => {
     e.preventDefault();
