@@ -1,44 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const DIR = './uploads/';
 const Announcement = require("../models/AnnouncementModel");
 
 // Configure Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+  destination: (req, file, cb) => {
+      cb(null, DIR);
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "_" + file.originalname);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  // Accept only image files
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed!"), false);
+  filename: (req, file, cb) => {
+      const fileName = file.originalname.toLowerCase().split(' ').join('-');
+      cb(null, uuidv4() + '-' + fileName)
   }
-};
+});
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB
-  fileFilter: fileFilter,
+  fileFilter: (req, file, cb) => {
+      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+          cb(null, true);
+      } else {
+          cb(null, false);
+          return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+      }
+  }
 });
 
 // Route for creating a new announcement
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { title, content, author } = req.body;
-
     // Create a new announcement with the image URL
     const announcement = new Announcement({
-      title,
-      content,
-      author,
-      image: req.file.path
+      ...req.body
     });
 
     // Save the announcement to the database

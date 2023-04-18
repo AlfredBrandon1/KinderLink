@@ -23,14 +23,18 @@ import {
 const ManageAnnouncement = () => {
     const BackendApi = "https://kinderlink.onrender.com";
 
-    const [userDetails, setUserDetails] = useState("");
-    const [announcements, setAnnouncements] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [userDetails, setUserDetails] = useState(""); /* current user */
+    const [announcements, setAnnouncements] = useState([]); /* for mapping announcement */
+    const [showModal, setShowModal] = useState(false); /* register modal */
+
+
+    const [image, setImage] = useState(""); /* processed image */
+    const [selectedFile, setSelectedFile] = useState(''); /* selected file for image */
     const [newAnnouncement, setNewAnnouncement] = useState({
         title: "",
         content: "",
-        image: null,
         author: localStorage.getItem("currentUserId"),
+        image: "",
         date: "",
     });
 
@@ -40,6 +44,18 @@ const ManageAnnouncement = () => {
         title: "",
         content: "",
     });
+
+    /* for image handler */
+    const onImageHandler = (event) => {
+        const file = event.target.files[0]
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setSelectedFile(reader.result)
+        };
+
+        setImage(event.target.value);
+    };
 
     /* For Table Pagination */
     const [currentPage, setCurrentPage] = useState(1);
@@ -84,7 +100,7 @@ const ManageAnnouncement = () => {
             const formData = new FormData();
             formData.append("title", newAnnouncement.title);
             formData.append("content", newAnnouncement.content);
-            formData.append("image", newAnnouncement.image); // 'image' is the selected image file
+            formData.append("image", selectedFile); // 'image' is the selected image file
 
             // Create a new 'axios' instance with 'multipart/form-data' content type
             const axiosInstance = axios.create({
@@ -479,8 +495,8 @@ const ManageAnnouncement = () => {
                             <Form.Control
                                 type="file"
                                 name="image"
-                                onChange={newAnnouncement.image}
-                                accept="image/*"
+                                value={image}
+                                onChange={onImageHandler}
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">
