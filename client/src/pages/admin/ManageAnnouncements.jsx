@@ -89,7 +89,7 @@ const handleSubmit = async (event) => {
         const formData = new FormData();
         formData.append("title", newAnnouncement.title);
         formData.append("content", newAnnouncement.content);
-        formData.append("image", selectedFile); // 'image' is the selected image file
+        formData.append("image", newAnnouncement.selectedFile); // 'image' is the selected image file
 
         // Create a new 'axios' instance with 'multipart/form-data' content type
         const axiosInstance = axios.create({
@@ -460,7 +460,7 @@ const handleSubmit = async (event) => {
                             <Form.Control
                                 type="file"
                                 name="image"
-                                value={newAnnouncement.image}
+                                value={newAnnouncement.selectedFile}
                                 onChange={(event) => {
                                     const file = event.target.files[0];
                                     let reader = new FileReader();
