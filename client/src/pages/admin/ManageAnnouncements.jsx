@@ -24,12 +24,13 @@ const ManageAnnouncement = () => {
     const BackendApi = "https://kinderlink.onrender.com";
 
     const [userDetails, setUserDetails] = useState(""); /* current user */
-    const [announcements, setAnnouncements] = useState([]); /* for mapping announcement */
+    const [announcements, setAnnouncements] = useState(
+        []
+    ); /* for mapping announcement */
     const [showModal, setShowModal] = useState(false); /* register modal */
 
-
-    const [image, setImage] = useState(""); /* processed image */
-    const [selectedFile, setSelectedFile] = useState(''); /* selected file for image */
+    const [selectedFile, setSelectedFile] =
+        useState(""); /* selected file for image */
     const [newAnnouncement, setNewAnnouncement] = useState({
         title: "",
         content: "",
@@ -44,18 +45,6 @@ const ManageAnnouncement = () => {
         title: "",
         content: "",
     });
-
-    /* for image handler */
-    const onImageHandler = (event) => {
-        const file = event.target.files[0]
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            setSelectedFile(reader.result)
-        };
-
-        setImage(event.target.value);
-    };
 
     /* For Table Pagination */
     const [currentPage, setCurrentPage] = useState(1);
@@ -91,65 +80,41 @@ const ManageAnnouncement = () => {
         }));
     };
 
-    //create new announcement
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+ //create new announcement
+const handleSubmit = async (event) => {
+    event.preventDefault();
 
-        try {
-            // Create a new 'FormData' object to hold the announcement data and image file
-            const formData = new FormData();
-            formData.append("title", newAnnouncement.title);
-            formData.append("content", newAnnouncement.content);
-            formData.append("image", selectedFile); // 'image' is the selected image file
+    try {
+        // Create a new 'FormData' object to hold the announcement data and image file
+        const formData = new FormData();
+        formData.append("title", newAnnouncement.title);
+        formData.append("content", newAnnouncement.content);
+        formData.append("image", selectedFile); // 'image' is the selected image file
 
-            // Create a new 'axios' instance with 'multipart/form-data' content type
-            const axiosInstance = axios.create({
-                headers: {
-                    "content-type": "multipart/form-data",
-                },
-            });
+        // Create a new 'axios' instance with 'multipart/form-data' content type
+        const axiosInstance = axios.create({
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        });
 
-            // Upload the image file to Cloudinary
-            try {
-                const cloudinaryRes = await axios.post(
-                    `${BackendApi}/api/v1/announcement/`,
-                    formData
-                );
-                const imageUrl = cloudinaryRes.data.secure_url; // Get the image URL from Cloudinary response
-                formData.append("image", imageUrl); // Add the image URL to the 'formData' object
-            } catch (error) {
-                console.log(error);
+        // Create the new announcement in the database
+        const res = await axiosInstance.post(
+            `${BackendApi}/api/v1/announcement/`,
+            formData,
+            {
+                withCredentials: true, // If using cookies for authentication
             }
+        );
 
-            // Create the new announcement in the database
-            const res = await axiosInstance.post(
-                `${BackendApi}/api/v1/announcement/`,
-                {
-                    ...newAnnouncement,
-                    author: `${userDetails.firstName} ${userDetails.lastName} (${userDetails.userType})`,
-                    date: new Date(),
-                    image: formData.get("image"), // Get the image URL from the 'formData' object
-                },
-                {
-                    withCredentials: true, // If using cookies for authentication
-                }
-            );
-
-            setAnnouncements((prevState) => [...prevState, res.data]);
-            setNewAnnouncement({ title: "", content: "", image: null });
-            setCurrentAnnouncement(null);
-            setShowModal(false);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const handlePictureChange = (event) => {
-        setNewAnnouncement((prevState) => ({
-          ...prevState,
-          image: event.target.files[0],
-        }));
-      };
+        setAnnouncements((prevState) => [...prevState, res.data]);
+        setNewAnnouncement({ title: "", content: "", image: null });
+        setCurrentAnnouncement(null);
+        setShowModal(false);
+    } catch (err) {
+        console.log(err);
+    }
+};
 
     const handleCloseCreateModal = () => setShowModal(false);
 
@@ -495,8 +460,15 @@ const ManageAnnouncement = () => {
                             <Form.Control
                                 type="file"
                                 name="image"
-                                value={image}
-                                onChange={onImageHandler}
+                                value={newAnnouncement.image}
+                                onChange={(event) => {
+                                    const file = event.target.files[0];
+                                    let reader = new FileReader();
+                                    reader.readAsDataURL(file);
+                                    reader.onload = function () {
+                                        setSelectedFile(reader.result);
+                                    };
+                                }}
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">
