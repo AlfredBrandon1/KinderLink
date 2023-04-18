@@ -74,49 +74,50 @@ const ManageAnnouncement = () => {
     //get the current user
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setNewAnnouncement((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setNewAnnouncement({ ...newAnnouncement, [name]: value });
     };
 
- //create new announcement
-const handleSubmit = async (event) => {
-    event.preventDefault();
+    //create new announcement
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    try {
-        // Create a new 'FormData' object to hold the announcement data and image file
-        const formData = new FormData();
-        formData.append("title", newAnnouncement.title);
-        formData.append("content", newAnnouncement.content);
-        formData.append("image", newAnnouncement.selectedFile); // 'image' is the selected image file
+        try {
+            // Create a new 'FormData' object to hold the announcement data and image file
+            const formData = new FormData();
+            formData.append("title", newAnnouncement.title);
+            formData.append("content", newAnnouncement.content);
+            formData.append("image", selectedFile); // 'image' is the selected image file
 
-        // Create a new 'axios' instance with 'multipart/form-data' content type
-        const axiosInstance = axios.create({
-            headers: {
-                "content-type": "multipart/form-data",
-            },
-        });
+            // Create a new 'axios' instance with 'multipart/form-data' content type
+            const axiosInstance = axios.create({
+                headers: {
+                    "content-type": "multipart/form-data",
+                },
+            });
 
-        // Create the new announcement in the database
-        const res = await axiosInstance.post(
-            `${BackendApi}/api/v1/announcement/`,
-            formData,
-            {
-                withCredentials: true, // If using cookies for authentication
-            }
-        );
+            // Create the new announcement in the database
+            const res = await axiosInstance.post(
+                `${BackendApi}/api/v1/announcement/`,
+                formData,
+                {
+                    withCredentials: true, // If using cookies for authentication
+                }
+            );
 
-        setAnnouncements((prevState) => [...prevState, res.data]);
-        setNewAnnouncement({ title: "", content: "", image: null });
-        setCurrentAnnouncement(null);
+            setAnnouncements((prevState) => [...prevState, res.data]);
+            setNewAnnouncement({ title: "", content: "", image: "" });
+            setCurrentAnnouncement(null);
+            setShowModal(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handleCloseCreateModal = () => {
         setShowModal(false);
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-    const handleCloseCreateModal = () => setShowModal(false);
+        setNewAnnouncement({ title: "", content: "", image: "" });
+        setSelectedFile("");
+    };
 
     // handles the update/edit of announcement
     const handleCloseEditModal = () => setShowEditModal(false);
@@ -460,7 +461,6 @@ const handleSubmit = async (event) => {
                             <Form.Control
                                 type="file"
                                 name="image"
-                                value={newAnnouncement.selectedFile}
                                 onChange={(event) => {
                                     const file = event.target.files[0];
                                     let reader = new FileReader();
@@ -471,6 +471,7 @@ const handleSubmit = async (event) => {
                                 }}
                             />
                         </Form.Group>
+
                         <Button variant="primary" type="submit">
                             Post
                         </Button>
